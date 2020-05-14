@@ -1,3 +1,6 @@
+import os
+import time
+
 import numpy as np
 import tensorflow as tf
 from tensorflow import keras
@@ -11,6 +14,13 @@ import matplotlib.pyplot as plt
 from sklearn.manifold import TSNE
 from sklearn.decomposition import PCA
 from sklearn.cluster import KMeans
+
+# os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
+
+if tf.test.gpu_device_name():
+    print('GPU found')
+else:
+    print("No GPU found")
 
 (x_train, y_train), (_, _) = tf.keras.datasets.mnist.load_data()
 
@@ -54,8 +64,10 @@ hist = History()
 autoencoder.compile(optimizer='adam', loss='mse')
 
 for e in range(3):
-    autoencoder.fit(x_train, x_train, epochs=3, batch_size=256, shuffle=True, validation_data=(x_val, x_val), callbacks=[hist])
+    start_time = time.time()
 
+    autoencoder.fit(x_train, x_train, epochs=3, batch_size=256, shuffle=True, validation_data=(x_val, x_val), callbacks=[hist])
+    print("--- %s seconds ---" % (time.time() - start_time))
     autoencoder.save('model.h5')
 
     #print(str(hist.history.items()))
