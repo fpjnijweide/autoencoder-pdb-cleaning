@@ -63,9 +63,9 @@ image_autoencoder = autoencoder.predict(x_train[0:1])
 image_autoencoder = (image_autoencoder[0]*255).astype(np.uint8)
 image_orig = (x_train[0]*255).astype(np.uint8)
 
-im = np.concatenate(image_orig, image_autoencoder, axis=0)
-im = Image.fromarray(im, 'L')
-im.show()
+im = np.concatenate([image_orig, image_autoencoder])
+im2 = Image.fromarray(np.squeeze(im), 'L')
+im2.show()
     #print(str(hist.history.items()))
 
     #with open('testlog.txt', 'a') as f:

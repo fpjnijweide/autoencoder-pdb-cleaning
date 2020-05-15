@@ -4,6 +4,7 @@ astunparse==1.6.3
 cachetools==4.1.0
 certifi==2020.4.5.1
 chardet==3.0.4
+configparser==5.0.0
 cycler==0.10.0
 distlib==0.3.0
 filelock==3.0.12
@@ -27,6 +28,7 @@ oauthlib==3.1.0
 opt-einsum==3.2.1
 Pillow==7.1.2
 protobuf==3.11.3
+pyAgrum==0.17.3
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
 pyparsing==2.4.7
