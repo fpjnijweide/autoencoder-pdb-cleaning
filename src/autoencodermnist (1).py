@@ -31,11 +31,7 @@ x = MaxPooling2D()(x)
 x = Flatten()(x)
 x = Dense(32, activation='relu')(x)
 
-
-encoded = Dense(encoding_dim, activation='relu', activity_regularizer=l1(0.001), name='encoded')(x)
-
-
-# , activity_regularizer=l1(0.01)
+encoded = Dense(encoding_dim, activation='relu', name='encoded')(x)
 
 x = Dense(32, activation='relu')(encoded)
 x = Dense(7*7*64, activation='relu')(x)

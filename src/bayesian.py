@@ -1,16 +1,20 @@
 # Adapted from https://essay.utwente.nl/80505/
+from typing import Tuple
 
 import pyAgrum as gum
 
 # InitializetheBayesian Network
-bn = gum.BayesNet(' MyNetwork')
+from pyAgrum import BayesNet
+
+bn: BayesNet = gum.BayesNet(' MyNetwork')
 # Add nodes
-R = bn.add(gum.LabelizedVariable('R', 'Rain', 2))
-S = bn.add(gum.LabelizedVariable('S', 'Sprinkler', 2))
-G = bn.add(gum.LabelizedVariable('G', 'Grass wet', 2))
+R: int = bn.add(gum.LabelizedVariable('R', 'Rain', 2))
+S: int = bn.add(gum.LabelizedVariable('S', 'Sprinkler', 2))
+G: int = bn.add(gum.LabelizedVariable('G', 'Grass wet', 2))
 # Add edges
+link: Tuple[int, int]
 for link in [(R, S), (R, G), (S, G)]:
-    bn.addArc(link)
+    bn.addArc(*link)
 # Define conditionalpro ba bi li ty tables
 bn.cpt(R)[:] = [0.2, 0.8]
 bn.cpt(S)[0, :] = [0.4, 0.6]
