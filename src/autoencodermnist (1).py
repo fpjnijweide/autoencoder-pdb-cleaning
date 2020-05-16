@@ -60,8 +60,33 @@ image_autoencoder = (image_autoencoder[0]*255).astype(np.uint8)
 image_orig = (x_train[0]*255).astype(np.uint8)
 
 im = np.concatenate([image_orig, image_autoencoder])
-im2 = Image.fromarray(np.squeeze(im), 'L')
-im2.show()
+plt.imshow(np.squeeze(im))
+# im2 = Image.fromarray(np.squeeze(im), 'L')
+# im2.show()
+
+
+encoderfeatures = encoder.predict(x_val[:500])
+label = y_train[5000:5500]
+
+tsne = TSNE(n_components=2, verbose=1, perplexity=23, n_iter=100000, learning_rate=200)
+pca = PCA(n_components=2)
+kmeans = KMeans(n_clusters=10, n_init=30)
+
+x_tsne = tsne.fit_transform(encoderfeatures)
+
+x = x_tsne[:, 0]
+y = x_tsne[:, 1]
+
+colors = ['b', 'g', 'r', 'c', 'm', 'y', 'k', '0.5', '0.3', '0.7']
+
+fig = plt.figure()
+for i in range(500):
+    plt.scatter(x[i], y[i], c=colors[label[i]], label=label[i] if str(label[i])
+                                                                  not in plt.gca().get_legend_handles_labels()[1] else '')
+
+fig.legend()
+plt.show()
+
     #print(str(hist.history.items()))
 
     #with open('testlog.txt', 'a') as f:
