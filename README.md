@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/263904926.svg)](https://zenodo.org/badge/latestdoi/263904926)
+
 This is the source code for the paper "Autoencoder-based cleaning of non-categorical data in probabilistic databases".
 
 The install process for the generating of a virtual environment and such can be run using install.sh or install.bat.
