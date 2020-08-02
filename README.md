@@ -1,9 +1,11 @@
 [![DOI](https://zenodo.org/badge/263904926.svg)](https://zenodo.org/badge/latestdoi/263904926)
 
-# Installation
+# Autoencoder-based cleaning of non-categorical data in probabilistic databases
 
 This is the source code for the paper "Autoencoder-based cleaning of non-categorical data in probabilistic databases".
 The paper can be found at https://essay.utwente.nl/82344/
+
+## Installation
 
 The install process for the generating of a virtual environment and such can be run using install.sh or install.bat.
 This will require:
@@ -16,7 +18,7 @@ Alternatively, just run the .ipynb notebooks with your own pre-installed version
 Any missing Python libraries can be installed with `pip3 install -r requirements.txt`
 
 
-# Explation of files
+## Explation of files
 
 - experiments_explanation.ipynb contains a detailed explanation of the steps taken to generate the results, but it is missing some autoencoder methods that were included later on in the research.
 - automated_experiments.ipynb contains the code actually used to generate the results, but it has fewer detailed explanations
