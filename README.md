@@ -1,28 +1,23 @@
-[![DOI](https://zenodo.org/badge/263904926.svg)](https://zenodo.org/badge/latestdoi/263904926)
+<!-- [![DOI](https://zenodo.org/badge/263904926.svg)](https://zenodo.org/badge/latestdoi/263904926) -->
 
-# Autoencoder-based cleaning of non-categorical data in probabilistic databases
+# Autoencoder-based cleaning in probabilistic databases
 
-This is the source code for the paper "Autoencoder-based cleaning of non-categorical data in probabilistic databases".
-The paper can be found at https://essay.utwente.nl/82344/
+This is the source code for the paper "Autoencoder-based cleaning in probabilistic databases".
 
 ## Installation
 
-The install process for the generating of a virtual environment and such can be run using install.sh or install.bat.
-This will require:
-- Python 3
-- GraphViz (on Windows)
-- openssl for generating an SSL certificate for the Jupyter server (this can be skipped, but it might be unsafe)
-- (optional) NVIDIA machine learning libraries for speedup (https://www.tensorflow.org/install/gpu)
+Simply install all the packages in requirements.txt (`pip install -r requirements.txt`). If using Linux, install.sh can be used to generate a venv.
 
-Alternatively, just run the .ipynb notebooks with your own pre-installed version of Python and Jupyter.
-Any missing Python libraries can be installed with `pip3 install -r requirements.txt`
+## Instructions for usage
 
+- automated_experiments.ipynb contains the code used to generate the results. When it is started, it will start creating many different autoencoders and PDB combinations for data cleaning, constantly saving new results into experiment_config_results.csv. It will also save the dictionary containing experiment configurations into the "experiments" file using dill. Turning the USE_GPU flag to True will ensure any saved files receive the "_gpu" suffix and that the GPU is used. This allows for training with the CPU and GPU simultaneously.
+- plot_results.ipynb can be used to generate the figures used in the paper. This requires experiment_config_results.csv to be populated with results first, and for an "experiments" file (with the experiment configurations stored using dill) to exist. Confidence intervals only start appearing from n=2 measurements per configuration.
+- merge_results.ipynb contains code to merge results stored in multiple .csv files (which happens when running experiments on both the CPU and GPU)
 
-## Explation of files
+## Other files
 
-- experiments_explanation.ipynb contains a detailed explanation of the steps taken to generate the results, but it is missing some autoencoder methods that were included later on in the research.
-- automated_experiments.ipynb contains the code actually used to generate the results, but it has fewer detailed explanations
-- experiment_results.xlsx contains the data extracted from the output of automated_experiments.ipynb, which was used to generate tables and figures in the paper
-- gkernel.py contains some methods written by Norio Tamada for Gaussian kernels. All credits for this file go to them (https://github.com/darecophoenixx/wordroid.sblo.jp/blob/master/lib/keras_ex/gkernel/)
-- database.csv contains the data sampled from the Bayesian network during the last experiment
+- gkernel.py contains some methods written by Norio Tamada for RBF kernels. All credits for this file go to them (https://github.com/darecophoenixx/wordroid.sblo.jp/blob/master/lib/keras_ex/gkernel/)
+- The "databases" folder contains the databases, ground truth data, noisy data and cleaned data from the last experiment
+- The "databases_used_in_paper" folder contains a similar set of databases that we used for the tables in the paper.
+- The "pictures" folder contains the .svg files of the figures shown in the paper.
 - model.h5 contains the autoencoder created during the last experiment
