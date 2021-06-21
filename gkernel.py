@@ -4,13 +4,13 @@ Released under the MIT license
 https://github.com/darecophoenixx/wordroid.sblo.jp/blob/master/lib/keras_ex/gkernel/LICENSE.md
 '''
 
+# This file was edited by F.P.J. Nijweide to use tensorflow.keras instead of keras and RandomUniform instead of random_uniform
+# I do not claim responsibility for the lines below, they are the result of the work by Norio Tamada
+
 import numpy as np
 from tensorflow.keras import initializers, constraints
 from tensorflow.keras.layers import Layer
 from tensorflow.keras import backend as K
-
-# This file was edited by Freek Nijweide to use tensorflow.keras instead of keras and RandomUniform instead of random_uniform
-# I do not claim responsibility for the lines below, they are the result of the work by Norio Tamada
 
 class GaussianKernel(Layer):
     
