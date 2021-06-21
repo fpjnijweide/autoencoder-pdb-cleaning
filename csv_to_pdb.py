@@ -13,7 +13,10 @@ def make_pdb(file_string):
 
     df_cols_sorted = list(original_database.columns)
 
-    sizes_sorted = [pd.unique(original_database[col]).shape[0] for col in original_database.columns]
+    sizes_sorted_stringandbool = [pd.unique(original_database[col]).shape[0] for col in original_database.columns]
+    # TODO do for float (histogram)
+    # TODO do for int (how?)
+
 
     # TODO get to hard_evidence using min/max for range of numeric, or unique strings, or bool
     # TODO make all entries numeric? 0-3 etc with titles at top
