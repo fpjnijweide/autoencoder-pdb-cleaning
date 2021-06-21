@@ -30,6 +30,11 @@ else:
     os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
     gpu_string = ""
 
+try:
+    from IPython.display import display
+except:
+    display = print
+
 import csv
 import tensorflow as tf
 import scipy.stats
@@ -44,6 +49,8 @@ import gc
 import gkernel  # gkernel.py in this folder
 import csv_to_pdb #csv_to_pdb.py in this folder
 import dill
+import signal
+import logging
 from tensorflow.python.framework import ops
 from tensorflow.python.ops import math_ops
 
@@ -148,6 +155,22 @@ experiment_config_entropy_after = []
 # how about f1/acc?
 
 
+
+class DelayedKeyboardInterrupt:
+    # Original author: Gary van der Merwe at https://stackoverflow.com/a/21919644
+    def __enter__(self):
+        self.signal_received = False
+        self.old_handler = signal.signal(signal.SIGINT, self.handler)
+                
+    def handler(self, sig, frame):
+        self.signal_received = (sig, frame)
+        logging.debug('SIGINT received. Delaying KeyboardInterrupt.')
+    
+    def __exit__(self, type, value, traceback):
+        signal.signal(signal.SIGINT, self.old_handler)
+        if self.signal_received:
+            self.old_handler(*self.signal_received)
+
 def load_from_csv(input_string):
     with open(input_string, 'r') as fp:
         reader = csv.reader(fp)
@@ -229,6 +252,7 @@ def gen_experiment(config_string, input_dict={}, parameter=None, vars=None):
             new_experiment_config[parameter] = x
 
         full_string = str(config_string + "    " + str_noneguard(parameter) + "    " + str_noneguard(x))
+        full_string_list = (config_string,str_noneguard(parameter),str_noneguard(x))
 
         if new_experiment_config in experiment_config_list:
             mapping = experiment_config_list.index(new_experiment_config)
@@ -250,7 +274,7 @@ def gen_experiment(config_string, input_dict={}, parameter=None, vars=None):
 
         experiments.append(
             {'config_string': config_string, 'input_dict': input_dict, 'parameter': parameter, 'vars': vars,
-             'current_var': x, 'config': new_experiment_config, 'full_string': full_string, 'mapping': mapping})
+             'current_var': x, 'config': new_experiment_config, 'full_string': full_string, 'mapping': mapping, 'full_string_list':full_string_list})
 
 
 ground_config_strings = ["CCE, SD=4", "JSD, SD=4", "CCEu, SD=4", "JSDu, SD=4", "CCE, SD=100", "JSD, SD=100",
@@ -371,8 +395,8 @@ print("Experiments: " + str(len(experiments)))
 print("Experiment configs: " + str(len(experiment_config_list)))
 print("\n\n\n----------DONE---------\n\n\n")
 
-for experiment in experiments:
-    print(experiment['full_string'])
+with pd.option_context("display.max_rows", 1000):
+    display(pd.DataFrame(pd.DataFrame(experiments).loc[:,"full_string_list"].values.tolist()))
 
 
 # %%
@@ -453,13 +477,16 @@ def make_bn(BN_size, sampling_density):
 
 
 def make_df(use_file, bn, mu, sigma, use_gaussian_noise, use_missing_entry, missing_entry_prob,rows,full_string,sampling_density,gaussian_noise_layer_sigma):
+    if not os.path.exists("databases/" + full_string+"/"):
+        os.makedirs("databases/" + full_string+"/")
+
     if use_file is not None:
         original_database,sizes_sorted,hard_evidence = csv_to_pdb.make_pdb(use_file)
     else:
-        gum.generateCSV(bn, "databases/" + full_string + "_database_original" + gpu_string + ".csv", rows)
-        original_database = pd.read_csv("databases/" + full_string + "_database_original" + gpu_string + ".csv")
+        gum.generateCSV(bn, "databases/" + full_string + "/database_original" + gpu_string + ".csv", rows)
+        original_database = pd.read_csv("databases/" + full_string + "/database_original" + gpu_string + ".csv")
         original_database = original_database.reindex(sorted(original_database.columns), axis=1)
-    original_database.to_csv("databases/" + full_string + "_database_original" + gpu_string + ".csv")
+    original_database.to_csv("databases/" + full_string + "/database_original" + gpu_string + ".csv")
 
     if use_file is not None:
         pass
@@ -480,7 +507,6 @@ def make_df(use_file, bn, mu, sigma, use_gaussian_noise, use_missing_entry, miss
         for i in range(original_database.values.T.shape[0]):
             for item in original_database.values.T[i]:
                 col.append(item + sum(sizes_sorted_with_leading_zero[0:i + 1]))
-        # print(col[20000])
 
         input3 = scipy.sparse.coo_matrix((data, (row, col)), shape=tuple(shape)).todense()
 
@@ -492,7 +518,7 @@ def make_df(use_file, bn, mu, sigma, use_gaussian_noise, use_missing_entry, miss
         index2 = pd.MultiIndex.from_tuples(tuples2, names=['Variable', 'Value'])
 
         hard_evidence = pd.DataFrame(input3, columns=index2)
-    hard_evidence.to_csv("databases/" + full_string + "_ground_truth" + gpu_string + ".csv")
+    hard_evidence.to_csv("databases/" + full_string + "/ground_truth" + gpu_string + ".csv")
 
     df = hard_evidence + 0
 
@@ -523,9 +549,9 @@ def make_df(use_file, bn, mu, sigma, use_gaussian_noise, use_missing_entry, miss
     for col in df_cols_sorted:
         df[col] = normalize_df(df[col])
 
-    df.to_csv("databases/" + full_string + "_noisy_data" + gpu_string + ".csv")
+    df.to_csv("databases/" + full_string + "/noisy_data" + gpu_string + ".csv")
 
-    return df, hard_evidence, sizes_sorted,gaussian_noise_layer_sigma_new
+    return df, hard_evidence, sizes_sorted,gaussian_noise_layer_sigma_new,original_database
 
 
 class Sampling(keras.layers.Layer):
@@ -573,9 +599,7 @@ class VAE_model(keras.Model):
             #             reconstruction_loss = self.loss_func(data, reconstruction)
 
             kl_loss = -0.5 * (1 + z_log_var - tf.square(z_mean) - tf.exp(z_log_var))
-            #             print("kl_loss before reduce mean", kl_loss)
-            #             print("kl_loss after reduce sum 1", tf.reduce_sum(kl_loss, axis=1))
-            #             print("kl_loss after reduce mean", tf.reduce_mean(tf.reduce_sum(kl_loss, axis=1)))
+
             kl_loss = tf.reduce_mean(tf.reduce_sum(kl_loss, axis=1))
 
             reconstruction_loss = tf.reduce_mean(
@@ -721,19 +745,23 @@ def train_network(epochs, df, hard_evidence, activation_types, hidden_layers, en
     return autoencoder
 
 
-def measure_performance(df, hard_evidence, autoencoder, sizes_sorted,rows,full_string):
+def measure_performance(df, hard_evidence, autoencoder, sizes_sorted,rows,full_string,original_database):
     test_data = df.head(rows)
 
     verify_data = hard_evidence.iloc[test_data.index]
     results = pd.DataFrame(autoencoder.predict(test_data))
     
-    results.to_csv("databases/" + full_string + "_post_cleaning" + gpu_string + ".csv")
+    results.to_csv("databases/" + full_string + "/post_cleaning" + gpu_string + ".csv")
 
     i = 0
     distances_before = []
     distances_after = []
     flip_TP, flip_TN, flip_FP, flip_FN = [],[],[],[]
-    for size in sizes_sorted:
+    entropy_before, entropy_after = [],[]
+
+    cleaned_database_non_pdb = pd.DataFrame().reindex_like(original_database)
+
+    for column_index,size in enumerate(sizes_sorted):
         ground_truth_attribute = verify_data.iloc[:, i:i + size]
         cleaned_attribute = results.iloc[:, i:i + size]
         dirty_attribute = test_data.iloc[:, i:i + size]
@@ -759,13 +787,32 @@ def measure_performance(df, hard_evidence, autoencoder, sizes_sorted,rows,full_s
         flip_FP.append(FP)
         flip_TN.append(TN)
 
-        # TODO entropy
+        entropy_before_cleaning_per_row = scipy.stats.entropy(dirty_attribute,axis=1).sum()
+        entropy_after_cleaning_per_row = scipy.stats.entropy(cleaned_attribute,axis=1).sum()
 
+        entropy_before.append(entropy_before_cleaning_per_row)
+        entropy_after.append(entropy_after_cleaning_per_row)
+        
+
+        cleaned_database_non_pdb.iloc[:,column_index] = clean_max
 
         i += size
 
+    cleaned_database_non_pdb.to_csv("databases/" + full_string + "/post_cleaning_non_pdb" + gpu_string + ".csv")
+
     JSD_before = np.nansum(distances_before)
     JSD_after = np.nansum(distances_after)
+
+    flip_TP = np.nansum(flip_TP)
+    flip_FN = np.nansum(flip_FN)
+    flip_FP = np.nansum(flip_FP)
+    flip_TN = np.nansum(flip_TN)
+
+    entropy_before = np.nansum(entropy_before)
+    entropy_after = np.nansum(entropy_after)
+
+    # TODO sum entropy
+
     # noise_left = 100 * avg_distance_after / avg_distance_before
     return JSD_before, JSD_after, flip_TP, flip_TN, flip_FP, flip_FN, entropy_before, entropy_after
 
@@ -808,10 +855,10 @@ def run_experiment(full_string=None,epochs=epochs_default, use_previous_df=False
 
     if use_file is None:
         bn = make_bn(BN_size, sampling_density)
-        df, hard_evidence, sizes_sorted, gaussian_noise_layer_sigma_new = make_df(use_file, bn, mu, sigma, use_gaussian_noise, use_missing_entry,
+        df, hard_evidence, sizes_sorted, gaussian_noise_layer_sigma_new,original_database = make_df(use_file, bn, mu, sigma, use_gaussian_noise, use_missing_entry,
                                               missing_entry_prob,rows,full_string,sampling_density,gaussian_noise_sigma)
     else:
-        df, hard_evidence, sizes_sorted, gaussian_noise_layer_sigma_new = make_df(use_file, None, mu, sigma, use_gaussian_noise, use_missing_entry,
+        df, hard_evidence, sizes_sorted, gaussian_noise_layer_sigma_new,original_database = make_df(use_file, None, mu, sigma, use_gaussian_noise, use_missing_entry,
                                               missing_entry_prob,rows,full_string,sampling_density,gaussian_noise_sigma)
 
     if loss_function != 'MSE':
@@ -822,11 +869,13 @@ def run_experiment(full_string=None,epochs=epochs_default, use_previous_df=False
                                 loss_function, training_method, activity_regularizer, input_layer_type,
                                 labeled_data_percentage, VAE, CNN, kernel_landmarks, CNN_layers, CNN_filters,
                                 CNN_kernel_size, gaussian_noise_layer_sigma_new)
-    JSD_before, JSD_after, flip_TP, flip_TN, flip_FP, flip_FN, entropy_before, entropy_after = measure_performance(df, hard_evidence, autoencoder, sizes_sorted,rows,full_string)
+    JSD_before, JSD_after, flip_TP, flip_TN, flip_FP, flip_FN, entropy_before, entropy_after = measure_performance(df, hard_evidence, autoencoder, sizes_sorted,rows,full_string,original_database)
+
+
     del autoencoder
     gc.collect()
     keras.backend.clear_session()
-    return JSD_before, JSD_after
+    return JSD_before, JSD_after, flip_TP, flip_TN, flip_FP, flip_FN, entropy_before, entropy_after
 
 
 runs = 0
@@ -847,16 +896,32 @@ while lowest_results < 10:
         if previous_runs == lowest_results:
             # if previous_runs==lowest_results_forcpu and (x['config']['sampling_density']*x['config']['BN_size'])<100:
             # if previous_runs==lowest_results_forgpu and (x['config']['sampling_density']*x['config']['BN_size'])>=100:
-            if runs == 0:
-                print(i)
+            # if runs == 0:
+            #     print(i)
+            if runs % 10 == 0 and runs > 0:
+                clear_output(wait=True)
             JSD_before, JSD_after, flip_TP, flip_TN, flip_FP, flip_FN, entropy_before, entropy_after = run_experiment(experiment['full_string'],**experiment['config'])
 
-            JSD_reduction = 100 - ((JSD_after / JSD_before)*100)
+            if JSD_before > 0:
+                JSD_reduction = 100 - ((JSD_after / JSD_before)*100)
+            elif JSD_before == JSD_after:
+                JSD_reduction = 0
+            else:
+                JSD_reduction = -np.inf
             accuracy = (flip_TP+flip_TN) / (flip_TP+flip_TN+flip_FP+flip_FN)
-            f1_score = (2*flip_TP) + ((2*flip_TP) + flip_FP + flip_FN)
-            entropy_reduction = 100 - ((entropy_after / entropy_before)*100)
+            f1_score = (flip_TP) / (flip_TP + 0.5*(flip_FP + flip_FN))
+            if entropy_before > 0:
+                entropy_reduction = 100 - ((entropy_after / entropy_before)*100)
+            elif entropy_before == entropy_after:
+                entropy_reduction = 0
+            else:
+                entropy_reduction = -np.inf
             
-            print("(" + str(i) + ") " + experiment['full_string'] + ";    " + "Q: " + str(result) + " ACC: " + str(accuracy) + " F1: " + str(f1_score) + " H_red: " + entropy_reduction)
+            result_prints = pd.DataFrame([*experiment['full_string_list'],JSD_reduction,accuracy,f1_score,entropy_reduction]).T
+            result_prints.columns = ["Base config","Parameter","Value","Noise reduction","Accuracy","F1 score","Entropy reduction"]
+            result_prints.index=[runs]
+            display(result_prints)
+            # print("(" + str(i) + ") " + experiment['full_string'] + ";    " + "Q: " + str(JSD_reduction) + " ACC: " + str(accuracy) + " F1: " + str(f1_score) + " H_red: " + str(entropy_reduction))
 
             experiment_config_JSD_before[experiment['mapping']].append(JSD_before)
             experiment_config_JSD_after[experiment['mapping']].append(JSD_after)
@@ -870,11 +935,7 @@ while lowest_results < 10:
             experiment_config_entropy_after[experiment['mapping']].append(entropy_after)
 
             #             experiment_configs_and_results[freeze(experiment['config'])].append(result)
-            if runs % 10 == 0 and runs > 0:
-                clear_output(wait=True)
-            with open("experiments" + gpu_string, "wb") as dill_file:
-                dill.dump(experiments, dill_file)
-            
+
 
             experiment_config_JSD_before_csv = [[experiment_config_strings[i]] + experiment_config_JSD_before[i] for i in range(len(experiment_config_JSD_before))]
             experiment_config_JSD_after_csv = [[experiment_config_strings[i]] + experiment_config_JSD_after[i] for i in range(len(experiment_config_JSD_after))]
@@ -887,15 +948,17 @@ while lowest_results < 10:
             experiment_config_entropy_before_csv = [[experiment_config_strings[i]] + experiment_config_entropy_before[i] for i in range(len(experiment_config_entropy_before))]
             experiment_config_entropy_after_csv = [[experiment_config_strings[i]] + experiment_config_entropy_after[i] for i in range(len(experiment_config_entropy_after))]
 
-            with open("results/experiment_config_JSD_before" + gpu_string + ".csv", "w", newline="") as f: csv.writer(f).writerows(experiment_config_JSD_before_csv)
-            with open("results/experiment_config_JSD_after" + gpu_string + ".csv", "w", newline="") as f: csv.writer(f).writerows(experiment_config_JSD_after_csv)
-            with open("results/experiment_config_flip_TP" + gpu_string + ".csv", "w", newline="") as f: csv.writer(f).writerows(experiment_config_flip_TP_csv)
-            with open("results/experiment_config_flip_TN" + gpu_string + ".csv", "w", newline="") as f: csv.writer(f).writerows(experiment_config_flip_TN_csv)
-            with open("results/experiment_config_flip_FP" + gpu_string + ".csv", "w", newline="") as f: csv.writer(f).writerows(experiment_config_flip_FP_csv)
-            with open("results/experiment_config_flip_FN" + gpu_string + ".csv", "w", newline="") as f: csv.writer(f).writerows(experiment_config_flip_FN_csv)
-            with open("results/experiment_config_entropy_before" + gpu_string + ".csv", "w", newline="") as f: csv.writer(f).writerows(experiment_config_entropy_before_csv)
-            with open("results/experiment_config_entropy_after" + gpu_string + ".csv", "w", newline="") as f: csv.writer(f).writerows(experiment_config_entropy_after_csv)
-            
+            with DelayedKeyboardInterrupt():
+                with open("results/experiment_config_JSD_before" + gpu_string + ".csv", "w", newline="") as f: csv.writer(f).writerows(experiment_config_JSD_before_csv)
+                with open("results/experiment_config_JSD_after" + gpu_string + ".csv", "w", newline="") as f: csv.writer(f).writerows(experiment_config_JSD_after_csv)
+                with open("results/experiment_config_flip_TP" + gpu_string + ".csv", "w", newline="") as f: csv.writer(f).writerows(experiment_config_flip_TP_csv)
+                with open("results/experiment_config_flip_TN" + gpu_string + ".csv", "w", newline="") as f: csv.writer(f).writerows(experiment_config_flip_TN_csv)
+                with open("results/experiment_config_flip_FP" + gpu_string + ".csv", "w", newline="") as f: csv.writer(f).writerows(experiment_config_flip_FP_csv)
+                with open("results/experiment_config_flip_FN" + gpu_string + ".csv", "w", newline="") as f: csv.writer(f).writerows(experiment_config_flip_FN_csv)
+                with open("results/experiment_config_entropy_before" + gpu_string + ".csv", "w", newline="") as f: csv.writer(f).writerows(experiment_config_entropy_before_csv)
+                with open("results/experiment_config_entropy_after" + gpu_string + ".csv", "w", newline="") as f: csv.writer(f).writerows(experiment_config_entropy_after_csv)
+                with open("experiments" + gpu_string, "wb") as dill_file:
+                    dill.dump(experiments, dill_file)
 
             runs += 1
     lowest_results = min([len(x) for x in experiment_config_JSD_after])
