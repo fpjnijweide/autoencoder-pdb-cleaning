@@ -3,10 +3,17 @@ import numpy as np
 import scipy.sparse
 
 def make_pdb(file_string):
-    original_database = pd.read_csv(use_file)
+    original_database = pd.read_csv(file_string,sep=';')
     # TODO what happens here? how does it handle None?
-    
+    # change nan to none, but only for strings. how about bools?
+    str_cols = original_database.select_dtypes(include=['object']).columns
+    original_database.loc[:, str_cols] = original_database.loc[:, str_cols].fillna('NULL')
+    original_database = original_database.where(original_database!='NULL', None) 
+
+
     df_cols_sorted = list(original_database.columns)
+
+    sizes_sorted = [pd.unique(original_database[col]).shape[0] for col in original_database.columns]
 
     # TODO get to hard_evidence using min/max for range of numeric, or unique strings, or bool
     # TODO make all entries numeric? 0-3 etc with titles at top
