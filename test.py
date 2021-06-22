@@ -626,9 +626,14 @@ class GaussianNoisePerNeuron(keras.layers.Layer):
         def noised():          
             # noise_columns = [np.random.normal(0, scale=s, size=(array_ops.shape(inputs)[0])) for s in self.stddev]
             # noise = np.vstack(noise_columns).T
-            noise = tf.squeeze(tf.stack([keras.backend.random_normal(shape=[array_ops.shape(inputs)[0],1],mean=0.,stddev=s,dtype=inputs.dtype) for s in self.stddev],axis=1))
+            batch_size=array_ops.shape(inputs)[0]
+            vector_length=len(self.stddev)
+            noise = tf.squeeze(tf.stack([keras.backend.random_normal(shape=[batch_size,1],mean=0.,stddev=s,dtype=inputs.dtype) for s in self.stddev],axis=1))
             # noise = keras.backend.random_normal(shape=array_ops.shape(inputs),mean=0.,stddev=self.stddev,dtype=inputs.dtype)
-            return inputs + noise
+            output = inputs + noise
+            output = tf.reshape(output,[-1,vector_length])
+            # output = tf.ensure_shape(output, len(self.stddev))
+            return output
             # return inputs
             
 
