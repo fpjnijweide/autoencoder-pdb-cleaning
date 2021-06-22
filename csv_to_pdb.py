@@ -42,19 +42,17 @@ def make_pdb(file_string,sampling_density):
         elif sampling_density is not None:
             # if numeric but with predefined sampling density, use that
             bins_for_coli = np.histogram_bin_edges(coli_nonan,bins=sampling_density)
-            sizes_sorted[i] = bins_for_coli.size-1
-            bins[i] = bins_for_coli
+            sizes_sorted[i] = sampling_density
+            bins[i] = bins_for_coli[:-1]
         else:
             # else, determine sampling density heuristically
             bins_for_coli = np.histogram_bin_edges(coli_nonan,bins='auto')
             if unique_entries_in_coli.size <= bins_for_coli.size:
                 sizes_sorted[i] = unique_entries_in_coli.size
                 bins[i] = unique_entries_in_coli
-                bin_interval = bins[i][-1] - bins[i][-2]
-                np.append(bins[i],bins[i][-1] + bin_interval)
             else:
-                sizes_sorted[i] = bins_for_coli.size-1
-                bins[i] = bins_for_coli
+                sizes_sorted[i] = (bins_for_coli.size)-1
+                bins[i] = bins_for_coli[:-1]
 
     # TODO how about manual bin definitions?
 
