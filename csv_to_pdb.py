@@ -49,7 +49,8 @@ def make_pdb(file_string,sampling_density):
             bins_for_coli = np.histogram_bin_edges(coli_nonan,bins='auto')
             if unique_entries_in_coli.size <= bins_for_coli.size:
                 sizes_sorted[i] = unique_entries_in_coli.size
-                bins[i] = unique_entries_in_coli
+                bin_width = unique_entries_in_coli[1] - unique_entries_in_coli[0]
+                bins[i] = unique_entries_in_coli - 0.5*bin_width
             else:
                 sizes_sorted[i] = (bins_for_coli.size)-1
                 bins[i] = bins_for_coli[:-1]
