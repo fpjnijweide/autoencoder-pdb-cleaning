@@ -279,7 +279,7 @@ def gen_experiment(config_string, input_dict={}, parameter=None, vars=None):
 
 ground_config_strings = ["CCE, SD=4", "JSD, SD=4", "CCEu, SD=4", "JSDu, SD=4", "CCE, SD=100", "JSD, SD=100",
                          "CCEu, SD=100", "JSDu, SD=100"]
-# ground_config_strings = ["JSD surgical_case_durations","JSD LBP RA"]
+# ground_config_strings = ["JSD, surgical_case_durations","JSDu, surgical_case_durations","JSD, LBP RA","JSDu, LBP RA"]
 
 for config_string in ground_config_strings:
     ground_config = defaults.copy()
@@ -773,14 +773,35 @@ def measure_performance(df, hard_evidence, autoencoder, sizes_sorted,rows,full_s
         distances_after.append(np.nansum(dist_after))
 
         # going back to actual data instead of probabilities to see if values changed
-        ground_truth_max = np.argmax(ground_truth_attribute.values,1)
-        clean_max = np.argmax(cleaned_attribute.values,1)
-        dirty_max = np.argmax(dirty_attribute.values,1)
+        ground_truth_val = np.argmax(ground_truth_attribute.values,1)
+        clean_val = np.argmax(cleaned_attribute.values,1)
+        dirty_val = np.argmax(dirty_attribute.values,1)
 
-        TP = np.count_nonzero((ground_truth_max != dirty_max) & (ground_truth_max == clean_max))
-        FN = np.count_nonzero((ground_truth_max != dirty_max) & (ground_truth_max != clean_max))
-        FP = np.count_nonzero((ground_truth_max == dirty_max) & (ground_truth_max != clean_max))
-        TN = np.count_nonzero((ground_truth_max == dirty_max) & (ground_truth_max == clean_max))
+        ground_truth_missing = np.max(ground_truth_attribute.values,1) == np.min(ground_truth_attribute.values,1)
+        clean_missing = np.max(cleaned_attribute.values,1) == np.min(cleaned_attribute.values,1)
+        dirty_missing = np.max(dirty_attribute.values,1) == np.min(dirty_attribute.values,1)
+
+        # If we are working on data where no noise was added at all, then F1 and accuracy scores and such are not applicable
+        # We can use TP and FN to pass upwards how many values were flipped
+        if verify_data.equals(test_data):
+            # Changed values & missing entries made non-missing
+            TP = np.count_nonzero((ground_truth_missing & ~clean_missing) | (  (~ground_truth_missing & ~clean_missing)  &    (ground_truth_val != clean_val)))
+            # Value to missing
+            FP=np.count_nonzero(~ground_truth_missing & clean_missing)
+            # Missing to missing
+            FN=np.count_nonzero(ground_truth_missing & clean_missing)
+            # Value stayed the same
+            TN=np.count_nonzero((~ground_truth_missing & ~clean_missing)  & (ground_truth_val==clean_val))
+        else:
+            # Don't count instances where ground truth was missing, because we simply have no idea.
+            # True positive: Was missing or wrong, now correct
+            TP = np.count_nonzero( ~ground_truth_missing & ( ((ground_truth_val != dirty_val) | dirty_missing) & (ground_truth_val == clean_val)) )
+            # False positive: Was correct, now missing or wrong
+            FP = np.count_nonzero( ~ground_truth_missing & ( (ground_truth_val == dirty_val) & ((ground_truth_val != clean_val) | clean_missing)) )
+            # False negative: Was incorrect/missing and still is
+            FN = np.count_nonzero( ~ground_truth_missing & ( ((ground_truth_val != dirty_val) | dirty_missing) & ((ground_truth_val != clean_val) | clean_missing)) )
+            # True negative: was correct and stayed correct
+            TN = np.count_nonzero( ~ground_truth_missing & ( (ground_truth_val == dirty_val) & (ground_truth_val == clean_val)) )
 
         flip_TP.append(TP)
         flip_FN.append(FN)
