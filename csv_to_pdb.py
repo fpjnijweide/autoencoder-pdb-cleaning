@@ -81,7 +81,7 @@ def make_pdb(file_string,sampling_density):
                     missing_col.append(current_bin + sum(sizes_sorted_with_leading_zero[0:i + 1]))
                     missing_row.append(row[counter])
                     missing_data.append(prob)
-            elif df.iloc[:,i].dtype != np.float64:
+            elif not np.issubdtype(df.iloc[:,i].dtype,np.number):
                 item = np.where(bins[i]==item)[0].item()
             else:
                 item = np.searchsorted(bins[i],item)
