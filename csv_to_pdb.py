@@ -71,6 +71,7 @@ def make_pdb(file_string,sampling_density):
     # Finding where stuff will go in the sparse matrix
     for i in range(df.values.T.shape[0]):
         for item in df.values.T[i]:
+            olditem=item
             if pd.isnull(item):
                 item = 0
                 data[counter] = 0
@@ -81,9 +82,12 @@ def make_pdb(file_string,sampling_density):
                     missing_data.append(prob)
             elif not np.issubdtype(df.iloc[:,i].dtype,np.number):
                 item = np.where(bins[i]==item)[0].item()
+                # item = np.searchsorted(bins[i],item)
             else:
-                item = np.searchsorted(bins[i],item)
-            col.append(item + sum(sizes_sorted_with_leading_zero[0:i + 1]))
+                # item = np.searchsorted(bins[i],item)
+                item = np.searchsorted(bins[i],item,side='right')-1
+            newcol = item + sum(sizes_sorted_with_leading_zero[0:i + 1])
+            col.append(newcol)
             counter +=1
 
     missing_entries_matrix = scipy.sparse.coo_matrix((missing_data, (missing_row, missing_col)), shape=tuple(shape)).todense()
