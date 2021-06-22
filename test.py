@@ -570,11 +570,6 @@ def make_df(use_file, bn, mu, sigma, use_gaussian_noise, use_missing_entry, miss
     noise_columns = [np.random.normal(mu, scale=s, size=(hard_evidence.shape[0])) for s in sigmas_per_col]
     noise = np.vstack(noise_columns).T
 
-
-
-    # TODO rework how gaussian noise layer sigma is generated here, make it a list of sigmas (generated in the same way as the sigmas before)
-    # gaussian_noise_layer_sigma_new = gaussian_noise_layer_sigma(sampling_density)
-
     # TODO rework how gaussian noise is added in the network, maybe need a custom layer 
 
 
@@ -614,6 +609,40 @@ class Sampling(keras.layers.Layer):
         epsilon = tf.keras.backend.random_normal(shape=(batch, dim))
         return z_mean + tf.exp(0.5 * z_log_var) * epsilon
 
+
+from tensorflow.python.ops import array_ops
+from tensorflow.python.ops import math_ops
+from tensorflow.python.keras.utils import tf_utils
+
+class GaussianNoisePerNeuron(keras.layers.Layer):
+    # adapted from standard Keras GaussianNoise layer
+    def __init__(self, stddev, **kwargs):
+        super(GaussianNoisePerNeuron, self).__init__(**kwargs)
+        self.supports_masking = True
+        self.stddev = stddev
+
+    def call(self, inputs, training=None):
+
+        def noised():          
+            # noise_columns = [np.random.normal(0, scale=s, size=(array_ops.shape(inputs)[0])) for s in self.stddev]
+            # noise = np.vstack(noise_columns).T
+            noise = tf.squeeze(tf.stack([keras.backend.random_normal(shape=[array_ops.shape(inputs)[0],1],mean=0.,stddev=s,dtype=inputs.dtype) for s in self.stddev],axis=1))
+            # noise = keras.backend.random_normal(shape=array_ops.shape(inputs),mean=0.,stddev=self.stddev,dtype=inputs.dtype)
+            return inputs + noise
+            # return inputs
+            
+
+
+        return keras.backend.in_train_phase(noised, inputs, training=training)
+
+    def get_config(self):
+        config = {'stddev': self.stddev}
+        base_config = super(GaussianNoisePerNeuron, self).get_config()
+        return dict(list(base_config.items()) + list(config.items()))
+
+    @tf_utils.shape_type_conversion
+    def compute_output_shape(self, input_shape):
+        return input_shape    
 
 class VAE_model(keras.Model):
     def __init__(self, encoder, decoder, loss_func, **kwargs):
@@ -709,7 +738,7 @@ def train_network(epochs, df, hard_evidence, activation_types, hidden_layers, en
         x = keras.layers.Flatten()(x)
 
     elif input_layer_type == 'gaussian_noise':
-        x = keras.layers.GaussianNoise(gaussian_noise_sigma)(input_layer)
+        x = GaussianNoisePerNeuron(gaussian_noise_sigma)(input_layer)
     elif input_layer_type == 'gaussian_dropout':
         x = keras.layers.GaussianDropout(0.01)(input_layer)
     elif input_layer_type == 'sqrt_softmax':
