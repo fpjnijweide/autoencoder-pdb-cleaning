@@ -357,9 +357,9 @@ for config_string in ground_config_strings:
     if ground_config['loss_function'] != 'CCE':
         # 10-13
         gaussian_noise_sigma_strings = ["lambda SD, 0.01", "lambda SD, 0.02", "lambda SD, 0.05", "lambda SD, 0.1",
-                                        "lambda SD, 0.2", "lambda SD, (0.01/SD)*100", "lambda SD, (0.02/SD)*100",
-                                        "lambda SD, (0.05/SD)*100", "lambda SD, (0.1/SD)*100",
-                                        "lambda SD, (0.2/SD)*100"]
+                                        "lambda SD, 0.2", "lambda SD, (0.01 over SD) cdot 100", "lambda SD, (0.02 over SD) cdot 100",
+                                        "lambda SD, (0.05 over SD) cdot 100", "lambda SD, (0.1 over SD) cdot 100",
+                                        "lambda SD, (0.2 over SD) cdot 100"]
         gaussian_noise_sigma_list = [lambda SD: 0.01, lambda SD: 0.02, lambda SD: 0.05, lambda SD: 0.1, lambda SD: 0.2,
                                      lambda SD: (0.01 / SD) * 100, lambda SD: (0.02 / SD) * 100,
                                      lambda SD: (0.05 / SD) * 100, lambda SD: (0.1 / SD) * 100,
