@@ -104,11 +104,11 @@ def make_pdb(file_string,sampling_density):
 
     hard_evidence = pd.DataFrame(final_matrix, columns=pandas_column_index)
 
-    return df,sizes_sorted,hard_evidence
+    return df,sizes_sorted,hard_evidence,bins
 
 if __name__ == "__main__":
     # df, sizes_sorted, hard_evidence = make_pdb("surgical_case_durations.csv",None)
-    df, sizes_sorted, hard_evidence = make_pdb("Dataset - LBP RA.csv",None)
+    df, sizes_sorted, hard_evidence,bins = make_pdb("Dataset - LBP RA.csv",None)
     hard_evidence.to_pickle("surgical_case_durations.pdb")
     hard_evidence2 = pd.read_pickle("surgical_case_durations.pdb")
     print(hard_evidence.equals(hard_evidence2))
