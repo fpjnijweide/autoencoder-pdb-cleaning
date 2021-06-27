@@ -1,4 +1,5 @@
 import gc
+import os
 
 import numpy as np
 import pandas as pd
@@ -101,13 +102,17 @@ def run_experiment(full_string=None, epochs=epochs_default, use_previous_df=Fals
     return JSD_before, JSD_after, flip_TP, flip_TN, flip_FP, flip_FN, entropy_before, entropy_after
 
 
-def measure_performance(df, hard_evidence, autoencoder, sizes_sorted, rows, full_string, original_database, bins):
+def measure_performance(df, hard_evidence, autoencoder, sizes_sorted, rows, full_string, original_database, bins,output_data_string=None):
     test_data = df.head(rows)
 
     verify_data = hard_evidence.iloc[test_data.index]
     results = pd.DataFrame(autoencoder.predict(test_data))
 
-    results.to_csv("./output_data/" + full_string + "/post_cleaning" + gpu_string + ".csv")
+    if output_data_string is None:
+        results.to_csv("./output_data/" + full_string + "/post_cleaning" + gpu_string + ".csv")
+    else:
+        filename_no_extension = os.path.splitext(output_data_string)[0]
+        results.to_csv(filename_no_extension + "_post_cleaning_probabilities" + gpu_string + ".csv")
 
     i = 0
     distances_before = []
@@ -180,14 +185,22 @@ def measure_performance(df, hard_evidence, autoencoder, sizes_sorted, rows, full
             cleaned_database_non_pdb.iloc[:, column_index] = clean_val
         else:
             if np.issubdtype(bins[column_index].dtype, np.number):
-                bin_width = bins[column_index][1] - bins[column_index][0]
-                cleaned_database_non_pdb.iloc[:, column_index] = bins[column_index][clean_val] + 0.5 * bin_width
+                if len(bins[column_index])>1:
+                    bin_width = bins[column_index][1] - bins[column_index][0]
+                    cleaned_database_non_pdb.iloc[:, column_index] = bins[column_index][clean_val] + 0.5 * bin_width
+                else:
+                    cleaned_database_non_pdb.iloc[:, column_index] = bins[column_index][clean_val]
             else:
                 cleaned_database_non_pdb.iloc[:, column_index] = bins[column_index][clean_val]
 
         i += size
 
-    cleaned_database_non_pdb.to_csv("./output_data/" + full_string + "/post_cleaning_non_pdb" + gpu_string + ".csv")
+    if output_data_string is None:
+        cleaned_database_non_pdb.to_csv("./output_data/" + full_string + "/post_cleaning_non_pdb" + gpu_string + ".csv")
+    else:
+        filename_no_extension = os.path.splitext(output_data_string)[0]
+        cleaned_database_non_pdb.to_csv(filename_no_extension + "_FINAL_CLEANED" + gpu_string + ".csv")
+
 
     JSD_before = np.nansum(distances_before)
     JSD_after = np.nansum(distances_after)

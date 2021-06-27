@@ -55,8 +55,11 @@ def make_pdb(file_string, sampling_density):
             bins_for_coli = np.histogram_bin_edges(coli_nonan, bins='auto')
             if unique_entries_in_coli.size <= bins_for_coli.size:
                 sizes_sorted[i] = unique_entries_in_coli.size
-                bin_width = unique_entries_in_coli[1] - unique_entries_in_coli[0]
-                bins[i] = unique_entries_in_coli - 0.5 * bin_width
+                if len(unique_entries_in_coli)>1:
+                    bin_width = unique_entries_in_coli[1] - unique_entries_in_coli[0]
+                    bins[i] = unique_entries_in_coli - 0.5 * bin_width
+                else:
+                    bins[i]=unique_entries_in_coli
             else:
                 sizes_sorted[i] = (bins_for_coli.size) - 1
                 bins[i] = bins_for_coli[:-1]
@@ -133,10 +136,11 @@ def load_from_csv(input_string):
 
 
 def make_df(use_file, bn, mu, sigma, use_gaussian_noise, use_missing_entry, missing_entry_prob, rows, full_string,
-            sampling_density, gaussian_noise_layer_sigma):
+            sampling_density, gaussian_noise_layer_sigma,output_data_string=None):
     bins = None
-    if not os.path.exists("./output_data/" + full_string + "/"):
-        os.makedirs("./output_data/" + full_string + "/")
+    if output_data_string is None:
+        if not os.path.exists("./output_data/" + full_string + "/"):
+            os.makedirs("./output_data/" + full_string + "/")
 
     if use_file is not None:
         filename_no_extension = os.path.splitext(use_file)[0]
@@ -153,16 +157,26 @@ def make_df(use_file, bn, mu, sigma, use_gaussian_noise, use_missing_entry, miss
             bins = list(pd.read_pickle(filename_no_extension + " bins SD=" + SD_string + ".pkl"))
         except:
             original_database, sizes_sorted, hard_evidence, bins = make_pdb(use_file, sampling_density)
-            original_database.to_pickle(filename_no_extension + " SD=" + SD_string + ".df")
-            hard_evidence.to_pickle(filename_no_extension + " SD=" + SD_string + ".pdb")
-            pd.Series(sizes_sorted).to_pickle(filename_no_extension + " sizes SD=" + SD_string + ".pkl")
-            pd.Series(bins).to_pickle(filename_no_extension + " bins SD=" + SD_string + ".pkl")
+            if output_data_string is None:
+                original_database.to_pickle(filename_no_extension + " SD=" + SD_string + ".df")
+                hard_evidence.to_pickle(filename_no_extension + " SD=" + SD_string + ".pdb")
+                pd.Series(sizes_sorted).to_pickle(filename_no_extension + " sizes SD=" + SD_string + ".pkl")
+                pd.Series(bins).to_pickle(filename_no_extension + " bins SD=" + SD_string + ".pkl")
         df_cols_sorted = original_database.columns
     else:
-        gum.generateCSV(bn, "./output_data/" + full_string + "/database_original" + gpu_string + ".csv", rows)
-        original_database = pd.read_csv("./output_data/" + full_string + "/database_original" + gpu_string + ".csv")
+        if output_data_string is None:
+            gum.generateCSV(bn, "./output_data/" + full_string + "/" + "database_original" + gpu_string + ".csv", rows)
+            original_database = pd.read_csv("./output_data/" + full_string + "/" + "database_original" + gpu_string + ".csv")
+        else:
+            filename_no_extension = os.path.splitext(output_data_string)[0]
+            gum.generateCSV(bn, filename_no_extension + "_database_original" + gpu_string + ".csv", rows)
+            original_database = pd.read_csv(filename_no_extension + "_database_original" + gpu_string + ".csv")
         original_database = original_database.reindex(sorted(original_database.columns), axis=1)
-    original_database.to_csv("./output_data/" + full_string + "/database_original" + gpu_string + ".csv")
+    if output_data_string is None:
+        original_database.to_csv("./output_data/" + full_string + "/database_original" + gpu_string + ".csv")
+    else:
+        filename_no_extension = os.path.splitext(output_data_string)[0]
+        original_database.to_csv(filename_no_extension + "_database_original" + gpu_string + ".csv")
 
     if use_file is not None:
         pass
@@ -194,7 +208,11 @@ def make_df(use_file, bn, mu, sigma, use_gaussian_noise, use_missing_entry, miss
         index2 = pd.MultiIndex.from_tuples(tuples2, names=['Variable', 'Value'])
 
         hard_evidence = pd.DataFrame(input3, columns=index2)
-    hard_evidence.to_csv("./output_data/" + full_string + "/ground_truth" + gpu_string + ".csv")
+    if output_data_string is None:
+        hard_evidence.to_csv("./output_data/" + full_string + "/ground_truth" + gpu_string + ".csv")
+    else:
+        filename_no_extension = os.path.splitext(output_data_string)[0]
+        hard_evidence.to_csv(filename_no_extension + "_ground_truth" + gpu_string + ".csv")
 
     df = hard_evidence + 0
 
@@ -236,7 +254,8 @@ def make_df(use_file, bn, mu, sigma, use_gaussian_noise, use_missing_entry, miss
     for col in df_cols_sorted:
         df[col] = normalize_df(df[col])
 
-    df.to_csv("./output_data/" + full_string + "/noisy_data" + gpu_string + ".csv")
+    if output_data_string is None:
+        df.to_csv("./output_data/" + full_string + "/noisy_data" + gpu_string + ".csv")
 
     return df, hard_evidence, sizes_sorted, gaussian_noise_layer_sigma_new, original_database, bins
 
