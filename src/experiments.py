@@ -5,13 +5,13 @@ import pandas as pd
 import scipy.stats
 from tensorflow import keras as keras
 
-from .autoencoder import custom_loss, train_network, activation_types_default, hidden_layers_default, \
+from autoencoder import custom_loss, train_network, activation_types_default, hidden_layers_default, \
     encoding_dim_default, loss_function_default, training_method_default, activity_regularizer_default, epochs_default, \
     VAE_default, CNN_default, kernel_landmarks_default, CNN_layers_default, CNN_filters_default, \
     CNN_kernel_size_default, input_layer_type_default, gaussian_noise_sigma_default
-from .bayesian_networks import make_bn
-from .pdb import make_df
-from .probabilities import prob_distance
+from bayesian_networks import make_bn
+from pdb import make_df
+from probabilities import prob_distance
 
 TEST_RUN_EPOCHS = False  # Whether to force the number of epochs below. Useful to test for errors without having to wait for hours of training
 TEST_RUN_EPOCH_NR = 1

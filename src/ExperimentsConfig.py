@@ -1,5 +1,5 @@
-from .experiments import defaults
-from .helper_methods import str_noneguard
+from experiments import defaults
+from helper_methods import str_noneguard
 
 
 class ExperimentsConfig:

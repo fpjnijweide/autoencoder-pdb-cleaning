@@ -1,7 +1,7 @@
 import pyAgrum as gum
 import scipy.stats
 
-from .probabilities import generate_samplespace
+from probabilities import generate_samplespace
 
 
 def make_bn(BN_size, sampling_density):
