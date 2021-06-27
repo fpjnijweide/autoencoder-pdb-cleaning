@@ -90,9 +90,9 @@ def main():
             ground_config['sampling_density'] = 4
 
         if "surgical_case_durations" in config_string:
-            ground_config['use_file'] = "../input_data/surgical_case_durations.csv"
+            ground_config['use_file'] = "./input_data/surgical_case_durations.csv"
         elif "LBP RA" in config_string:
-            ground_config['use_file'] = "../input_data/Dataset - LBP RA.csv"
+            ground_config['use_file'] = "./input_data/Dataset - LBP RA.csv"
 
         # if ground_config['use_file'] is not None:
         #     if "NO_ADDED_NOISE" in config_string:
@@ -182,17 +182,17 @@ def main():
 
     if LOAD_DATA:
         try:
-            experiments_config.JSD_before = load_from_csv("../results/experiment_config_JSD_before" + gpu_string + ".csv")
-            experiments_config.JSD_after = load_from_csv("../results/experiment_config_JSD_after" + gpu_string + ".csv")
+            experiments_config.JSD_before = load_from_csv("./results/experiment_config_JSD_before" + gpu_string + ".csv")
+            experiments_config.JSD_after = load_from_csv("./results/experiment_config_JSD_after" + gpu_string + ".csv")
 
-            experiments_config.flip_TP = load_from_csv("../results/experiment_config_flip_TP" + gpu_string + ".csv")
-            experiments_config.flip_TN = load_from_csv("../results/experiment_config_flip_TN" + gpu_string + ".csv")
-            experiments_config.flip_FP = load_from_csv("../results/experiment_config_flip_FP" + gpu_string + ".csv")
-            experiments_config.flip_FN = load_from_csv("../results/experiment_config_flip_FN" + gpu_string + ".csv")
+            experiments_config.flip_TP = load_from_csv("./results/experiment_config_flip_TP" + gpu_string + ".csv")
+            experiments_config.flip_TN = load_from_csv("./results/experiment_config_flip_TN" + gpu_string + ".csv")
+            experiments_config.flip_FP = load_from_csv("./results/experiment_config_flip_FP" + gpu_string + ".csv")
+            experiments_config.flip_FN = load_from_csv("./results/experiment_config_flip_FN" + gpu_string + ".csv")
 
             experiments_config.entropy_before = load_from_csv(
-                "../results/experiment_config_entropy_before" + gpu_string + ".csv")
-            experiments_config.entropy_after = load_from_csv("../results/experiment_config_entropy_after" + gpu_string + ".csv")
+                "./results/experiment_config_entropy_before" + gpu_string + ".csv")
+            experiments_config.entropy_after = load_from_csv("./results/experiment_config_entropy_after" + gpu_string + ".csv")
         except:
             print('could not load data')
 
@@ -284,25 +284,25 @@ def main():
                                                        for i in range(len(experiments_config.entropy_after))]
 
                 with DelayedKeyboardInterrupt():
-                    if not os.path.exists("../results/"):
-                        os.makedirs("../results/")
-                    with open("../results/experiment_config_JSD_before" + gpu_string + ".csv", "w",
+                    if not os.path.exists("./results/"):
+                        os.makedirs("./results/")
+                    with open("./results/experiment_config_JSD_before" + gpu_string + ".csv", "w",
                               newline="") as f: csv.writer(f).writerows(experiment_config_JSD_before_csv)
-                    with open("../results/experiment_config_JSD_after" + gpu_string + ".csv", "w",
+                    with open("./results/experiment_config_JSD_after" + gpu_string + ".csv", "w",
                               newline="") as f: csv.writer(f).writerows(experiment_config_JSD_after_csv)
-                    with open("../results/experiment_config_flip_TP" + gpu_string + ".csv", "w", newline="") as f: csv.writer(
+                    with open("./results/experiment_config_flip_TP" + gpu_string + ".csv", "w", newline="") as f: csv.writer(
                         f).writerows(experiment_config_flip_TP_csv)
-                    with open("../results/experiment_config_flip_TN" + gpu_string + ".csv", "w", newline="") as f: csv.writer(
+                    with open("./results/experiment_config_flip_TN" + gpu_string + ".csv", "w", newline="") as f: csv.writer(
                         f).writerows(experiment_config_flip_TN_csv)
-                    with open("../results/experiment_config_flip_FP" + gpu_string + ".csv", "w", newline="") as f: csv.writer(
+                    with open("./results/experiment_config_flip_FP" + gpu_string + ".csv", "w", newline="") as f: csv.writer(
                         f).writerows(experiment_config_flip_FP_csv)
-                    with open("../results/experiment_config_flip_FN" + gpu_string + ".csv", "w", newline="") as f: csv.writer(
+                    with open("./results/experiment_config_flip_FN" + gpu_string + ".csv", "w", newline="") as f: csv.writer(
                         f).writerows(experiment_config_flip_FN_csv)
-                    with open("../results/experiment_config_entropy_before" + gpu_string + ".csv", "w",
+                    with open("./results/experiment_config_entropy_before" + gpu_string + ".csv", "w",
                               newline="") as f: csv.writer(f).writerows(experiment_config_entropy_before_csv)
-                    with open("../results/experiment_config_entropy_after" + gpu_string + ".csv", "w",
+                    with open("./results/experiment_config_entropy_after" + gpu_string + ".csv", "w",
                               newline="") as f: csv.writer(f).writerows(experiment_config_entropy_after_csv)
-                    with open("../output_data/experiments" + gpu_string, "wb") as dill_file:
+                    with open("./output_data/experiments" + gpu_string, "wb") as dill_file:
                         dill.dump(experiments_config.experiments, dill_file)
 
                 runs += 1
@@ -312,4 +312,5 @@ def main():
 
 if __name__ == "__main__":
     sys.path.append(os.path.abspath("."))
+    os.chdir("..")
     main()

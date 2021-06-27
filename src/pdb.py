@@ -135,8 +135,8 @@ def load_from_csv(input_string):
 def make_df(use_file, bn, mu, sigma, use_gaussian_noise, use_missing_entry, missing_entry_prob, rows, full_string,
             sampling_density, gaussian_noise_layer_sigma):
     bins = None
-    if not os.path.exists("../output_data/" + full_string + "/"):
-        os.makedirs("../output_data/" + full_string + "/")
+    if not os.path.exists("./output_data/" + full_string + "/"):
+        os.makedirs("./output_data/" + full_string + "/")
 
     if use_file is not None:
         filename_no_extension = os.path.splitext(use_file)[0]
@@ -159,10 +159,10 @@ def make_df(use_file, bn, mu, sigma, use_gaussian_noise, use_missing_entry, miss
             pd.Series(bins).to_pickle(filename_no_extension + " bins SD=" + SD_string + ".pkl")
         df_cols_sorted = original_database.columns
     else:
-        gum.generateCSV(bn, "../output_data/" + full_string + "/database_original" + gpu_string + ".csv", rows)
-        original_database = pd.read_csv("../output_data/" + full_string + "/database_original" + gpu_string + ".csv")
+        gum.generateCSV(bn, "./output_data/" + full_string + "/database_original" + gpu_string + ".csv", rows)
+        original_database = pd.read_csv("./output_data/" + full_string + "/database_original" + gpu_string + ".csv")
         original_database = original_database.reindex(sorted(original_database.columns), axis=1)
-    original_database.to_csv("../output_data/" + full_string + "/database_original" + gpu_string + ".csv")
+    original_database.to_csv("./output_data/" + full_string + "/database_original" + gpu_string + ".csv")
 
     if use_file is not None:
         pass
@@ -194,7 +194,7 @@ def make_df(use_file, bn, mu, sigma, use_gaussian_noise, use_missing_entry, miss
         index2 = pd.MultiIndex.from_tuples(tuples2, names=['Variable', 'Value'])
 
         hard_evidence = pd.DataFrame(input3, columns=index2)
-    hard_evidence.to_csv("../output_data/" + full_string + "/ground_truth" + gpu_string + ".csv")
+    hard_evidence.to_csv("./output_data/" + full_string + "/ground_truth" + gpu_string + ".csv")
 
     df = hard_evidence + 0
 
@@ -236,7 +236,7 @@ def make_df(use_file, bn, mu, sigma, use_gaussian_noise, use_missing_entry, miss
     for col in df_cols_sorted:
         df[col] = normalize_df(df[col])
 
-    df.to_csv("../output_data/" + full_string + "/noisy_data" + gpu_string + ".csv")
+    df.to_csv("./output_data/" + full_string + "/noisy_data" + gpu_string + ".csv")
 
     return df, hard_evidence, sizes_sorted, gaussian_noise_layer_sigma_new, original_database, bins
 
@@ -248,7 +248,7 @@ def normalize_df(df):
 
 if __name__ == "__main__":
     # df, sizes_sorted, hard_evidence = make_pdb("surgical_case_durations.csv",None)
-    df, sizes_sorted, hard_evidence, bins = make_pdb("../input_data/Dataset - LBP RA.csv", None)
-    hard_evidence.to_pickle("../input_data/surgical_case_durations.pdb")
-    hard_evidence2 = pd.read_pickle("../input_data/surgical_case_durations.pdb")
+    df, sizes_sorted, hard_evidence, bins = make_pdb("./input_data/Dataset - LBP RA.csv", None)
+    hard_evidence.to_pickle("./input_data/surgical_case_durations.pdb")
+    hard_evidence2 = pd.read_pickle("./input_data/surgical_case_durations.pdb")
     print(hard_evidence.equals(hard_evidence2))
