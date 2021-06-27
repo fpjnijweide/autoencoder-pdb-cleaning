@@ -1,5 +1,5 @@
 :loop
 
-python automated_experiments.py
+python run_experiments.py
 
 goto loop
