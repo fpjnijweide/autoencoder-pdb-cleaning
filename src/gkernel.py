@@ -8,12 +8,13 @@ https://github.com/darecophoenixx/wordroid.sblo.jp/blob/master/lib/keras_ex/gker
 # I do not claim responsibility for the lines below, they are the result of the work by Norio Tamada
 
 import numpy as np
+from tensorflow.keras import backend as K
 from tensorflow.keras import initializers, constraints
 from tensorflow.keras.layers import Layer
-from tensorflow.keras import backend as K
+
 
 class GaussianKernel(Layer):
-    
+
     def __init__(self, num_landmark, num_feature,
                  kernel_initializer='glorot_uniform',
                  kernel_constraint=None,
@@ -33,7 +34,7 @@ class GaussianKernel(Layer):
             d_mean is mean of d
         '''
         super(GaussianKernel, self).__init__(**kwargs)
-        
+
         self.output_dim = num_landmark
         self.num_feature = num_feature
         self.kernel_initializer = initializers.get(kernel_initializer)
@@ -44,38 +45,38 @@ class GaussianKernel(Layer):
 
     def compute_output_shape(self, input_shape):
         return (input_shape[0], self.output_dim)
-    
+
     def build(self, input_shape):
         assert len(input_shape) == 2
         input_dim = input_shape[1]
-        
+
         self.kernel = self.add_weight(name='kernel',
                                       shape=(self.output_dim, self.num_feature),
                                       initializer=self.kernel_initializer,
                                       constraint=self.kernel_constraint)
         super(GaussianKernel, self).build(input_shape)  # Be sure to call this somewhere!
-    
+
     def call(self, x, training=None):
         return self.gauss(x, self.kernel, self.kernel_gamma)
-    
+
     def gauss(self, x, landmarks, gamma):
         x2 = K.sum(K.square(x), axis=1)
-        x2 = K.reshape(x2, (-1,1))
+        x2 = K.reshape(x2, (-1, 1))
         x2 = K.repeat_elements(x2, self.output_dim, axis=1)
         lm2 = K.sum(K.square(landmarks), axis=1)
         xlm = K.dot(x, K.transpose(landmarks))
-        
-        ret = x2 + lm2 - 2*xlm
+
+        ret = x2 + lm2 - 2 * xlm
         if gamma == 'auto':
             '''
             gamma is calculated by each batch
             '''
             d = K.sqrt(ret)
             d_mean = K.mean(d)
-            gamma = 1. / (2. * d_mean**2)
+            gamma = 1. / (2. * d_mean ** 2)
         ret = K.exp(-gamma * ret)
         return ret
-    
+
     def get_config(self):
         config = {
             'num_landmark': self.output_dim,
@@ -89,7 +90,7 @@ class GaussianKernel(Layer):
 
 
 class GaussianKernel2(Layer):
-    
+
     def __init__(self, landmarks, **kwargs):
         '''
         landmarks:
@@ -101,32 +102,32 @@ class GaussianKernel2(Layer):
         self.landmarks = landmarks.astype(np.float32)
         self.num_landmark, self.num_feature = landmarks.shape
         self.output_dim = self.num_landmark
-    
+
     def compute_output_shape(self, input_shape):
         return (input_shape[0], self.output_dim)
-    
+
     def build(self, input_shape):
         assert len(input_shape) == 2
         input_dim = input_shape[1]
-        
+
         self.gamma_elm = self.add_weight(name='gamma_elm',
-                                      shape=(1, ),
-                                      initializer=initializers.RandomUniform(-2, -1))
+                                         shape=(1,),
+                                         initializer=initializers.RandomUniform(-2, -1))
         super(GaussianKernel2, self).build(input_shape)  # Be sure to call this somewhere!
-    
+
     def call(self, x, training=None):
         return self.gauss(x, self.landmarks, K.exp(self.gamma_elm), training=training)
-    
+
     def gauss(self, x, landmarks, gamma, training=None):
         x2 = K.sum(K.square(x), axis=1)
-        x2 = K.reshape(x2, (-1,1))
+        x2 = K.reshape(x2, (-1, 1))
         x2 = K.repeat_elements(x2, self.output_dim, axis=1)
         lm2 = K.sum(K.square(landmarks), axis=1)
         xlm = K.dot(x, K.transpose(landmarks))
-        ret = x2 + lm2 - 2*xlm
+        ret = x2 + lm2 - 2 * xlm
         ret = K.exp(-gamma * ret)
         return ret
-    
+
     def get_config(self):
         config = {
             'landmarks': self.landmarks,
@@ -136,7 +137,7 @@ class GaussianKernel2(Layer):
 
 
 class GaussianKernel3(Layer):
-    
+
     def __init__(self, num_landmark, num_feature,
                  kernel_initializer='glorot_uniform',
                  **kwargs):
@@ -149,39 +150,39 @@ class GaussianKernel3(Layer):
             equal to inputs.shape[1]
         '''
         super(GaussianKernel3, self).__init__(**kwargs)
-        
+
         self.output_dim = num_landmark
         self.num_feature = num_feature
         self.kernel_initializer = initializers.get(kernel_initializer)
-    
+
     def compute_output_shape(self, input_shape):
         return (input_shape[0], self.output_dim)
-    
+
     def build(self, input_shape):
         assert len(input_shape) == 2
         input_dim = input_shape[1]
-        
+
         self.kernel = self.add_weight(name='kernel',
                                       shape=(self.output_dim, self.num_feature),
                                       initializer=self.kernel_initializer)
         self.gamma_elm = self.add_weight(name='gamma_elm',
-                                      shape=(1, ),
-                                      initializer=initializers.RandomUniform(-2, -1))
+                                         shape=(1,),
+                                         initializer=initializers.RandomUniform(-2, -1))
         super(GaussianKernel3, self).build(input_shape)  # Be sure to call this somewhere!
-    
+
     def call(self, x, training=None):
         return self.gauss(x, self.kernel, K.exp(self.gamma_elm))
-    
+
     def gauss(self, x, landmarks, gamma, training=None):
         x2 = K.sum(K.square(x), axis=1)
-        x2 = K.reshape(x2, (-1,1))
+        x2 = K.reshape(x2, (-1, 1))
         x2 = K.repeat_elements(x2, self.output_dim, axis=1)
         lm2 = K.sum(K.square(landmarks), axis=1)
         xlm = K.dot(x, K.transpose(landmarks))
-        ret = x2 + lm2 - 2*xlm
+        ret = x2 + lm2 - 2 * xlm
         ret = K.exp(-gamma * ret)
         return ret
-    
+
     def get_config(self):
         config = {
             'num_landmark': self.output_dim,
