@@ -8,11 +8,11 @@ import dill
 import signal
 import sys
 
-from ExperimentsConfig import ExperimentsConfig
-from experiments import run_experiment, defaults
-from autoencoder import activity_regularizer_default
-from helper_methods import DelayedKeyboardInterrupt, clean_directory, clean
-from pdb import load_from_csv
+from src.ExperimentsConfig import ExperimentsConfig
+from src.experiments import run_experiment, defaults
+from src.autoencoder import activity_regularizer_default
+from src.helper_methods import DelayedKeyboardInterrupt, clean_directory, clean
+from src.pdb import load_from_csv
 
 try:
     from IPython.display import display
@@ -311,6 +311,4 @@ def main():
     clean_directory()
 
 if __name__ == "__main__":
-    sys.path.append(os.path.abspath("."))
-    os.chdir("..")
     main()

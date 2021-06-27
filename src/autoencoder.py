@@ -5,8 +5,9 @@ import tensorflow as tf
 from tensorflow import keras as keras
 from tensorflow.python.keras.utils import tf_utils
 from tensorflow.python.ops import array_ops
-from gkernel import GaussianKernel3
-from probabilities import JSD
+
+from .gkernel import GaussianKernel3
+from .probabilities import JSD
 
 activation_types_default = [keras.backend.sin, keras.backend.cos, keras.activations.linear, 'relu',
                             'swish']  # Activation layer types
