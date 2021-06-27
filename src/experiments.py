@@ -61,8 +61,8 @@ def run_experiment(full_string=None, epochs=epochs_default, use_previous_df=Fals
     if TEST_RUN_EPOCHS:
         epochs = TEST_RUN_EPOCH_NR
 
-    if encoding_dim is None:
-        encoding_dim = BN_size
+
+
 
     if use_file is None:
         bn = make_bn(BN_size, sampling_density)
@@ -81,6 +81,10 @@ def run_experiment(full_string=None, epochs=epochs_default, use_previous_df=Fals
     if loss_function != 'MSE':
         old_loss = loss_function[:]
         loss_function = lambda y_true, y_pred: custom_loss(y_true, y_pred, sizes_sorted, old_loss)
+
+    if encoding_dim is None:
+        encoding_dim = len(original_database.columns)
+
 
     autoencoder = train_network(epochs, df, hard_evidence, activation_types, hidden_layers, encoding_dim, sizes_sorted,
                                 loss_function, training_method, activity_regularizer, input_layer_type,

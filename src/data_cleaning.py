@@ -23,8 +23,6 @@ def clean_config(filename_out, autoencoder_filename, full_string=None, epochs=ep
                  CNN_kernel_size=CNN_kernel_size_default, gaussian_noise_sigma=gaussian_noise_sigma_default,
                  use_gaussian_noise=use_gaussian_noise_default, use_missing_entry=use_missing_entry_default,
                  missing_entry_prob=missing_entry_prob_default, rows=rows_default, use_file=use_file_default):
-    if encoding_dim is None:
-        encoding_dim = BN_size
 
     bn = None
     df, hard_evidence, sizes_sorted, gaussian_noise_layer_sigma_new, original_database, bins = make_df(use_file, bn,
@@ -40,6 +38,9 @@ def clean_config(filename_out, autoencoder_filename, full_string=None, epochs=ep
     if loss_function != 'MSE':
         old_loss = loss_function[:]
         loss_function = lambda y_true, y_pred: custom_loss(y_true, y_pred, sizes_sorted, old_loss)
+
+    if encoding_dim is None:
+        encoding_dim = len(original_database.columns)
 
 
     if autoencoder_filename is None:
