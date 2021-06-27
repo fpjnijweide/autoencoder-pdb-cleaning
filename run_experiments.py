@@ -40,7 +40,7 @@ def main():
 
 
 
-    print(tf.python.client.device_lib.list_local_devices())
+    # print(tf.python.client.device_lib.list_local_devices())
     print(tf.__version__)
     print("Num GPUs Available: " + str(len(tf.config.experimental.list_physical_devices('GPU'))))
     tf.test.is_gpu_available()
@@ -222,7 +222,7 @@ def main():
         lowest_results = min([len(x) for x in experiments_config.JSD_after])
         highest_results = max([len(x) for x in experiments_config.JSD_after])
         print("\n\n----- LOWEST RESULTS: " + str(lowest_results) + ", HIGHEST: " + str(highest_results) + " ------\n\n")
-        for i in (range(len(experiments_config.experiments))):
+        for i in reversed(range(len(experiments_config.experiments))):
             experiment = experiments_config.experiments[i]
             x = experiment
             previous_runs = len(experiments_config.JSD_after[experiment['mapping']])
