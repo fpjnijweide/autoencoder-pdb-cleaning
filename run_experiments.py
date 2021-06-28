@@ -222,7 +222,7 @@ def main():
         lowest_results = min([len(x) for x in experiments_config.JSD_after])
         highest_results = max([len(x) for x in experiments_config.JSD_after])
         print("\n\n----- LOWEST RESULTS: " + str(lowest_results) + ", HIGHEST: " + str(highest_results) + " ------\n\n")
-        for i in (range(len(experiments_config.experiments))):
+        for i in reversed(range(len(experiments_config.experiments))):
             experiment = experiments_config.experiments[i]
             x = experiment
             previous_runs = len(experiments_config.JSD_after[experiment['mapping']])
@@ -304,7 +304,7 @@ def main():
                               newline="") as f: csv.writer(f).writerows(experiment_config_entropy_before_csv)
                     with open("./results/experiment_config_entropy_after" + gpu_string + ".csv", "w",
                               newline="") as f: csv.writer(f).writerows(experiment_config_entropy_after_csv)
-                    with open("./output_data/experiments" + gpu_string, "wb") as dill_file:
+                    with open("./results/experiments" + gpu_string, "wb") as dill_file:
                         dill.dump(experiments_config.experiments, dill_file)
 
                 runs += 1
