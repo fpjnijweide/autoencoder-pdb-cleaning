@@ -46,7 +46,7 @@ class DelayedKeyboardInterrupt:
 
 
 def clean_directory():
-    dir_name = os.getcwd()
+    dir_name = os.path.join(os.getcwd() ,"input_data")
     test = os.listdir(os.path.join(dir_name ,"input_data"))
 
     for item in test:
