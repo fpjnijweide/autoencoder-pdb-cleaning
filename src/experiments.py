@@ -98,8 +98,10 @@ def run_experiment(full_string=None, epochs=epochs_default, use_previous_df=Fals
                                                                                                                    full_string,
                                                                                                                    original_database,
                                                                                                                    bins)
-
-    autoencoder.save("./output_data/" + full_string + "/model.h5")
+    if not VAE:
+        autoencoder.save("./output_data/" + full_string + "/model.h5")
+    else:
+        autoencoder.save("./output_data/" + full_string + "/model.tf")
     del autoencoder
     gc.collect()
     keras.backend.clear_session()

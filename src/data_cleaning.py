@@ -62,7 +62,10 @@ def clean_config(filename_out, autoencoder_filename, full_string=None, epochs=ep
 
     if autoencoder_filename is None:
         filename_no_extension = os.path.splitext(filename_out)[0]
-        autoencoder.save(filename_no_extension + ".h5")
+        if not VAE:
+            autoencoder.save(filename_no_extension + ".h5")
+        else:
+            autoencoder.save(filename_no_extension + ".tf")
 
 
 def clean(filename_in, filename_out, autoencoder_filename):
