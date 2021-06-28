@@ -47,7 +47,7 @@ class DelayedKeyboardInterrupt:
 
 def clean_directory():
     dir_name = os.path.join(os.getcwd() ,"input_data")
-    test = os.listdir(os.path.join(dir_name ,"input_data"))
+    test = os.listdir(dir_name)
 
     for item in test:
         if item.endswith(".pdb") or item.endswith(".df") or item.endswith(".pkl"):
