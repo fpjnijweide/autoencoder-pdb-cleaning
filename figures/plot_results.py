@@ -11,10 +11,9 @@ print('done')
 import csv
 import matplotlib
 import sys
-results_folder_string = "../results_merged"
+results_folder_string = "../results_merged2"
 # USE_PLOTLY = False
 sys.path.append('..')
-
 
 # %%
 def load_from_csv(input_string):
@@ -40,7 +39,7 @@ experiment_config_flip_FN = load_from_csv(results_folder_string+"/experiment_con
 experiment_config_entropy_before = load_from_csv(results_folder_string+"//experiment_config_entropy_before.csv")
 experiment_config_entropy_after = load_from_csv(results_folder_string+"/experiment_config_entropy_after.csv")
 
-with open("../output_data/experiments","rb") as current_file:
+with open(results_folder_string+"/experiments","rb") as current_file:
     experiments = dill.load(current_file)
 
     
@@ -114,7 +113,7 @@ def adjust_lightness(color, amount=0.5):
     c = colorsys.rgb_to_hls(*mc.to_rgb(c))
     return colorsys.hls_to_rgb(c[0], max(0, min(1, amount * c[1])), c[2])    
 
-def plot_vals(i,USE_PLOTLY,excluded_config_strings=[],ylim=[-175,100]):
+def plot_vals(i,existing_data_string,USE_PLOTLY,excluded_config_strings=[],ylim=[-175,100]):
 
     if USE_PLOTLY:
         fig = go.Figure()
@@ -126,15 +125,32 @@ def plot_vals(i,USE_PLOTLY,excluded_config_strings=[],ylim=[-175,100]):
     parameter = parameters[i]
     bar=0
     all_numbers = True
-    
+    runs = 0
+
     for config_index,config_string in enumerate(config_strings):
-        if "NO_ADDED_NOISE" in config_string or "surgical_case_durations" in config_string or "LBP RA" in config_string:
-            continue
-        color=colors[config_index-18]
+        if existing_data_string is not None:
+            if not (existing_data_string in config_string):
+                continue
+
+            if "NO_ADDED_NOISE" in existing_data_string:
+                if not ("NO_ADDED_NOISE" in config_string):
+                    continue
+                color=colors[runs]
+            else:
+                if "NO_ADDED_NOISE" in config_string:
+                    continue
+                color=(colors)[runs]
+        else:
+            if "NO_ADDED_NOISE" in config_string or "surgical_case_durations" in config_string or "LBP RA" in config_string:
+                continue
+            color=colors[config_index-18]
     #     print("--------- " + config_string + " -----------")
         filtered_experiments = [ex for ex in experiments if ex['parameter']==parameter and ex['config_string']==config_string and config_string not in excluded_config_strings]
         if len(filtered_experiments)==0:
             continue
+            
+        runs +=1
+        
         mappings = np.array([x['mapping'] for x in filtered_experiments])
         x_values = [x['current_var'] for x in filtered_experiments]
         for x in x_values:
@@ -160,14 +176,14 @@ def plot_vals(i,USE_PLOTLY,excluded_config_strings=[],ylim=[-175,100]):
             f1_score = 100 * ((flip_TP) / (flip_TP + 0.5*(flip_FP + flip_FN)))
             entropy_reduction = 100 - ((entropy_after / entropy_before)*100)
 
-            means_JSD_reduction = np.mean(JSD_reduction,axis=1)
-            sigmas_JSD_reduction = np.std(JSD_reduction,axis=1)
-            means_accuracy = np.mean(accuracy,axis=1)
-            sigmas_accuracy = np.std(accuracy,axis=1)
-            means_f1_score = np.mean(f1_score,axis=1)
-            sigmas_f1_score = np.std(f1_score,axis=1)
-            means_entropy_reduction = np.mean(entropy_reduction,axis=1)
-            sigmas_entropy_reduction = np.std(entropy_reduction,axis=1)
+            means_JSD_reduction = np.nanmean(JSD_reduction,axis=1)
+            sigmas_JSD_reduction = np.nanstd(JSD_reduction,axis=1)
+            means_accuracy = np.nanmean(accuracy,axis=1)
+            sigmas_accuracy = np.nanstd(accuracy,axis=1)
+            means_f1_score = np.nanmean(f1_score,axis=1)
+            sigmas_f1_score = np.nanstd(f1_score,axis=1)
+            means_entropy_reduction = np.nanmean(entropy_reduction,axis=1)
+            sigmas_entropy_reduction = np.nanstd(entropy_reduction,axis=1)
         else:
             JSD_reduction = []
             accuracy = []
@@ -192,14 +208,14 @@ def plot_vals(i,USE_PLOTLY,excluded_config_strings=[],ylim=[-175,100]):
                 f1_score.append(f1_score_current)
                 entropy_reduction.append(entropy_reduction_current)
 
-                means_JSD_reduction.append(np.mean(JSD_reduction_current))
-                sigmas_JSD_reduction.append(np.std(JSD_reduction_current))
-                means_accuracy.append(np.mean(accuracy_current))
-                sigmas_accuracy.append(np.std(accuracy_current))
-                means_f1_score.append(np.mean(f1_score_current))
-                sigmas_f1_score.append(np.std(f1_score_current))
-                means_entropy_reduction.append(np.mean(entropy_reduction_current))
-                sigmas_entropy_reduction.append(np.std(entropy_reduction_current))
+                means_JSD_reduction.append(np.nanmean(JSD_reduction_current))
+                sigmas_JSD_reduction.append(np.nanstd(JSD_reduction_current))
+                means_accuracy.append(np.nanmean(accuracy_current))
+                sigmas_accuracy.append(np.nanstd(accuracy_current))
+                means_f1_score.append(np.nanmean(f1_score_current))
+                sigmas_f1_score.append(np.nanstd(f1_score_current))
+                means_entropy_reduction.append(np.nanmean(entropy_reduction_current))
+                sigmas_entropy_reduction.append(np.nanstd(entropy_reduction_current))
                 
             JSD_reduction = np.array(JSD_reduction)
             accuracy = np.array(accuracy)
@@ -433,8 +449,31 @@ for i in range(len(parameters)):
         excluded_config_strings=[]
     else:
         excluded_config_strings=CCE_strings
-    plot_vals(i,USE_PLOTLY=False,excluded_config_strings=excluded_config_strings)
+    plot_vals(i,None,USE_PLOTLY=False,excluded_config_strings=excluded_config_strings)
     plt.savefig("results_fig_"+ parameters[i] + ".svg", bbox_inches = 'tight',pad_inches = 0)
+
+
+
+# %%
+
+import pandas as pd
+param_series = pd.Series(parameters)
+param_indices_bools = (param_series == 'sigma') | (param_series=='missing_entry') | (param_series=='missing_entry_combined')
+param_indices = param_indices_bools[param_indices_bools].index
+
+unsup_strings = [config_string for config_string in config_strings if "u," in config_string]
+semi_strings = [config_string for config_string in config_strings if not ("u," in config_string)]
+
+excluded_config_list = [unsup_strings,semi_strings]
+excluded_config_names = ["semi","unsup"]
+
+for file_string in ["LBP RA","surgical_case_durations"]:
+    for excluded_config_index in range(len(excluded_config_list)):
+        for i in param_indices:
+            excluded_configs = excluded_config_list[excluded_config_index]
+            excluded_configs_name = excluded_config_names[excluded_config_index]
+            plot_vals(i,file_string,USE_PLOTLY=False,excluded_config_strings=excluded_configs)
+            plt.savefig("results_REALWORLD_"+ parameters[i] +"_" + file_string + "_"  + excluded_configs_name +  ".svg", bbox_inches = 'tight',pad_inches = 0)
 
 
 # %%
@@ -445,7 +484,18 @@ for i in range(len(parameters)):
         excluded_config_strings=[]
     else:
         excluded_config_strings=CCE_strings
-    plot_vals(i,USE_PLOTLY=True,excluded_config_strings=excluded_config_strings)
+    plot_vals(i,None,USE_PLOTLY=True,excluded_config_strings=excluded_config_strings)
+
+
+# %%
+
+for file_string in ["LBP RA","surgical_case_durations"]:
+    for excluded_config_index in range(len(excluded_config_list)):
+        for i in param_indices:
+            excluded_configs = excluded_config_list[excluded_config_index]
+            excluded_configs_name = excluded_config_names[excluded_config_index]
+            plot_vals(i,file_string,USE_PLOTLY=True,excluded_config_strings=excluded_configs)
+            # plt.savefig("results_REALWORLD_"+ parameters[i] +"_" + file_string + "_"  + excluded_configs_name +  ".svg", bbox_inches = 'tight',pad_inches = 0)
 
 
 # %%
@@ -461,6 +511,16 @@ for i in range(len(parameters)):
 
 # %%
 
+
+
+# %%
+# (parameters == 'sigma' | parameters=='missing_entry' | parameters=='missing_entry_no_denoising' | parameters=='missing_entry_combined')
+
+config_strings
+
+
+# %%
+config_strings
 
 
 # %%
