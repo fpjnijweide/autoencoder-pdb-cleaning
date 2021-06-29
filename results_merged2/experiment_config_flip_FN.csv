@@ -1,0 +1,560 @@
+"JSDu, surgical_case_durations NO_ADDED_NOISE    sigma    0",0.0,0.0,0.0
+"JSDu, LBP RA NO_ADDED_NOISE    sigma    0",0.0,0.0,0.0
+"JSDu, surgical_case_durations NO_ADDED_NOISE SD=4    sigma    0",0.0,0.0,0.0
+"JSDu, LBP RA NO_ADDED_NOISE SD=4    sigma    0",0.0,0.0,0.0
+"JSDu, surgical_case_durations NO_ADDED_NOISE SD=100    sigma    0",0.0,0.0,0.0
+"JSDu, LBP RA NO_ADDED_NOISE SD=100    sigma    0",0.0,0.0,0.0
+"JSD, surgical_case_durations    sigma    0.005",20.0,25.0,19.0
+"JSD, surgical_case_durations    sigma    0.01",1219.0,1246.0,1227.0
+"JSD, surgical_case_durations    sigma    0.02",5157.0,5120.0,5374.0
+"JSD, surgical_case_durations    sigma    0.05",10939.0,10476.0,11091.0
+"JSD, surgical_case_durations    sigma    0.1",17159.0,17206.0,16825.0
+"JSD, surgical_case_durations    sigma    0.2",25166.0,24584.0,25525.0
+"JSD, surgical_case_durations    missing_entry    0.001",76.0,56.0,67.0
+"JSD, surgical_case_durations    missing_entry    0.005",340.0,294.0,322.0
+"JSD, surgical_case_durations    missing_entry    0.01",671.0,691.0,675.0
+"JSD, surgical_case_durations    missing_entry    0.05",3162.0,3150.0,3142.0
+"JSD, surgical_case_durations    missing_entry    0.1",5964.0,5919.0,6021.0
+"JSD, surgical_case_durations    missing_entry    0.5",27325.0,27132.0,27217.0
+"JSD, surgical_case_durations    missing_entry_combined    0.001",5187.0,5353.0,5264.0
+"JSD, surgical_case_durations    missing_entry_combined    0.005",5231.0,5223.0,5214.0
+"JSD, surgical_case_durations    missing_entry_combined    0.01",5605.0,5983.0,5742.0
+"JSD, surgical_case_durations    missing_entry_combined    0.05",7416.0,7531.0,7362.0
+"JSD, surgical_case_durations    missing_entry_combined    0.1",9780.0,9634.0,9962.0
+"JSD, surgical_case_durations    missing_entry_combined    0.5",29551.0,29140.0
+"JSDu, surgical_case_durations    sigma    0.005",76.0,84.0
+"JSDu, surgical_case_durations    sigma    0.01",3703.0,3772.0
+"JSDu, surgical_case_durations    sigma    0.02",15313.0,15891.0
+"JSDu, surgical_case_durations    sigma    0.05",32014.0,31129.0
+"JSDu, surgical_case_durations    sigma    0.1",43258.0,44019.0
+"JSDu, surgical_case_durations    sigma    0.2",55284.0,55453.0
+"JSDu, surgical_case_durations    missing_entry    0.001",66.0,71.0
+"JSDu, surgical_case_durations    missing_entry    0.005",375.0,410.0
+"JSDu, surgical_case_durations    missing_entry    0.01",764.0,724.0
+"JSDu, surgical_case_durations    missing_entry    0.05",4140.0,4250.0
+"JSDu, surgical_case_durations    missing_entry    0.1",8745.0,8581.0
+"JSDu, surgical_case_durations    missing_entry    0.5",43628.0,42485.0
+"JSDu, surgical_case_durations    missing_entry_combined    0.001",15018.0,15197.0
+"JSDu, surgical_case_durations    missing_entry_combined    0.005",15784.0,15905.0
+"JSDu, surgical_case_durations    missing_entry_combined    0.01",16361.0,16156.0
+"JSDu, surgical_case_durations    missing_entry_combined    0.05",18619.0,18180.0
+"JSDu, surgical_case_durations    missing_entry_combined    0.1",21541.0,22370.0
+"JSDu, surgical_case_durations    missing_entry_combined    0.5",48724.0,49217.0
+"JSD, LBP RA    sigma    0.005",24.0,16.0
+"JSD, LBP RA    sigma    0.01",828.0,908.0
+"JSD, LBP RA    sigma    0.02",3496.0,3557.0
+"JSD, LBP RA    sigma    0.05",10467.0,10828.0
+"JSD, LBP RA    sigma    0.1",17946.0,18075.0
+"JSD, LBP RA    sigma    0.2",20703.0,20868.0
+"JSD, LBP RA    missing_entry    0.001",23.0,33.0
+"JSD, LBP RA    missing_entry    0.005",151.0,145.0
+"JSD, LBP RA    missing_entry    0.01",310.0,300.0
+"JSD, LBP RA    missing_entry    0.05",1401.0,1415.0
+"JSD, LBP RA    missing_entry    0.1",2773.0,2729.0
+"JSD, LBP RA    missing_entry    0.5",12718.0,12616.0
+"JSD, LBP RA    missing_entry_combined    0.001",3556.0,3613.0
+"JSD, LBP RA    missing_entry_combined    0.005",3596.0,3308.0
+"JSD, LBP RA    missing_entry_combined    0.01",3741.0,3852.0
+"JSD, LBP RA    missing_entry_combined    0.05",4640.0,4616.0
+"JSD, LBP RA    missing_entry_combined    0.1",5827.0,5547.0
+"JSD, LBP RA    missing_entry_combined    0.5",14609.0,14464.0
+"JSDu, LBP RA    sigma    0.005",18.0,23.0
+"JSDu, LBP RA    sigma    0.01",1380.0,1426.0
+"JSDu, LBP RA    sigma    0.02",5954.0,5921.0
+"JSDu, LBP RA    sigma    0.05",16649.0,16632.0
+"JSDu, LBP RA    sigma    0.1",26342.0,26888.0
+"JSDu, LBP RA    sigma    0.2",31449.0,31975.0
+"JSDu, LBP RA    missing_entry    0.001",24.0,34.0
+"JSDu, LBP RA    missing_entry    0.005",142.0,141.0
+"JSDu, LBP RA    missing_entry    0.01",312.0,300.0
+"JSDu, LBP RA    missing_entry    0.05",1663.0,1634.0
+"JSDu, LBP RA    missing_entry    0.1",3242.0,3303.0
+"JSDu, LBP RA    missing_entry    0.5",16631.0,16618.0
+"JSDu, LBP RA    missing_entry_combined    0.001",6017.0,5968.0
+"JSDu, LBP RA    missing_entry_combined    0.005",6218.0,5989.0
+"JSDu, LBP RA    missing_entry_combined    0.01",6214.0,5935.0
+"JSDu, LBP RA    missing_entry_combined    0.05",7244.0,7371.0
+"JSDu, LBP RA    missing_entry_combined    0.1",8813.0,8783.0
+"JSDu, LBP RA    missing_entry_combined    0.5",20943.0,20145.0
+"JSD, surgical_case_durations, SD=4    sigma    0.005",34.0,32.0
+"JSD, surgical_case_durations, SD=4    sigma    0.01",1068.0,1044.0
+"JSD, surgical_case_durations, SD=4    sigma    0.02",6204.0,6326.0
+"JSD, surgical_case_durations, SD=4    sigma    0.05",15510.0,15142.0
+"JSD, surgical_case_durations, SD=4    sigma    0.1",20243.0,20265.0
+"JSD, surgical_case_durations, SD=4    sigma    0.2",24191.0,23546.0
+"JSD, surgical_case_durations, SD=4    missing_entry    0.001",38.0,36.0
+"JSD, surgical_case_durations, SD=4    missing_entry    0.005",213.0,206.0
+"JSD, surgical_case_durations, SD=4    missing_entry    0.01",417.0,425.0
+"JSD, surgical_case_durations, SD=4    missing_entry    0.05",1928.0,1904.0
+"JSD, surgical_case_durations, SD=4    missing_entry    0.1",3644.0,3507.0
+"JSD, surgical_case_durations, SD=4    missing_entry    0.5",17593.0,18418.0
+"JSD, surgical_case_durations, SD=4    missing_entry_combined    0.001",6413.0,6266.0
+"JSD, surgical_case_durations, SD=4    missing_entry_combined    0.005",6409.0,6342.0
+"JSD, surgical_case_durations, SD=4    missing_entry_combined    0.01",6298.0,6826.0
+"JSD, surgical_case_durations, SD=4    missing_entry_combined    0.05",7921.0,7699.0
+"JSD, surgical_case_durations, SD=4    missing_entry_combined    0.1",9440.0,9351.0
+"JSD, surgical_case_durations, SD=4    missing_entry_combined    0.5",21849.0,22100.0
+"JSDu, surgical_case_durations, SD=4    sigma    0.005",36.0,41.0
+"JSDu, surgical_case_durations, SD=4    sigma    0.01",2548.0,2370.0
+"JSDu, surgical_case_durations, SD=4    sigma    0.02",16731.0,17165.0
+"JSDu, surgical_case_durations, SD=4    sigma    0.05",42081.0,41906.0
+"JSDu, surgical_case_durations, SD=4    sigma    0.1",55890.0,56057.0
+"JSDu, surgical_case_durations, SD=4    sigma    0.2",62290.0,61412.0
+"JSDu, surgical_case_durations, SD=4    missing_entry    0.001",56.0,45.0
+"JSDu, surgical_case_durations, SD=4    missing_entry    0.005",262.0,239.0
+"JSDu, surgical_case_durations, SD=4    missing_entry    0.01",567.0,533.0
+"JSDu, surgical_case_durations, SD=4    missing_entry    0.05",2826.0,2959.0
+"JSDu, surgical_case_durations, SD=4    missing_entry    0.1",6051.0,6108.0
+"JSDu, surgical_case_durations, SD=4    missing_entry    0.5",31052.0,31158.0
+"JSDu, surgical_case_durations, SD=4    missing_entry_combined    0.001",16873.0,16347.0
+"JSDu, surgical_case_durations, SD=4    missing_entry_combined    0.005",16393.0,16864.0
+"JSDu, surgical_case_durations, SD=4    missing_entry_combined    0.01",17206.0,16774.0
+"JSDu, surgical_case_durations, SD=4    missing_entry_combined    0.05",18315.0,18962.0
+"JSDu, surgical_case_durations, SD=4    missing_entry_combined    0.1",20181.0,19686.0
+"JSDu, surgical_case_durations, SD=4    missing_entry_combined    0.5",35785.0,36633.0
+"JSD, LBP RA, SD=4    sigma    0.005",0.0,0.0
+"JSD, LBP RA, SD=4    sigma    0.01",99.0,99.0
+"JSD, LBP RA, SD=4    sigma    0.02",3520.0,3593.0
+"JSD, LBP RA, SD=4    sigma    0.05",12788.0,12177.0
+"JSD, LBP RA, SD=4    sigma    0.1",15570.0,15742.0
+"JSD, LBP RA, SD=4    sigma    0.2",16851.0,16406.0
+"JSD, LBP RA, SD=4    missing_entry    0.001",23.0,24.0
+"JSD, LBP RA, SD=4    missing_entry    0.005",112.0,106.0
+"JSD, LBP RA, SD=4    missing_entry    0.01",240.0,238.0
+"JSD, LBP RA, SD=4    missing_entry    0.05",1057.0,1079.0
+"JSD, LBP RA, SD=4    missing_entry    0.1",2076.0,2178.0
+"JSD, LBP RA, SD=4    missing_entry    0.5",10377.0,9976.0
+"JSD, LBP RA, SD=4    missing_entry_combined    0.001",3788.0,3473.0
+"JSD, LBP RA, SD=4    missing_entry_combined    0.005",3722.0,3690.0
+"JSD, LBP RA, SD=4    missing_entry_combined    0.01",3677.0,3769.0
+"JSD, LBP RA, SD=4    missing_entry_combined    0.05",4383.0,4559.0
+"JSD, LBP RA, SD=4    missing_entry_combined    0.1",5373.0,5253.0
+"JSD, LBP RA, SD=4    missing_entry_combined    0.5",11770.0,12045.0
+"JSDu, LBP RA, SD=4    sigma    0.005",0.0,0.0
+"JSDu, LBP RA, SD=4    sigma    0.01",137.0,129.0
+"JSDu, LBP RA, SD=4    sigma    0.02",6527.0,6815.0
+"JSDu, LBP RA, SD=4    sigma    0.05",23419.0,23176.0
+"JSDu, LBP RA, SD=4    sigma    0.1",29485.0,29296.0
+"JSDu, LBP RA, SD=4    sigma    0.2",31933.0,31673.0
+"JSDu, LBP RA, SD=4    missing_entry    0.001",25.0,33.0
+"JSDu, LBP RA, SD=4    missing_entry    0.005",132.0,147.0
+"JSDu, LBP RA, SD=4    missing_entry    0.01",290.0,298.0
+"JSDu, LBP RA, SD=4    missing_entry    0.05",1598.0,1621.0
+"JSDu, LBP RA, SD=4    missing_entry    0.1",3731.0,3889.0
+"JSDu, LBP RA, SD=4    missing_entry    0.5",18365.0,18051.0
+"JSDu, LBP RA, SD=4    missing_entry_combined    0.001",6639.0,6882.0
+"JSDu, LBP RA, SD=4    missing_entry_combined    0.005",6758.0,6904.0
+"JSDu, LBP RA, SD=4    missing_entry_combined    0.01",7005.0,6800.0
+"JSDu, LBP RA, SD=4    missing_entry_combined    0.05",7734.0,7637.0
+"JSDu, LBP RA, SD=4    missing_entry_combined    0.1",8464.0,8599.0
+"JSDu, LBP RA, SD=4    missing_entry_combined    0.5",18326.0,18050.0
+"JSD, surgical_case_durations, SD=100    sigma    0.005",34.0,26.0
+"JSD, surgical_case_durations, SD=100    sigma    0.01",1118.0,1179.0
+"JSD, surgical_case_durations, SD=100    sigma    0.02",4430.0,4630.0
+"JSD, surgical_case_durations, SD=100    sigma    0.05",8038.0,7463.0
+"JSD, surgical_case_durations, SD=100    sigma    0.1",10291.0,11267.0
+"JSD, surgical_case_durations, SD=100    sigma    0.2",12647.0,12475.0
+"JSD, surgical_case_durations, SD=100    missing_entry    0.001",73.0,63.0
+"JSD, surgical_case_durations, SD=100    missing_entry    0.005",288.0,320.0
+"JSD, surgical_case_durations, SD=100    missing_entry    0.01",700.0,672.0
+"JSD, surgical_case_durations, SD=100    missing_entry    0.05",3138.0,3187.0
+"JSD, surgical_case_durations, SD=100    missing_entry    0.1",6092.0,5899.0
+"JSD, surgical_case_durations, SD=100    missing_entry    0.5",27164.0,26953.0
+"JSD, surgical_case_durations, SD=100    missing_entry_combined    0.001",5114.0,4546.0
+"JSD, surgical_case_durations, SD=100    missing_entry_combined    0.005",4762.0,4740.0
+"JSD, surgical_case_durations, SD=100    missing_entry_combined    0.01",4681.0,4947.0
+"JSD, surgical_case_durations, SD=100    missing_entry_combined    0.05",6825.0,6661.0
+"JSD, surgical_case_durations, SD=100    missing_entry_combined    0.1",8793.0,9425.0
+"JSD, surgical_case_durations, SD=100    missing_entry_combined    0.5",28821.0,28366.0
+"JSDu, surgical_case_durations, SD=100    sigma    0.005",74.0,91.0
+"JSDu, surgical_case_durations, SD=100    sigma    0.01",3827.0,3858.0
+"JSDu, surgical_case_durations, SD=100    sigma    0.02",14233.0,14489.0
+"JSDu, surgical_case_durations, SD=100    sigma    0.05",26975.0,26623.0
+"JSDu, surgical_case_durations, SD=100    sigma    0.1",34995.0,35960.0
+"JSDu, surgical_case_durations, SD=100    sigma    0.2",39019.0,39657.0
+"JSDu, surgical_case_durations, SD=100    missing_entry    0.001",74.0,76.0
+"JSDu, surgical_case_durations, SD=100    missing_entry    0.005",396.0,359.0
+"JSDu, surgical_case_durations, SD=100    missing_entry    0.01",764.0,777.0
+"JSDu, surgical_case_durations, SD=100    missing_entry    0.05",4276.0,4169.0
+"JSDu, surgical_case_durations, SD=100    missing_entry    0.1",8938.0,8890.0
+"JSDu, surgical_case_durations, SD=100    missing_entry    0.5",44662.0,44244.0
+"JSDu, surgical_case_durations, SD=100    missing_entry_combined    0.001",14511.0,14340.0
+"JSDu, surgical_case_durations, SD=100    missing_entry_combined    0.005",14497.0,14430.0
+"JSDu, surgical_case_durations, SD=100    missing_entry_combined    0.01",14648.0,14787.0
+"JSDu, surgical_case_durations, SD=100    missing_entry_combined    0.05",17363.0,17245.0
+"JSDu, surgical_case_durations, SD=100    missing_entry_combined    0.1",21045.0,21759.0
+"JSDu, surgical_case_durations, SD=100    missing_entry_combined    0.5",49643.0,49925.0
+"JSD, LBP RA, SD=100    sigma    0.005",0.0,0.0
+"JSD, LBP RA, SD=100    sigma    0.01",0.0,0.0
+"JSD, LBP RA, SD=100    sigma    0.02",0.0,0.0
+"JSD, LBP RA, SD=100    sigma    0.05",0.0,0.0
+"JSD, LBP RA, SD=100    sigma    0.1",0.0,0.0
+"JSD, LBP RA, SD=100    sigma    0.2",171.0,188.0
+"JSD, LBP RA, SD=100    missing_entry    0.001",42.0,48.0
+"JSD, LBP RA, SD=100    missing_entry    0.005",217.0,212.0
+"JSD, LBP RA, SD=100    missing_entry    0.01",442.0,431.0
+"JSD, LBP RA, SD=100    missing_entry    0.05",2121.0,1505.0
+"JSD, LBP RA, SD=100    missing_entry    0.1",3766.0,3294.0
+"JSD, LBP RA, SD=100    missing_entry    0.5",14092.0,14272.0
+"JSD, LBP RA, SD=100    missing_entry_combined    0.001",25.0,20.0
+"JSD, LBP RA, SD=100    missing_entry_combined    0.005",130.0,138.0
+"JSD, LBP RA, SD=100    missing_entry_combined    0.01",247.0,246.0
+"JSD, LBP RA, SD=100    missing_entry_combined    0.05",1389.0,1349.0
+"JSD, LBP RA, SD=100    missing_entry_combined    0.1",2739.0,2746.0
+"JSD, LBP RA, SD=100    missing_entry_combined    0.5",13070.0,13323.0
+"JSDu, LBP RA, SD=100    sigma    0.005",0.0,0.0
+"JSDu, LBP RA, SD=100    sigma    0.01",0.0,0.0
+"JSDu, LBP RA, SD=100    sigma    0.02",0.0,0.0,0.0
+"JSDu, LBP RA, SD=100    sigma    0.05",0.0,0.0,0.0
+"JSDu, LBP RA, SD=100    sigma    0.1",0.0,0.0,0.0
+"JSDu, LBP RA, SD=100    sigma    0.2",514.0,510.0,468.0
+"JSDu, LBP RA, SD=100    missing_entry    0.001",45.0,45.0,42.0
+"JSDu, LBP RA, SD=100    missing_entry    0.005",219.0,225.0,228.0
+"JSDu, LBP RA, SD=100    missing_entry    0.01",435.0,439.0,433.0
+"JSDu, LBP RA, SD=100    missing_entry    0.05",2527.0,2480.0,1800.0
+"JSDu, LBP RA, SD=100    missing_entry    0.1",4874.0,5185.0,4972.0
+"JSDu, LBP RA, SD=100    missing_entry    0.5",22426.0,22358.0,22639.0
+"JSDu, LBP RA, SD=100    missing_entry_combined    0.001",30.0,23.0,27.0
+"JSDu, LBP RA, SD=100    missing_entry_combined    0.005",168.0,166.0,158.0
+"JSDu, LBP RA, SD=100    missing_entry_combined    0.01",326.0,309.0,343.0
+"JSDu, LBP RA, SD=100    missing_entry_combined    0.05",1919.0,1788.0,1801.0
+"JSDu, LBP RA, SD=100    missing_entry_combined    0.1",3979.0,4160.0,4053.0
+"JSDu, LBP RA, SD=100    missing_entry_combined    0.5",23752.0,23818.0,23368.0
+"CCE, SD=4    training_method    supervised",2771.0,2864.0,2740.0
+"CCE, SD=4    training_method    supervised_2_percent",2769.0,2566.0,2719.0
+"CCE, SD=4    training_method    semi",2860.0,2766.0,2813.0
+"CCE, SD=4    training_method    semi_sup_first",3845.0,4129.0,4025.0
+"CCE, SD=4    training_method    semi_mixed",3601.0,3726.0,3663.0
+"CCE, SD=4    training_method    unsupervised",4164.0,4073.0,4103.0
+"CCE, SD=4    labeled_data_percentage    99",2765.0,2722.0,2790.0
+"CCE, SD=4    labeled_data_percentage    50",2879.0,2762.0,2853.0
+"CCE, SD=4    labeled_data_percentage    20",2816.0,2779.0,2791.0
+"CCE, SD=4    labeled_data_percentage    10",2862.0,2759.0,2776.0
+"CCE, SD=4    labeled_data_percentage    5",2826.0,2747.0,2790.0
+"CCE, SD=4    labeled_data_percentage    1",2889.0,2860.0,2877.0
+"CCE, SD=4    labeled_data_percentage    0.5",2830.0,2899.0,2886.0
+"CCE, SD=4    labeled_data_percentage    0.25",2951.0,3449.0,3111.0
+"CCE, SD=4    labeled_data_percentage    0.125",3134.0,3021.0,3376.0
+"CCE, SD=4    labeled_data_percentage    0.05",3362.0,3268.0,3000.0
+"CCE, SD=4    labeled_data_percentage    0.01",3723.0,3939.0,3427.0
+"CCE, SD=4    sampling_density    15",0.0,0.0,0.0
+"CCE, SD=4    sampling_density    25",0.0,0.0,0.0
+"CCE, SD=4    sampling_density    50",0.0,0.0,0.0
+"CCE, SD=4    sampling_density    100",0.0,0.0,0.0
+"CCE, SD=4    sampling_density    150",0.0,0.0,0.0
+"CCE, SD=4    sampling_density    300",0.0,0.0,0.0
+"JSD, SD=4    training_method    supervised",2708.0,2695.0,2738.0
+"JSD, SD=4    training_method    supervised_2_percent",2624.0,2609.0,2669.0
+"JSD, SD=4    training_method    semi",2907.0,3007.0,2956.0
+"JSD, SD=4    training_method    semi_sup_first",4076.0,4156.0,4146.0
+"JSD, SD=4    training_method    semi_mixed",3620.0,3666.0,3631.0
+"JSD, SD=4    training_method    unsupervised",4154.0,4226.0,4250.0
+"JSD, SD=4    activation_types    ['relu']",2576.0,2603.0,2671.0
+"JSD, SD=4    activation_types    ['relu', 'relu', 'relu', 'relu', 'relu']",2740.0,2844.0,2879.0
+"JSD, SD=4    activation_types    ['sin', 'cos', 'linear']",2826.0,2896.0,2807.0
+"JSD, SD=4    activation_types    ['sin', 'cos', 'linear', 'relu', 'sigmoid']",2824.0,2740.0,2732.0
+"JSD, SD=4    input_layer_type    dense",3049.0,2909.0,3256.0
+"JSD, SD=4    input_layer_type    gaussian_dropout",2752.0,3029.0,2949.0
+"JSD, SD=4    input_layer_type    sqrt_softmax",3140.0,3170.0,2926.0
+"JSD, SD=4    input_layer_type    gaussian_kernel",2986.0,2942.0,3127.0
+"JSD, SD=4    input_layer_type    CNN",2781.0,3141.0,2852.0
+"JSD, SD=4    input_layer_type    VAE",3140.0,3201.0,3231.0
+"JSD, SD=4    encoding_dim    2",2864.0,2913.0,2854.0
+"JSD, SD=4    encoding_dim    3",2847.0,3027.0,2952.0
+"JSD, SD=4    encoding_dim    6",2952.0,2836.0,2832.0
+"JSD, SD=4    hidden_layers    5",2898.0,3015.0,2889.0
+"JSD, SD=4    hidden_layers    7",2815.0,2752.0,2864.0
+"JSD, SD=4    hidden_layers    9",2804.0,2867.0,2857.0
+"JSD, SD=4    hidden_layers    27",2924.0,2795.0,2834.0
+"JSD, SD=4    activity_regularizer    ",2793.0,2905.0,2898.0
+"JSD, SD=4    activity_regularizer    L2, 0.01",2821.0,2897.0,2895.0
+"JSD, SD=4    activity_regularizer    L1, 0.01",2829.0,2958.0,2727.0
+"JSD, SD=4    activity_regularizer    L1, 10^-4",2732.0,2797.0,2784.0
+"JSD, SD=4    sigma    0.005",0.0,0.0,0.0
+"JSD, SD=4    sigma    0.01",72.0,69.0,72.0
+"JSD, SD=4    sigma    0.05",10349.0,10030.0,9860.0
+"JSD, SD=4    sigma    0.1",12376.0,12458.0,12211.0
+"JSD, SD=4    sigma    0.2",12983.0,12922.0,12832.0
+"JSD, SD=4    BN_size    2",1770.0,1845.0,1842.0
+"JSD, SD=4    BN_size    4",3883.0,3969.0,3974.0
+"JSD, SD=4    BN_size    5",4968.0,4971.0,4985.0
+"JSD, SD=4    BN_size    10",10066.0,10327.0,10430.0
+"JSD, SD=4    BN_size    20",21043.0,21509.0,21111.0
+"JSD, SD=4    BN_size    30",32114.0,32798.0,32242.0
+"JSD, SD=4    labeled_data_percentage    99",2807.0,2829.0,2773.0
+"JSD, SD=4    labeled_data_percentage    50",2916.0,2819.0,2787.0
+"JSD, SD=4    labeled_data_percentage    20",2820.0,2699.0,2937.0
+"JSD, SD=4    labeled_data_percentage    10",2778.0,2717.0,2907.0
+"JSD, SD=4    labeled_data_percentage    5",2892.0,2890.0,2782.0
+"JSD, SD=4    labeled_data_percentage    1",2948.0,2996.0,2732.0
+"JSD, SD=4    labeled_data_percentage    0.5",2972.0,3238.0,2931.0
+"JSD, SD=4    labeled_data_percentage    0.25",2854.0,2962.0,3234.0
+"JSD, SD=4    labeled_data_percentage    0.125",3325.0,3177.0,3155.0
+"JSD, SD=4    labeled_data_percentage    0.05",3244.0,3539.0,2910.0
+"JSD, SD=4    labeled_data_percentage    0.01",3690.0,3654.0,4030.0
+"JSD, SD=4    sampling_density    15",0.0,0.0,0.0
+"JSD, SD=4    sampling_density    25",0.0,0.0,0.0
+"JSD, SD=4    sampling_density    50",0.0,0.0,0.0
+"JSD, SD=4    sampling_density    100",0.0,0.0,0.0
+"JSD, SD=4    sampling_density    150",0.0,0.0,0.0
+"JSD, SD=4    sampling_density    300",0.0,0.0,0.0
+"JSD, SD=4    gaussian_noise_sigma    lambda SD, 0.01",3037.0,3153.0,2996.0
+"JSD, SD=4    gaussian_noise_sigma    lambda SD, 0.02",3047.0,2957.0,3033.0
+"JSD, SD=4    gaussian_noise_sigma    lambda SD, 0.05",3234.0,3049.0,3005.0
+"JSD, SD=4    gaussian_noise_sigma    lambda SD, 0.1",3018.0,2835.0,2862.0
+"JSD, SD=4    gaussian_noise_sigma    lambda SD, 0.2",2953.0,2843.0,2981.0
+"JSD, SD=4    gaussian_noise_sigma    lambda SD, (0.01 over SD) cdot 100",2866.0,2820.0,2836.0
+"JSD, SD=4    gaussian_noise_sigma    lambda SD, (0.02 over SD) cdot 100",2734.0,2727.0,2703.0
+"JSD, SD=4    gaussian_noise_sigma    lambda SD, (0.05 over SD) cdot 100",3191.0,3001.0,2866.0
+"JSD, SD=4    gaussian_noise_sigma    lambda SD, (0.1 over SD) cdot 100",3126.0,3168.0,3203.0
+"JSD, SD=4    gaussian_noise_sigma    lambda SD, (0.2 over SD) cdot 100",3128.0,3112.0,3222.0
+"JSD, SD=4    missing_entry    0.001",13.0,15.0,7.0
+"JSD, SD=4    missing_entry    0.005",53.0,67.0,63.0
+"JSD, SD=4    missing_entry    0.01",119.0,132.0,114.0
+"JSD, SD=4    missing_entry    0.05",613.0,604.0,692.0
+"JSD, SD=4    missing_entry    0.1",1317.0,1362.0,1327.0
+"JSD, SD=4    missing_entry    0.5",7080.0,7058.0,7214.0
+"JSD, SD=4    missing_entry_combined    0.001",2917.0,2901.0,2879.0
+"JSD, SD=4    missing_entry_combined    0.005",2888.0,2927.0,2998.0
+"JSD, SD=4    missing_entry_combined    0.01",3055.0,3117.0,2887.0
+"JSD, SD=4    missing_entry_combined    0.05",3542.0,3393.0,3512.0
+"JSD, SD=4    missing_entry_combined    0.1",4002.0,4018.0,4114.0
+"JSD, SD=4    missing_entry_combined    0.5",9166.0,9254.0,9523.0
+"JSD, SD=4    missing_entry_no_denoising    0.001",21.0,18.0,25.0
+"JSD, SD=4    missing_entry_no_denoising    0.005",98.0,103.0,88.0
+"JSD, SD=4    missing_entry_no_denoising    0.01",176.0,206.0,164.0
+"JSD, SD=4    missing_entry_no_denoising    0.05",743.0,627.0,799.0
+"JSD, SD=4    missing_entry_no_denoising    0.1",1257.0,1375.0,1453.0
+"JSD, SD=4    missing_entry_no_denoising    0.5",7548.0,7114.0,7222.0
+"JSD, SD=4    rows    100",37.0,30.0,31.0
+"JSD, SD=4    rows    1000",310.0,305.0,287.0
+"JSD, SD=4    rows    100000",27838.0,27863.0,27928.0
+"JSD, SD=4    rows    1000000",277354.0,271938.0,276263.0
+"CCEu, SD=4    sampling_density    15",0.0,0.0,0.0
+"CCEu, SD=4    sampling_density    25",0.0,0.0,0.0
+"CCEu, SD=4    sampling_density    50",0.0,0.0,0.0
+"CCEu, SD=4    sampling_density    100",0.0,0.0,0.0
+"CCEu, SD=4    sampling_density    150",0.0,0.0,0.0
+"CCEu, SD=4    sampling_density    300",0.0,0.0,0.0
+"JSDu, SD=4    activation_types    ['relu']",3098.0,2756.0,2727.0
+"JSDu, SD=4    activation_types    ['relu', 'relu', 'relu', 'relu', 'relu']",3943.0,4038.0,4103.0
+"JSDu, SD=4    activation_types    ['sin', 'cos', 'linear']",3971.0,3950.0,3601.0
+"JSDu, SD=4    activation_types    ['sin', 'cos', 'linear', 'relu', 'sigmoid']",4064.0,4133.0,3976.0
+"JSDu, SD=4    input_layer_type    dense",4798.0,4673.0
+"JSDu, SD=4    input_layer_type    gaussian_dropout",4796.0,4772.0
+"JSDu, SD=4    input_layer_type    sqrt_softmax",5188.0,5117.0
+"JSDu, SD=4    input_layer_type    gaussian_kernel",4515.0,4644.0
+"JSDu, SD=4    input_layer_type    CNN",4683.0,4739.0
+"JSDu, SD=4    input_layer_type    VAE",3020.0,3040.0
+"JSDu, SD=4    encoding_dim    2",4017.0,4159.0
+"JSDu, SD=4    encoding_dim    3",4163.0,4211.0
+"JSDu, SD=4    encoding_dim    6",3781.0,3840.0
+"JSDu, SD=4    hidden_layers    5",4043.0,4094.0
+"JSDu, SD=4    hidden_layers    7",3815.0,3902.0
+"JSDu, SD=4    hidden_layers    9",3816.0,4003.0
+"JSDu, SD=4    hidden_layers    27",3693.0,3596.0
+"JSDu, SD=4    activity_regularizer    ",4194.0,4215.0
+"JSDu, SD=4    activity_regularizer    L2, 0.01",4022.0,3933.0
+"JSDu, SD=4    activity_regularizer    L1, 0.01",4075.0,4119.0
+"JSDu, SD=4    activity_regularizer    L1, 10^-4",4047.0,4085.0
+"JSDu, SD=4    sigma    0.005",0.0,0.0
+"JSDu, SD=4    sigma    0.01",83.0,82.0
+"JSDu, SD=4    sigma    0.05",14606.0,13507.0
+"JSDu, SD=4    sigma    0.1",16835.0,18172.0
+"JSDu, SD=4    sigma    0.2",18360.0,19081.0
+"JSDu, SD=4    BN_size    2",2649.0,2815.0
+"JSDu, SD=4    BN_size    4",5552.0,5628.0
+"JSDu, SD=4    BN_size    5",6842.0,6890.0
+"JSDu, SD=4    BN_size    10",13889.0,14047.0
+"JSDu, SD=4    BN_size    20",28350.0,28183.0
+"JSDu, SD=4    BN_size    30",43366.0,42550.0
+"JSDu, SD=4    sampling_density    15",0.0,0.0
+"JSDu, SD=4    sampling_density    25",0.0,0.0
+"JSDu, SD=4    sampling_density    50",0.0,0.0
+"JSDu, SD=4    sampling_density    100",0.0,0.0,0.0
+"JSDu, SD=4    sampling_density    150",0.0,0.0
+"JSDu, SD=4    sampling_density    300",0.0,0.0
+"JSDu, SD=4    gaussian_noise_sigma    lambda SD, 0.01",4966.0,4941.0
+"JSDu, SD=4    gaussian_noise_sigma    lambda SD, 0.02",4719.0,4753.0
+"JSDu, SD=4    gaussian_noise_sigma    lambda SD, 0.05",4526.0,4876.0
+"JSDu, SD=4    gaussian_noise_sigma    lambda SD, 0.1",4930.0,5070.0
+"JSDu, SD=4    gaussian_noise_sigma    lambda SD, 0.2",4507.0,4320.0
+"JSDu, SD=4    gaussian_noise_sigma    lambda SD, (0.01 over SD) cdot 100",4214.0,4182.0
+"JSDu, SD=4    gaussian_noise_sigma    lambda SD, (0.02 over SD) cdot 100",3071.0,3141.0
+"JSDu, SD=4    gaussian_noise_sigma    lambda SD, (0.05 over SD) cdot 100",2936.0,2925.0
+"JSDu, SD=4    gaussian_noise_sigma    lambda SD, (0.1 over SD) cdot 100",3041.0,2970.0
+"JSDu, SD=4    gaussian_noise_sigma    lambda SD, (0.2 over SD) cdot 100",3197.0,3022.0
+"JSDu, SD=4    missing_entry    0.001",16.0,15.0
+"JSDu, SD=4    missing_entry    0.005",54.0,64.0
+"JSDu, SD=4    missing_entry    0.01",122.0,112.0
+"JSDu, SD=4    missing_entry    0.05",650.0,768.0
+"JSDu, SD=4    missing_entry    0.1",2180.0,1872.0
+"JSDu, SD=4    missing_entry    0.5",9596.0,11650.0
+"JSDu, SD=4    missing_entry_combined    0.001",3989.0,4139.0
+"JSDu, SD=4    missing_entry_combined    0.005",4366.0,4151.0
+"JSDu, SD=4    missing_entry_combined    0.01",4349.0,4356.0
+"JSDu, SD=4    missing_entry_combined    0.05",4540.0,4488.0
+"JSDu, SD=4    missing_entry_combined    0.1",5483.0,5069.0
+"JSDu, SD=4    missing_entry_combined    0.5",10880.0,11112.0
+"JSDu, SD=4    missing_entry_no_denoising    0.001",18.0,15.0
+"JSDu, SD=4    missing_entry_no_denoising    0.005",106.0,92.0
+"JSDu, SD=4    missing_entry_no_denoising    0.01",224.0,253.0
+"JSDu, SD=4    missing_entry_no_denoising    0.05",1185.0,884.0
+"JSDu, SD=4    missing_entry_no_denoising    0.1",2276.0,2261.0
+"JSDu, SD=4    missing_entry_no_denoising    0.5",10642.0,10981.0
+"JSDu, SD=4    rows    100",24.0,28.0
+"JSDu, SD=4    rows    1000",418.0,380.0
+"JSDu, SD=4    rows    100000",39901.0,40114.0
+"JSDu, SD=4    rows    1000000",369510.0,377343.0
+"CCE, SD=100    training_method    supervised",0.0,0.0
+"CCE, SD=100    training_method    supervised_2_percent",0.0,0.0
+"CCE, SD=100    training_method    semi_sup_first",0.0,0.0
+"CCE, SD=100    training_method    semi_mixed",0.0,0.0
+"CCE, SD=100    labeled_data_percentage    99",0.0,0.0
+"CCE, SD=100    labeled_data_percentage    50",0.0
+"CCE, SD=100    labeled_data_percentage    20",0.0
+"CCE, SD=100    labeled_data_percentage    10",0.0
+"CCE, SD=100    labeled_data_percentage    5",0.0
+"CCE, SD=100    labeled_data_percentage    1",0.0
+"CCE, SD=100    labeled_data_percentage    0.5",0.0
+"CCE, SD=100    labeled_data_percentage    0.25",0.0
+"CCE, SD=100    labeled_data_percentage    0.125",0.0
+"CCE, SD=100    labeled_data_percentage    0.05",0.0
+"CCE, SD=100    labeled_data_percentage    0.01",0.0
+"JSD, SD=100    training_method    supervised",0.0
+"JSD, SD=100    training_method    supervised_2_percent",0.0
+"JSD, SD=100    training_method    semi_sup_first",0.0
+"JSD, SD=100    training_method    semi_mixed",0.0
+"JSD, SD=100    activation_types    ['relu']",0.0
+"JSD, SD=100    activation_types    ['relu', 'relu', 'relu', 'relu', 'relu']",0.0
+"JSD, SD=100    activation_types    ['sin', 'cos', 'linear']",0.0
+"JSD, SD=100    activation_types    ['sin', 'cos', 'linear', 'relu', 'sigmoid']",0.0
+"JSD, SD=100    input_layer_type    dense",0.0
+"JSD, SD=100    input_layer_type    gaussian_dropout",0.0
+"JSD, SD=100    input_layer_type    sqrt_softmax",0.0
+"JSD, SD=100    input_layer_type    gaussian_kernel",0.0
+"JSD, SD=100    input_layer_type    CNN",0.0
+"JSD, SD=100    input_layer_type    VAE",0.0
+"JSD, SD=100    encoding_dim    2",0.0
+"JSD, SD=100    encoding_dim    3",0.0
+"JSD, SD=100    encoding_dim    6",0.0
+"JSD, SD=100    hidden_layers    5",0.0
+"JSD, SD=100    hidden_layers    7",0.0
+"JSD, SD=100    hidden_layers    9",0.0
+"JSD, SD=100    hidden_layers    27",0.0
+"JSD, SD=100    activity_regularizer    ",0.0
+"JSD, SD=100    activity_regularizer    L2, 0.01",0.0
+"JSD, SD=100    activity_regularizer    L1, 0.01",0.0
+"JSD, SD=100    activity_regularizer    L1, 10^-4",0.0
+"JSD, SD=100    sigma    0.005",0.0
+"JSD, SD=100    sigma    0.01",0.0
+"JSD, SD=100    sigma    0.05",0.0
+"JSD, SD=100    sigma    0.1",0.0
+"JSD, SD=100    sigma    0.2",192.0
+"JSD, SD=100    BN_size    2",0.0
+"JSD, SD=100    BN_size    4",0.0
+"JSD, SD=100    BN_size    5",0.0
+"JSD, SD=100    labeled_data_percentage    99",0.0
+"JSD, SD=100    labeled_data_percentage    50",0.0
+"JSD, SD=100    labeled_data_percentage    20",0.0
+"JSD, SD=100    labeled_data_percentage    10",0.0
+"JSD, SD=100    labeled_data_percentage    5",0.0
+"JSD, SD=100    labeled_data_percentage    1",0.0
+"JSD, SD=100    labeled_data_percentage    0.5",0.0
+"JSD, SD=100    labeled_data_percentage    0.25",0.0
+"JSD, SD=100    labeled_data_percentage    0.125",0.0
+"JSD, SD=100    labeled_data_percentage    0.05",0.0
+"JSD, SD=100    labeled_data_percentage    0.01",0.0
+"JSD, SD=100    gaussian_noise_sigma    lambda SD, 0.01",0.0
+"JSD, SD=100    gaussian_noise_sigma    lambda SD, 0.02",0.0
+"JSD, SD=100    gaussian_noise_sigma    lambda SD, 0.05",0.0
+"JSD, SD=100    gaussian_noise_sigma    lambda SD, 0.1",0.0
+"JSD, SD=100    gaussian_noise_sigma    lambda SD, 0.2",0.0
+"JSD, SD=100    gaussian_noise_sigma    lambda SD, (0.01 over SD) cdot 100",0.0
+"JSD, SD=100    gaussian_noise_sigma    lambda SD, (0.02 over SD) cdot 100",0.0
+"JSD, SD=100    gaussian_noise_sigma    lambda SD, (0.05 over SD) cdot 100",0.0
+"JSD, SD=100    gaussian_noise_sigma    lambda SD, (0.1 over SD) cdot 100",0.0
+"JSD, SD=100    gaussian_noise_sigma    lambda SD, (0.2 over SD) cdot 100",0.0
+"JSD, SD=100    missing_entry    0.001",29.0
+"JSD, SD=100    missing_entry    0.005",108.0
+"JSD, SD=100    missing_entry    0.01",275.0
+"JSD, SD=100    missing_entry    0.05",988.0
+"JSD, SD=100    missing_entry    0.1",1978.0
+"JSD, SD=100    missing_entry    0.5",9902.0
+"JSD, SD=100    missing_entry_combined    0.001",21.0
+"JSD, SD=100    missing_entry_combined    0.005",101.0
+"JSD, SD=100    missing_entry_combined    0.01",190.0
+"JSD, SD=100    missing_entry_combined    0.05",972.0
+"JSD, SD=100    missing_entry_combined    0.1",1977.0
+"JSD, SD=100    missing_entry_combined    0.5",9847.0
+"JSD, SD=100    missing_entry_no_denoising    0.001",23.0
+"JSD, SD=100    missing_entry_no_denoising    0.005",104.0
+"JSD, SD=100    missing_entry_no_denoising    0.01",224.0
+"JSD, SD=100    missing_entry_no_denoising    0.05",964.0
+"JSD, SD=100    missing_entry_no_denoising    0.1",1967.0
+"JSD, SD=100    missing_entry_no_denoising    0.5",9950.0
+"JSD, SD=100    rows    100",0.0
+"JSD, SD=100    rows    1000",0.0
+"JSD, SD=100    rows    100000",0.0
+"JSD, SD=100    rows    1000000",0.0
+"JSDu, SD=100    activation_types    ['relu']",0.0
+"JSDu, SD=100    activation_types    ['relu', 'relu', 'relu', 'relu', 'relu']",0.0
+"JSDu, SD=100    activation_types    ['sin', 'cos', 'linear']",0.0
+"JSDu, SD=100    activation_types    ['sin', 'cos', 'linear', 'relu', 'sigmoid']",0.0
+"JSDu, SD=100    input_layer_type    dense",0.0
+"JSDu, SD=100    input_layer_type    gaussian_dropout",0.0
+"JSDu, SD=100    input_layer_type    sqrt_softmax",0.0
+"JSDu, SD=100    input_layer_type    gaussian_kernel",0.0
+"JSDu, SD=100    input_layer_type    CNN",0.0
+"JSDu, SD=100    input_layer_type    VAE",0.0
+"JSDu, SD=100    encoding_dim    2",0.0
+"JSDu, SD=100    encoding_dim    3",0.0
+"JSDu, SD=100    encoding_dim    6",0.0
+"JSDu, SD=100    hidden_layers    5",0.0
+"JSDu, SD=100    hidden_layers    7",0.0
+"JSDu, SD=100    hidden_layers    9",0.0
+"JSDu, SD=100    hidden_layers    27",0.0
+"JSDu, SD=100    activity_regularizer    ",0.0
+"JSDu, SD=100    activity_regularizer    L2, 0.01",0.0
+"JSDu, SD=100    activity_regularizer    L1, 0.01",0.0
+"JSDu, SD=100    activity_regularizer    L1, 10^-4",0.0
+"JSDu, SD=100    sigma    0.005",0.0
+"JSDu, SD=100    sigma    0.01",0.0
+"JSDu, SD=100    sigma    0.05",0.0
+"JSDu, SD=100    sigma    0.1",0.0
+"JSDu, SD=100    sigma    0.2",184.0
+"JSDu, SD=100    BN_size    2",0.0
+"JSDu, SD=100    BN_size    4",0.0
+"JSDu, SD=100    BN_size    5",0.0
+"JSDu, SD=100    gaussian_noise_sigma    lambda SD, 0.01",0.0
+"JSDu, SD=100    gaussian_noise_sigma    lambda SD, 0.02",0.0
+"JSDu, SD=100    gaussian_noise_sigma    lambda SD, 0.05",0.0
+"JSDu, SD=100    gaussian_noise_sigma    lambda SD, 0.1",0.0
+"JSDu, SD=100    gaussian_noise_sigma    lambda SD, 0.2",0.0
+"JSDu, SD=100    gaussian_noise_sigma    lambda SD, (0.01 over SD) cdot 100",0.0
+"JSDu, SD=100    gaussian_noise_sigma    lambda SD, (0.02 over SD) cdot 100",0.0
+"JSDu, SD=100    gaussian_noise_sigma    lambda SD, (0.05 over SD) cdot 100",0.0
+"JSDu, SD=100    gaussian_noise_sigma    lambda SD, (0.1 over SD) cdot 100",0.0
+"JSDu, SD=100    gaussian_noise_sigma    lambda SD, (0.2 over SD) cdot 100",0.0,0.0
+"JSDu, SD=100    missing_entry    0.001",30.0,26.0,29.0
+"JSDu, SD=100    missing_entry    0.005",139.0,150.0,150.0
+"JSDu, SD=100    missing_entry    0.01",292.0,300.0,296.0
+"JSDu, SD=100    missing_entry    0.05",1402.0,1480.0,1462.0
+"JSDu, SD=100    missing_entry    0.1",2957.0,2844.0,2796.0
+"JSDu, SD=100    missing_entry    0.5",14800.0,14835.0,14735.0
+"JSDu, SD=100    missing_entry_combined    0.001",24.0,25.0,22.0
+"JSDu, SD=100    missing_entry_combined    0.005",131.0,140.0,121.0
+"JSDu, SD=100    missing_entry_combined    0.01",269.0,269.0,263.0
+"JSDu, SD=100    missing_entry_combined    0.05",1367.0,1409.0,1425.0
+"JSDu, SD=100    missing_entry_combined    0.1",2831.0,2918.0,2934.0
+"JSDu, SD=100    missing_entry_combined    0.5",14485.0,14749.0,14413.0
+"JSDu, SD=100    missing_entry_no_denoising    0.001",23.0,22.0,26.0
+"JSDu, SD=100    missing_entry_no_denoising    0.005",143.0,144.0,145.0
+"JSDu, SD=100    missing_entry_no_denoising    0.01",230.0,291.0,290.0
+"JSDu, SD=100    missing_entry_no_denoising    0.05",1353.0,1451.0,1461.0
+"JSDu, SD=100    missing_entry_no_denoising    0.1",2713.0,2622.0,2748.0
+"JSDu, SD=100    missing_entry_no_denoising    0.5",14790.0,11484.0,14829.0
+"JSDu, SD=100    rows    100",0.0,0.0,0.0
+"JSDu, SD=100    rows    1000",0.0,0.0,0.0
+"JSDu, SD=100    rows    100000",0.0,0.0,0.0
+"JSDu, SD=100    rows    1000000",0.0,0.0,0.0
