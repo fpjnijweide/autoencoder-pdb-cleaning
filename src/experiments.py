@@ -193,7 +193,7 @@ def measure_performance(df, hard_evidence, autoencoder, sizes_sorted, rows, full
         if bins is None:
             cleaned_database_non_pdb.iloc[:, column_index] = clean_val
         else:
-            if is_this_bin_categorical[i]:
+            if is_this_bin_categorical[column_index]:
                 cleaned_database_non_pdb.iloc[:, column_index] = bins[column_index][clean_val]
             else:
                 if len(bins[column_index])>1:
