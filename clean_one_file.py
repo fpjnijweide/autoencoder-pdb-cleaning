@@ -1,8 +1,10 @@
 import sys
 
 from src import data_cleaning
+import tensorflow as tf
 
 if __name__ == "__main__":
+    # tf.enable_eager_execution()
     if len(sys.argv)<3:
         filename = "input_data/Dataset - LBP RA small.csv"
         output_filename = "output_data/Dataset - LBP RA small_cleaned.csv"
