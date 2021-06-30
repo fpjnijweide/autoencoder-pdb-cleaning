@@ -151,7 +151,7 @@ class Sampling(keras.layers.Layer):
 
 def train_network(epochs, df, hard_evidence, activation_types, hidden_layers, encoding_dim, sizes_sorted, loss_function,
                   training_method, activity_regularizer, input_layer_type, labeled_data_percentage, VAE, CNN,
-                  kernel_landmarks, CNN_layers, CNN_filters, CNN_kernel_size, gaussian_noise_sigma):
+                  kernel_landmarks, CNN_layers, CNN_filters, CNN_kernel_size, gaussian_noise_sigma,is_this_bin_categorical):
     x_train, y_train, x_train_nolabel = None, None, None
 
     if training_method == 'supervised':

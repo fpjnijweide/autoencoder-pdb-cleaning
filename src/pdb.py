@@ -184,6 +184,8 @@ def make_df(use_file, bn, mu, sigma, use_gaussian_noise, use_missing_entry, miss
             gum.generateCSV(bn, filename_no_extension + "_database_original" + gpu_string + ".csv", rows)
             original_database = pd.read_csv(filename_no_extension + "_database_original" + gpu_string + ".csv")
         original_database = original_database.reindex(sorted(original_database.columns), axis=1)
+
+
     if output_data_string is None:
         original_database.to_csv("./output_data/" + full_string + "/database_original" + gpu_string + ".csv")
     else:
@@ -201,6 +203,7 @@ def make_df(use_file, bn, mu, sigma, use_gaussian_noise, use_missing_entry, miss
 
         df_cols_sorted = sorted(list(original_database.columns))
         sizes_sorted = [size_dict[x] for x in df_cols_sorted]
+        is_this_bin_categorical = list(np.array(sizes_sorted) <= 15)
         sizes_sorted_with_leading_zero = [0] + sizes_sorted
 
         data = np.ones(original_database.shape[0] * original_database.shape[1])
@@ -220,6 +223,7 @@ def make_df(use_file, bn, mu, sigma, use_gaussian_noise, use_missing_entry, miss
         index2 = pd.MultiIndex.from_tuples(tuples2, names=['Variable', 'Value'])
 
         hard_evidence = pd.DataFrame(input3, columns=index2)
+
     if output_data_string is None:
         hard_evidence.to_csv("./output_data/" + full_string + "/ground_truth" + gpu_string + ".csv")
     else:
@@ -269,7 +273,7 @@ def make_df(use_file, bn, mu, sigma, use_gaussian_noise, use_missing_entry, miss
     if output_data_string is None:
         df.to_csv("./output_data/" + full_string + "/noisy_data" + gpu_string + ".csv")
 
-    return df, hard_evidence, sizes_sorted, gaussian_noise_layer_sigma_new, original_database, bins
+    return df, hard_evidence, sizes_sorted, gaussian_noise_layer_sigma_new, original_database, bins, is_this_bin_categorical
 
 
 def normalize_df(df):
