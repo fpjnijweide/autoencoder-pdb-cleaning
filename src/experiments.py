@@ -231,7 +231,10 @@ def measure_performance(df, hard_evidence, autoencoder, sizes_sorted, rows, full
                 real_clean_val = np.dot(cleaned_attribute.values, bins[original_col] + 0.5*bin_width)
                 real_dirty_val = np.dot(dirty_attribute.values, bins[original_col] + 0.5*bin_width)
 
-        cleaned_database_non_pdb.iloc[:, original_col] = real_clean_val
+        if is_this_bin_categorical[original_col]:
+            cleaned_database_non_pdb.iloc[:, original_col] = real_clean_val
+        else:
+            cleaned_database_non_pdb.iloc[:, original_col] = np.round(real_clean_val,2)
 
 
         pdb_col += categories
