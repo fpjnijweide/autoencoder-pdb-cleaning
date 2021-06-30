@@ -1,4 +1,6 @@
 import math
+import sys
+
 import numpy as np
 import sklearn.model_selection
 import tensorflow as tf
@@ -6,8 +8,8 @@ from tensorflow import keras as keras
 from tensorflow.python.keras.utils import tf_utils
 from tensorflow.python.ops import array_ops
 
-from .gkernel import GaussianKernel3
-from .probabilities import JSD, wasserstein_loss_rescaled
+from src.gkernel import GaussianKernel3
+from src.probabilities import JSD, wasserstein_loss_rescaled
 
 activation_types_default = [keras.backend.sin, keras.backend.cos, keras.activations.linear, 'relu',
                             'swish']  # Activation layer types
@@ -123,6 +125,11 @@ def wasserstein_custom_loss(y_true, y_pred, sizes_sorted, loss_func,bins,is_this
     loss_list = []
 
     for column_nr, size in enumerate(sizes_sorted):
+        missing_rows_clean_for_this_col_bool = (tf.reduce_max(y_true[:, i:i + size], 1) == tf.reduce_min(y_true[:, i:i + size], 1)) & (size > 1)
+        # When calculating loss, simply do not add any loss when the "true" entry is missing
+        # Tensorflow does not allow changing variables in eager tensors, but we can change y_pred!
+        y_pred[missing_rows_clean_for_this_col_bool, i:i + size] = y_true[missing_rows_clean_for_this_col_bool,i:i + size]
+
         if not is_this_bin_categorical[column_nr]:
             new_loss = wasserstein_loss_rescaled(y_true[:, i:i + size], y_pred[:, i:i + size], bins[column_nr])
         else:
@@ -148,6 +155,10 @@ def custom_loss(y_true, y_pred, sizes_sorted, loss_func,bins,is_this_bin_categor
     loss_list = []
 
     for size in sizes_sorted:
+        missing_rows_clean_for_this_col_bool = (tf.reduce_max(y_true[:, i:i + size], 1) == tf.reduce_min(y_true[:, i:i + size], 1)) & (size > 1)
+        # When calculating loss, simply do not add any loss when the "true" entry is missing
+        # Tensorflow does not allow changing variables in eager tensors, but we can change y_pred!
+        y_pred[missing_rows_clean_for_this_col_bool, i:i + size] = y_true[missing_rows_clean_for_this_col_bool,i:i + size]
         new_loss = loss_func(y_true[:, i:i + size], y_pred[:, i:i + size])
         loss_list.append(new_loss)
         i += size
@@ -299,5 +310,44 @@ def train_network(epochs, df, hard_evidence, activation_types, hidden_layers, en
     else:
         raise Exception("Invalid training method")
     return autoencoder
+
+if __name__=='__main__':
+    sys.path.append('..')
+
+    sizes_sorted=[3,2,1,4]
+    bins=[np.array([0,1,2]),np.array([0,1]),np.array([0]),np.array([0,1,2,3])]
+    is_this_bin_categorical=[False,False,False,False]
+
+    y_true = np.random.randint(0, 2, size=(4, 10)).astype(np.float64)
+    y_true[:,5]=1
+    y_true[2,[0,1,2]]=(1/3)
+    y_pred = np.random.random(size=(4,10))
+
+    import pandas as pd
+
+    y_true = pd.DataFrame(y_true)
+    y_pred = pd.DataFrame(y_pred)
+
+    from src.pdb import normalize_df
+
+    pdb_col = 0
+    for original_col,size in enumerate(sizes_sorted):
+        y_true.iloc[:,pdb_col:pdb_col+size]=normalize_df(y_true.iloc[:,pdb_col:pdb_col+size])
+        y_pred.iloc[:, pdb_col:pdb_col + size] = normalize_df(y_pred.iloc[:, pdb_col:pdb_col + size])
+        pdb_col+=size
+    old_loss="JSD"
+
+    y_true=np.array(y_true)
+    y_pred=np.array(y_pred)
+
+    loss_function = lambda y_true, y_pred: custom_loss(y_true, y_pred, sizes_sorted, old_loss, bins,
+                                                       is_this_bin_categorical)
+
+
+    loss = loss_function(y_true, y_pred)
+    y_true = tf.keras.backend.clip(y_true, 1e-7, 1)
+    y_pred = tf.keras.backend.clip(y_pred, 1e-7, 1)
+    assert np.array_equal(
+        loss.numpy(), np.sum(y_true * np.log(y_true / y_pred), axis=-1))
 
 
