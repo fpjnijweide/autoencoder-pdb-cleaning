@@ -244,6 +244,7 @@ def make_df(use_file, bn, mu, sigma, use_gaussian_noise, use_missing_entry, miss
 
     # sigma = (sigma / sampling_density) * 100
 
+
     sigmas = []
     gaussian_noise_layer_sigmas = []
     for attribute_size in sizes_sorted:
@@ -256,6 +257,23 @@ def make_df(use_file, bn, mu, sigma, use_gaussian_noise, use_missing_entry, miss
 
     noise_columns = [np.random.normal(mu, scale=s, size=(hard_evidence.shape[0])) for s in sigmas_per_col]
     noise = np.vstack(noise_columns).T
+
+    missing_rows_clean = []
+    pdb_col = 0
+    for col_nr,col in enumerate(df_cols_sorted):
+        missing_rows_clean_for_this_col_bool = (np.max(hard_evidence[col].values, 1) == np.min(hard_evidence[col].values, 1)) & (hard_evidence[col].shape[1] > 1)
+        missing_rows_clean_for_this_col = list(missing_rows_clean_for_this_col_bool.nonzero()[0])
+        missing_rows_clean += missing_rows_clean_for_this_col
+
+        current_total_bins = sizes_sorted[col_nr]
+        # pdb_col_final = pdb_col + current_total_bins - 1
+        noise[missing_rows_clean_for_this_col,pdb_col:pdb_col+current_total_bins] = 0
+
+
+
+        pdb_col += current_total_bins
+
+    missing_rows_clean = np.unique(missing_rows_clean)
 
     # TODO rework how gaussian noise is added in the network, maybe need a custom layer
 
@@ -279,7 +297,7 @@ def make_df(use_file, bn, mu, sigma, use_gaussian_noise, use_missing_entry, miss
             col_index += size
 
     missing_rows_dirty=[]
-    missing_rows_clean=[]
+
     for col in df_cols_sorted:
         df[col] = normalize_df(df[col])
 
@@ -287,9 +305,6 @@ def make_df(use_file, bn, mu, sigma, use_gaussian_noise, use_missing_entry, miss
         missing_rows_dirty_for_this_col = list(missing_rows_dirty_for_this_col_bool.nonzero()[0])
         missing_rows_dirty += missing_rows_dirty_for_this_col
 
-        missing_rows_clean_for_this_col_bool = (np.max(hard_evidence[col].values, 1) == np.min(hard_evidence[col].values, 1)) & (hard_evidence[col].shape[1] > 1)
-        missing_rows_clean_for_this_col = list(missing_rows_clean_for_this_col_bool.nonzero()[0])
-        missing_rows_clean += missing_rows_clean_for_this_col
 
     if output_data_string is None:
         df.to_csv("./output_data/" + full_string + "/noisy_data" + gpu_string + ".csv")
@@ -297,7 +312,7 @@ def make_df(use_file, bn, mu, sigma, use_gaussian_noise, use_missing_entry, miss
 
 
     missing_rows_dirty = np.unique(missing_rows_dirty)
-    missing_rows_clean = np.unique(missing_rows_clean)
+
     return df, hard_evidence, sizes_sorted, gaussian_noise_layer_sigma_new, original_database, bins, is_this_bin_categorical,bin_widths,missing_rows_dirty,missing_rows_clean
 
 
