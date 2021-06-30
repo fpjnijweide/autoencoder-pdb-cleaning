@@ -220,7 +220,10 @@ def measure_performance(df, hard_evidence, autoencoder, sizes_sorted, rows, full
                 if len(bins[original_col]) > 1:
                     bin_width = np.array(bin_widths[original_col])
                 else:
-                    bin_width = 0
+                    bin_width = {}
+                    bin_width[ground_truth_val] = 0
+                    bin_width[clean_val] = 0
+                    bin_width[dirty_val] = 0
                 real_ground_truth_val = bins[original_col][ground_truth_val] + 0.5 * bin_width[ground_truth_val]
                 real_clean_val = bins[original_col][clean_val] + 0.5 * bin_width[clean_val]
                 real_dirty_val = bins[original_col][dirty_val] + 0.5 * bin_width[dirty_val]
@@ -238,8 +241,8 @@ def measure_performance(df, hard_evidence, autoencoder, sizes_sorted, rows, full
             column_continuous_MSE_before = np.square((real_dirty_val - real_ground_truth_val) / continuous_variable_range)
             column_continuous_MSE_after = np.square((real_clean_val - real_ground_truth_val) / continuous_variable_range)
 
-        continuous_MSE_before.append(column_continuous_MSE_before)
-        continuous_MSE_after.append(column_continuous_MSE_after)
+        continuous_MSE_before.append(np.nansum(column_continuous_MSE_before))
+        continuous_MSE_after.append(np.nansum(column_continuous_MSE_after))
 
         if is_this_bin_categorical[original_col]:
             cleaned_database_non_pdb.iloc[:, original_col] = real_clean_val
