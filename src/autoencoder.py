@@ -121,16 +121,6 @@ class VAE_model(keras.Model):
         }
 
 def wasserstein_custom_loss(y_true, y_pred, sizes_sorted, loss_func,bins,is_this_bin_categorical):
-    ones_and_zeroes = np.ones(tf.shape(y_pred))
-    i = 0
-    for size in sizes_sorted:
-        missing_rows_clean_for_this_col_bool = (tf.reduce_max(y_true[:, i:i + size], 1) == tf.reduce_min(y_true[:, i:i + size], 1)) & (size > 1)
-        missing_rows_for_this_col = tf.where(missing_rows_clean_for_this_col_bool)
-        ones_and_zeroes[missing_rows_for_this_col, i:i + size] = 0
-        i += size
-
-    y_pred=tf.math.multiply(y_pred,ones_and_zeroes)
-    y_true=tf.math.multiply(y_true,ones_and_zeroes)
     total_loss = 0
     loss_list = []
     i = 0
@@ -139,7 +129,13 @@ def wasserstein_custom_loss(y_true, y_pred, sizes_sorted, loss_func,bins,is_this
             new_loss = wasserstein_loss_rescaled(y_true[:, i:i + size], y_pred[:, i:i + size], bins[column_nr])
         else:
             new_loss = JSD(y_true[:, i:i + size], y_pred[:, i:i + size])
-        loss_list.append(new_loss)
+
+        missing_rows_clean_for_this_col_bool = (tf.reduce_max(y_true[:, i:i + size], 1) == tf.reduce_min(y_true[:, i:i + size], 1)) & (size > 1)
+        missing_rows_for_this_col = tf.where(missing_rows_clean_for_this_col_bool)
+        zeros_we_need = tf.math.count_nonzero(missing_rows_clean_for_this_col_bool)
+
+        new_loss2 = tf.tensor_scatter_nd_update(new_loss,missing_rows_for_this_col,tf.zeros(zeros_we_need,dtype=new_loss.dtype))
+        loss_list.append(new_loss2)
         i += size
     good_loss = tf.math.add_n(loss_list)
     return good_loss
@@ -162,8 +158,8 @@ def custom_loss(y_true, y_pred, sizes_sorted, loss_func,bins,is_this_bin_categor
         missing_rows_clean_for_this_col_bool = (tf.reduce_max(y_true[:, i:i + size], 1) == tf.reduce_min(y_true[:, i:i + size], 1)) & (size > 1)
         missing_rows_for_this_col = tf.where(missing_rows_clean_for_this_col_bool)
         zeros_we_need = tf.math.count_nonzero(missing_rows_clean_for_this_col_bool)
-        new_loss = loss_func(y_true[:, i:i + size], y_pred[:, i:i + size])
 
+        new_loss = loss_func(y_true[:, i:i + size], y_pred[:, i:i + size])
         new_loss2 = tf.tensor_scatter_nd_update(new_loss,missing_rows_for_this_col,tf.zeros(zeros_we_need,dtype=new_loss.dtype))
         loss_list.append(new_loss2)
         i += size
