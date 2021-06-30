@@ -125,7 +125,7 @@ def make_pdb(file_string, sampling_density):
 
     hard_evidence = pd.DataFrame(final_matrix, columns=pandas_column_index)
 
-    return df, sizes_sorted, hard_evidence, bins
+    return df, sizes_sorted, hard_evidence, bins, is_this_bin_categorical
 
 
 def load_from_csv(input_string):
@@ -164,13 +164,16 @@ def make_df(use_file, bn, mu, sigma, use_gaussian_noise, use_missing_entry, miss
             hard_evidence = pd.read_pickle(filename_no_extension + " SD=" + SD_string + ".pdb")
             sizes_sorted = list(pd.read_pickle(filename_no_extension + " sizes SD=" + SD_string + ".pkl"))
             bins = list(pd.read_pickle(filename_no_extension + " bins SD=" + SD_string + ".pkl"))
+            is_this_bin_categorical = list(pd.read_pickle(filename_no_extension + " categorical_bool SD=" + SD_string + ".pkl"))
         except:
-            original_database, sizes_sorted, hard_evidence, bins = make_pdb(use_file, sampling_density)
+            original_database, sizes_sorted, hard_evidence, bins, is_this_bin_categorical = make_pdb(use_file, sampling_density)
             if output_data_string is None:
                 original_database.to_pickle(filename_no_extension + " SD=" + SD_string + ".df")
                 hard_evidence.to_pickle(filename_no_extension + " SD=" + SD_string + ".pdb")
                 pd.Series(sizes_sorted).to_pickle(filename_no_extension + " sizes SD=" + SD_string + ".pkl")
                 pd.Series(bins).to_pickle(filename_no_extension + " bins SD=" + SD_string + ".pkl")
+                pd.Series(is_this_bin_categorical).to_pickle(filename_no_extension + " categorical_bool SD=" + SD_string + ".pkl")
+
         df_cols_sorted = original_database.columns
     else:
         if output_data_string is None:
@@ -276,7 +279,7 @@ def normalize_df(df):
 
 if __name__ == "__main__":
     # df, sizes_sorted, hard_evidence = make_pdb("surgical_case_durations.csv",None)
-    df, sizes_sorted, hard_evidence, bins = make_pdb("./input_data/Dataset - LBP RA.csv", None)
+    df, sizes_sorted, hard_evidence, bins, is_this_bin_categorical = make_pdb("./input_data/Dataset - LBP RA.csv", None)
     hard_evidence.to_pickle("./input_data/surgical_case_durations.pdb")
     hard_evidence2 = pd.read_pickle("./input_data/surgical_case_durations.pdb")
     print(hard_evidence.equals(hard_evidence2))
