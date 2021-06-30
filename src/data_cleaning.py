@@ -25,7 +25,8 @@ def clean_config(filename_out, autoencoder_filename, full_string=None, epochs=ep
                  missing_entry_prob=missing_entry_prob_default, rows=rows_default, use_file=use_file_default):
 
     bn = None
-    df, hard_evidence, sizes_sorted, gaussian_noise_layer_sigma_new, original_database, bins, is_this_bin_categorical = \
+    df, hard_evidence, sizes_sorted, gaussian_noise_layer_sigma_new, original_database, bins, is_this_bin_categorical,\
+        bin_widths = \
         make_df(use_file, bn, mu, sigma, use_gaussian_noise,use_missing_entry,missing_entry_prob,rows,full_string,
                 sampling_density,gaussian_noise_sigma,filename_out)
 
@@ -51,8 +52,7 @@ def clean_config(filename_out, autoencoder_filename, full_string=None, epochs=ep
                         rows,
                         full_string,
                         original_database,
-                        bins, is_this_bin_categorical,filename_out
-                        )
+                        bins, bin_widths,is_this_bin_categorical,filename_out)
 
     if autoencoder_filename is None:
         filename_no_extension = os.path.splitext(filename_out)[0]

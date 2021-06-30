@@ -68,7 +68,8 @@ def run_experiment(full_string=None, epochs=epochs_default, use_previous_df=Fals
         bn = make_bn(BN_size, sampling_density)
     else:
         bn = None
-    df, hard_evidence, sizes_sorted, gaussian_noise_layer_sigma_new, original_database, bins,is_this_bin_categorical = \
+    df, hard_evidence, sizes_sorted, gaussian_noise_layer_sigma_new, original_database, bins,is_this_bin_categorical, \
+        bin_widths= \
         make_df(use_file, bn,mu, sigma,use_gaussian_noise,use_missing_entry,missing_entry_prob,rows,full_string,
                 sampling_density,gaussian_noise_sigma)
 
@@ -87,7 +88,7 @@ def run_experiment(full_string=None, epochs=epochs_default, use_previous_df=Fals
 
     JSD_before, JSD_after, flip_TP, flip_TN, flip_FP, flip_FN, entropy_before, entropy_after,\
     wasserstein_JSD_before, wasserstein_JSD_after = measure_performance(df,hard_evidence,autoencoder,sizes_sorted,
-        rows,full_string,original_database,bins,is_this_bin_categorical)
+        rows,full_string,original_database,bins,bin_widths,is_this_bin_categorical)
 
     if not VAE:
         autoencoder.save("./output_data/" + full_string + "/model.h5")
@@ -99,7 +100,7 @@ def run_experiment(full_string=None, epochs=epochs_default, use_previous_df=Fals
     return JSD_before, JSD_after, flip_TP, flip_TN, flip_FP, flip_FN, entropy_before, entropy_after,wasserstein_JSD_before, wasserstein_JSD_after
 
 
-def measure_performance(df, hard_evidence, autoencoder, sizes_sorted, rows, full_string, original_database, bins,is_this_bin_categorical,output_data_string=None):
+def measure_performance(df, hard_evidence, autoencoder, sizes_sorted, rows, full_string, original_database, bins,bin_widths,is_this_bin_categorical,output_data_string=None):
     EXPECTATION_CONTINUOUS = True
 
     test_data = df.head(rows)
