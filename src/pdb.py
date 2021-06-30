@@ -212,6 +212,7 @@ def make_df(use_file, bn, mu, sigma, use_gaussian_noise, use_missing_entry, miss
         df_cols_sorted = sorted(list(original_database.columns))
         sizes_sorted = [size_dict[x] for x in df_cols_sorted]
         is_this_bin_categorical = list(np.array(sizes_sorted) <= 15)
+        bin_widths = [np.ones(size) for size in sizes_sorted]
         sizes_sorted_with_leading_zero = [0] + sizes_sorted
 
         data = np.ones(original_database.shape[0] * original_database.shape[1])
