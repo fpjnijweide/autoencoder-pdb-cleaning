@@ -120,46 +120,54 @@ class VAE_model(keras.Model):
             "kl_loss": self.kl_loss_tracker.result(),
         }
 
-def wasserstein_custom_loss(y_true, y_pred, sizes_sorted, loss_func,bins,is_this_bin_categorical):
-    total_loss = 0
-    loss_list = []
-    i = 0
-    for column_nr, size in enumerate(sizes_sorted):
-        if not is_this_bin_categorical[column_nr]:
-            new_loss = wasserstein_loss_rescaled(y_true[:, i:i + size], y_pred[:, i:i + size], bins[column_nr])
-        else:
-            new_loss = JSD(y_true[:, i:i + size], y_pred[:, i:i + size])
-
-        missing_rows_clean_for_this_col_bool = (tf.reduce_max(y_true[:, i:i + size], 1) == tf.reduce_min(y_true[:, i:i + size], 1)) & (size > 1)
-        missing_rows_for_this_col = tf.where(missing_rows_clean_for_this_col_bool)
-        zeros_we_need = tf.math.count_nonzero(missing_rows_clean_for_this_col_bool)
-
-        new_loss2 = tf.tensor_scatter_nd_update(new_loss,missing_rows_for_this_col,tf.zeros(zeros_we_need,dtype=new_loss.dtype))
-        loss_list.append(new_loss2)
-        i += size
-    good_loss = tf.math.add_n(loss_list)
-    return good_loss
+# def wasserstein_custom_loss(y_true, y_pred, sizes_sorted, loss_func,bins,is_this_bin_categorical):
+#     total_loss = 0
+#     loss_list = []
+#     i = 0
+#     for column_nr, size in enumerate(sizes_sorted):
+#         if not is_this_bin_categorical[column_nr]:
+#             new_loss = wasserstein_loss_rescaled(y_true[:, i:i + size], y_pred[:, i:i + size], bins[column_nr])
+#         else:
+#             new_loss = JSD(y_true[:, i:i + size], y_pred[:, i:i + size])
+#
+#         missing_rows_clean_for_this_col_bool = (tf.reduce_max(y_true[:, i:i + size], 1) == tf.reduce_min(y_true[:, i:i + size], 1)) & (size > 1)
+#         missing_rows_for_this_col = tf.where(missing_rows_clean_for_this_col_bool)
+#         zeros_we_need = tf.math.count_nonzero(missing_rows_clean_for_this_col_bool)
+#
+#         new_loss2 = tf.tensor_scatter_nd_update(new_loss,missing_rows_for_this_col,tf.zeros(zeros_we_need,dtype=new_loss.dtype))
+#         loss_list.append(new_loss2)
+#         i += size
+#     good_loss = tf.math.add_n(loss_list)
+#     return good_loss
 
 
 def custom_loss(y_true, y_pred, sizes_sorted, loss_func,bins,is_this_bin_categorical):
+    Wasserstein = False
     if loss_func == 'JSD':
         loss_func = JSD
     elif loss_func == "CCE":
         loss_func = keras.losses.categorical_crossentropy
     elif "wasserstein" in loss_func or "Wasserstein" in loss_func:
-        return wasserstein_custom_loss(y_true, y_pred, sizes_sorted, loss_func,bins,is_this_bin_categorical)
+        Wasserstein = True
     else:
         loss_func = keras.losses.get(loss_func)
 
 
     loss_list = []
     i = 0
-    for size in sizes_sorted:
+    for column_nr, size in enumerate(sizes_sorted):
         missing_rows_clean_for_this_col_bool = (tf.reduce_max(y_true[:, i:i + size], 1) == tf.reduce_min(y_true[:, i:i + size], 1)) & (size > 1)
         missing_rows_for_this_col = tf.where(missing_rows_clean_for_this_col_bool)
         zeros_we_need = tf.math.count_nonzero(missing_rows_clean_for_this_col_bool)
 
-        new_loss = loss_func(y_true[:, i:i + size], y_pred[:, i:i + size])
+        if not Wasserstein:
+            new_loss = loss_func(y_true[:, i:i + size], y_pred[:, i:i + size])
+        else:
+            if not is_this_bin_categorical[column_nr]:
+                new_loss = wasserstein_loss_rescaled(y_true[:, i:i + size], y_pred[:, i:i + size], bins[column_nr])
+            else:
+                new_loss = JSD(y_true[:, i:i + size], y_pred[:, i:i + size])
+
         new_loss2 = tf.tensor_scatter_nd_update(new_loss,missing_rows_for_this_col,tf.zeros(zeros_we_need,dtype=new_loss.dtype))
         loss_list.append(new_loss2)
         i += size
