@@ -196,15 +196,15 @@ def measure_performance(df, hard_evidence, autoencoder, sizes_sorted, rows, full
         if bins is None:
             cleaned_database_non_pdb.iloc[:, column_index] = clean_val
         else:
-            # TODO undo categorical here
-            if np.issubdtype(bins[column_index].dtype, np.number):
+            if is_this_bin_categorical[i]:
+                cleaned_database_non_pdb.iloc[:, column_index] = bins[column_index][clean_val]
+            else:
                 if len(bins[column_index])>1:
                     bin_width = bins[column_index][1] - bins[column_index][0]
                     cleaned_database_non_pdb.iloc[:, column_index] = bins[column_index][clean_val] + 0.5 * bin_width
                 else:
                     cleaned_database_non_pdb.iloc[:, column_index] = bins[column_index][clean_val]
-            else:
-                cleaned_database_non_pdb.iloc[:, column_index] = bins[column_index][clean_val]
+
 
         i += size
 
