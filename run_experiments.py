@@ -51,22 +51,22 @@ def main():
 
     experiments_config = ExperimentsConfig()
 
-    ground_config_strings_real_data_real_world_example = ["JSDu, surgical_case_durations NO_ADDED_NOISE",
-                                                          "JSDu, LBP RA NO_ADDED_NOISE",
-                                                          "JSDu, surgical_case_durations NO_ADDED_NOISE SD=4",
-                                                          "JSDu, LBP RA NO_ADDED_NOISE SD=4",
-                                                          "JSDu, surgical_case_durations NO_ADDED_NOISE SD=100",
-                                                          "JSDu, LBP RA NO_ADDED_NOISE SD=100"]
+    ground_config_strings_real_data_real_world_example = ["Wassersteinu, surgical_case_durations NO_ADDED_NOISE",
+                                                          "Wassersteinu, LBP RA NO_ADDED_NOISE",
+                                                          "Wassersteinu, surgical_case_durations NO_ADDED_NOISE SD=4",
+                                                          "Wassersteinu, LBP RA NO_ADDED_NOISE SD=4",
+                                                          "Wassersteinu, surgical_case_durations NO_ADDED_NOISE SD=100",
+                                                          "Wassersteinu, LBP RA NO_ADDED_NOISE SD=100"]
 
-    ground_config_strings_real_data = ["JSD, surgical_case_durations", "JSDu, surgical_case_durations", "JSD, LBP RA",
-                                       "JSDu, LBP RA",
-                                       "JSD, surgical_case_durations, SD=4", "JSDu, surgical_case_durations, SD=4",
-                                       "JSD, LBP RA, SD=4", "JSDu, LBP RA, SD=4",
-                                       "JSD, surgical_case_durations, SD=100", "JSDu, surgical_case_durations, SD=100",
-                                       "JSD, LBP RA, SD=100", "JSDu, LBP RA, SD=100"]
+    ground_config_strings_real_data = ["Wasserstein, surgical_case_durations", "Wassersteinu, surgical_case_durations", "Wasserstein, LBP RA",
+                                       "Wassersteinu, LBP RA",
+                                       "Wasserstein, surgical_case_durations, SD=4", "Wassersteinu, surgical_case_durations, SD=4",
+                                       "Wasserstein, LBP RA, SD=4", "Wassersteinu, LBP RA, SD=4",
+                                       "Wasserstein, surgical_case_durations, SD=100", "Wassersteinu, surgical_case_durations, SD=100",
+                                       "Wasserstein, LBP RA, SD=100", "Wassersteinu, LBP RA, SD=100"]
 
-    ground_config_strings_synthetic = ["CCE, SD=4", "JSD, SD=4", "CCEu, SD=4", "JSDu, SD=4", "CCE, SD=100", "JSD, SD=100",
-                                       "CCEu, SD=100", "JSDu, SD=100"]
+    ground_config_strings_synthetic = ["CCE, SD=4", "Wasserstein, SD=4", "CCEu, SD=4", "Wassersteinu, SD=4", "CCE, SD=100", "Wasserstein, SD=100",
+                                       "CCEu, SD=100", "Wassersteinu, SD=100"]
 
     ground_config_strings = ground_config_strings_real_data_real_world_example + ground_config_strings_real_data + ground_config_strings_synthetic
 
