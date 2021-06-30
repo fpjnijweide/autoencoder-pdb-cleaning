@@ -138,7 +138,7 @@ def measure_performance(df, hard_evidence, autoencoder, sizes_sorted, rows, full
             # do expectation for continuous if needed, but then fit it into a bin
             # numerical using expectation
             if len(bins[original_col]) > 1:
-                bin_width = bins[original_col][1] - bins[original_col][0]
+                bin_width = np.array(bin_widths[original_col])
             else:
                 bin_width = 0
             real_ground_truth_val = np.dot(ground_truth_attribute.values, bins[original_col] + 0.5 * bin_width)
@@ -215,16 +215,16 @@ def measure_performance(df, hard_evidence, autoencoder, sizes_sorted, rows, full
             if not EXPECTATION_CONTINUOUS:
                 # numerical, but using argmax instead of expectation
                 if len(bins[original_col]) > 1:
-                    bin_width = bins[original_col][1] - bins[original_col][0]
+                    bin_width = np.array(bin_widths[original_col])
                 else:
                     bin_width = 0
-                real_ground_truth_val = bins[original_col][ground_truth_val] + 0.5 * bin_width
-                real_clean_val = bins[original_col][clean_val] + 0.5 * bin_width
-                real_dirty_val = bins[original_col][dirty_val] + 0.5 * bin_width
+                real_ground_truth_val = bins[original_col][ground_truth_val] + 0.5 * bin_width[ground_truth_val]
+                real_clean_val = bins[original_col][clean_val] + 0.5 * bin_width[clean_val]
+                real_dirty_val = bins[original_col][dirty_val] + 0.5 * bin_width[dirty_val]
             else:
                 # numerical using expectation
                 if len(bins[original_col]) > 1:
-                    bin_width = bins[original_col][1] - bins[original_col][0]
+                    bin_width = bin_widths[original_col]
                 else:
                     bin_width = 0
                 real_ground_truth_val = np.dot(ground_truth_attribute.values,bins[original_col] + 0.5*bin_width)
