@@ -12,7 +12,7 @@ from .autoencoder import custom_loss, train_network, activation_types_default, h
     CNN_kernel_size_default, input_layer_type_default, gaussian_noise_sigma_default
 from .bayesian_networks import make_bn
 from .pdb import make_df
-from .probabilities import prob_distance, JSD, wasserstein
+from .probabilities import JSD, wasserstein
 
 TEST_RUN_EPOCHS = False  # Whether to force the number of epochs below. Useful to test for errors without having to wait for hours of training
 TEST_RUN_EPOCH_NR = 1
