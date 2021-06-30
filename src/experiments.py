@@ -144,15 +144,15 @@ def measure_performance(df, hard_evidence, autoencoder, sizes_sorted, rows, full
         distances_before.append(np.nansum(dist_before))
         distances_after.append(np.nansum(dist_after))
 
-        if not is_this_bin_categorical[i]:
-            current_wasserstein_JSD_before = wasserstein_rescaled(ground_truth_attribute, dirty_attribute)
-            current_wasserstein_JSD_after = wasserstein_rescaled(ground_truth_attribute, cleaned_attribute)
+        if not is_this_bin_categorical[column_index]:
+            current_wasserstein_JSD_before = wasserstein_rescaled(ground_truth_attribute, dirty_attribute,bins[column_index])[~ground_truth_missing]
+            current_wasserstein_JSD_after = wasserstein_rescaled(ground_truth_attribute, cleaned_attribute,bins[column_index])[~ground_truth_missing]
         else:
             current_wasserstein_JSD_before = dist_before
             current_wasserstein_JSD_after = dist_after
 
-        wasserstein_JSD_before.append(current_wasserstein_JSD_before)
-        wasserstein_JSD_after.append(current_wasserstein_JSD_after)
+        wasserstein_JSD_before.append(np.nansum(current_wasserstein_JSD_before))
+        wasserstein_JSD_after.append(np.nansum(current_wasserstein_JSD_after))
 
 
 
