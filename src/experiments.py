@@ -12,7 +12,7 @@ from .autoencoder import custom_loss, train_network, activation_types_default, h
     CNN_kernel_size_default, input_layer_type_default, gaussian_noise_sigma_default
 from .bayesian_networks import make_bn
 from .pdb import make_df
-from .probabilities import prob_distance
+from .probabilities import prob_distance, JSD, wasserstein
 
 TEST_RUN_EPOCHS = False  # Whether to force the number of epochs below. Useful to test for errors without having to wait for hours of training
 TEST_RUN_EPOCH_NR = 1
@@ -119,6 +119,7 @@ def measure_performance(df, hard_evidence, autoencoder, sizes_sorted, rows, full
     distances_after = []
     flip_TP, flip_TN, flip_FP, flip_FN = [], [], [], []
     entropy_before, entropy_after = [], []
+    wasserstein_JSD_before,wasserstein_JSD_after = [],[]
 
     ######### regenerate "bins" variable so that we can regenerate the original db
     cleaned_database_non_pdb = pd.DataFrame().reindex_like(original_database)
@@ -128,11 +129,21 @@ def measure_performance(df, hard_evidence, autoencoder, sizes_sorted, rows, full
         cleaned_attribute = results.iloc[:, i:i + size]
         dirty_attribute = test_data.iloc[:, i:i + size]
 
-        dist_before = prob_distance(ground_truth_attribute, dirty_attribute)
-        dist_after = prob_distance(ground_truth_attribute, cleaned_attribute)
+        dist_before = JSD(ground_truth_attribute, dirty_attribute)
+        dist_after = JSD(ground_truth_attribute, cleaned_attribute)
 
         distances_before.append(np.nansum(dist_before))
         distances_after.append(np.nansum(dist_after))
+
+        if not is_this_bin_categorical[i]:
+            current_wasserstein_JSD_before = wasserstein(ground_truth_attribute, dirty_attribute)
+            current_wasserstein_JSD_after = wasserstein(ground_truth_attribute, cleaned_attribute)
+        else:
+            current_wasserstein_JSD_before = dist_before
+            current_wasserstein_JSD_after = dist_after
+
+        wasserstein_JSD_before.append(current_wasserstein_JSD_before)
+        wasserstein_JSD_after.append(current_wasserstein_JSD_after)
 
         # going back to actual data instead of probabilities to see if values changed
         ground_truth_val = np.argmax(ground_truth_attribute.values, 1)
