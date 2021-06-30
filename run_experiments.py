@@ -97,7 +97,10 @@ def main():
         if "surgical_case_durations" in config_string:
             ground_config['use_file'] = "./input_data/surgical_case_durations.csv"
         elif "LBP RA" in config_string:
-            ground_config['use_file'] = "./input_data/Dataset - LBP RA.csv"
+            if "small" in config_string:
+                ground_config['use_file'] = "./input_data/Dataset - LBP RA small.csv"
+            else:
+                ground_config['use_file'] = "./input_data/Dataset - LBP RA.csv"
 
         if ground_config['use_file'] is not None:
             if "NO_ADDED_NOISE" in config_string:
