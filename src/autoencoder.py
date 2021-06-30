@@ -7,7 +7,8 @@ import tensorflow as tf
 from tensorflow import keras as keras
 from tensorflow.python.keras.utils import tf_utils
 from tensorflow.python.ops import array_ops
-
+from tensorflow.python.framework import ops
+from tensorflow.python.ops import math_ops
 from src.gkernel import GaussianKernel3
 from src.probabilities import JSD, wasserstein_loss_rescaled
 
@@ -154,22 +155,38 @@ def custom_loss(y_true, y_pred, sizes_sorted, loss_func,bins,is_this_bin_categor
     else:
         loss_func = keras.losses.get(loss_func)
 
-    ones_and_zeroes = np.ones(tf.shape(y_pred))
-    i = 0
-    for size in sizes_sorted:
-        missing_rows_clean_for_this_col_bool = (tf.reduce_max(y_true[:, i:i + size], 1) == tf.reduce_min(y_true[:, i:i + size], 1)) & (size > 1)
-        missing_rows_for_this_col = tf.where(missing_rows_clean_for_this_col_bool)
-        ones_and_zeroes[missing_rows_for_this_col, i:i + size] = 0
-        i += size
 
-    y_pred=tf.math.multiply(y_pred,ones_and_zeroes)
-    y_true=tf.math.multiply(y_true,ones_and_zeroes)
+
+
+
+    # ones_and_zeroes = np.ones(tf.shape(y_pred))
+    # i = 0
+    # for size in sizes_sorted:
+    #     missing_rows_clean_for_this_col_bool = (tf.reduce_max(y_true[:, i:i + size], 1) == tf.reduce_min(y_true[:, i:i + size], 1)) & (size > 1)
+    #     missing_rows_for_this_col = tf.where(missing_rows_clean_for_this_col_bool)
+    #     ones_and_zeroes[missing_rows_for_this_col, i:i + size] = 0
+    #     i += size
+
+
+
+
+
+    # y_pred=tf.math.multiply(y_pred,ones_and_zeroes)
+    # y_true=tf.math.multiply(y_true,ones_and_zeroes)
     total_loss = 0
     loss_list = []
     i = 0
     for size in sizes_sorted:
+        missing_rows_clean_for_this_col_bool = (tf.reduce_max(y_true[:, i:i + size], 1) == tf.reduce_min(y_true[:, i:i + size], 1)) & (size > 1)
+        missing_rows_for_this_col = tf.where(missing_rows_clean_for_this_col_bool)
+        zeros_we_need = tf.math.count_nonzero(missing_rows_clean_for_this_col_bool)
         new_loss = loss_func(y_true[:, i:i + size], y_pred[:, i:i + size])
-        loss_list.append(new_loss)
+
+        # missing_rows_for_this_col = ops.convert_to_tensor_v2(missing_rows_for_this_col)
+        # missing_rows_for_this_col = math_ops.cast(missing_rows_for_this_col, new_loss.dtype)
+
+        new_loss2 = tf.tensor_scatter_nd_update(new_loss,missing_rows_for_this_col,tf.zeros(zeros_we_need))
+        loss_list.append(new_loss2)
         i += size
     good_loss = tf.math.add_n(loss_list)
     return good_loss
@@ -285,12 +302,12 @@ def train_network(epochs, df, hard_evidence, activation_types, hidden_layers, en
         encoder = keras.models.Model(input_layer, [z_mean, z_log_var, z], name="encoder")
         decoder = keras.models.Model(latent_inputs, decoded, name="decoder")
         autoencoder = VAE_model(encoder, decoder, loss_function)
-        # autoencoder.compile(optimizer='adam', metrics=['accuracy'])  # semi supervised
-        autoencoder.compile(optimizer='adam', metrics=['accuracy'],run_eagerly=True)  # semi supervised
+        autoencoder.compile(optimizer='adam', metrics=['accuracy'])  # semi supervised
+        # autoencoder.compile(optimizer='adam', metrics=['accuracy'],run_eagerly=True)  # semi supervised
     else:
         autoencoder = keras.models.Model(input_layer, outputs=decoded)
-        # autoencoder.compile(optimizer='adam', loss=loss_function, metrics=['accuracy'])  # semi supervised
-        autoencoder.compile(optimizer='adam', loss=loss_function, metrics=['accuracy'],run_eagerly=True)  # semi supervised
+        autoencoder.compile(optimizer='adam', loss=loss_function, metrics=['accuracy'])  # semi supervised
+        # autoencoder.compile(optimizer='adam', loss=loss_function, metrics=['accuracy'],run_eagerly=True)  # semi supervised
 
     hist = keras.callbacks.History()
 
