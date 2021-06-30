@@ -127,8 +127,19 @@ def measure_performance(df, hard_evidence, autoencoder, sizes_sorted, rows, full
         cleaned_attribute = results.iloc[:, i:i + size]
         dirty_attribute = test_data.iloc[:, i:i + size]
 
-        dist_before = JSD(ground_truth_attribute, dirty_attribute)
-        dist_after = JSD(ground_truth_attribute, cleaned_attribute)
+        # going back to actual data instead of probabilities to see if values changed
+        ground_truth_val = np.argmax(ground_truth_attribute.values, 1)
+        clean_val = np.argmax(cleaned_attribute.values, 1)
+        dirty_val = np.argmax(dirty_attribute.values, 1)
+
+        ground_truth_missing = np.max(ground_truth_attribute.values, 1) == np.min(ground_truth_attribute.values, 1)
+        clean_missing = np.max(cleaned_attribute.values, 1) == np.min(cleaned_attribute.values, 1)
+        dirty_missing = np.max(dirty_attribute.values, 1) == np.min(dirty_attribute.values, 1)
+
+        dist_before = JSD(ground_truth_attribute, dirty_attribute)[~ground_truth_missing]
+        dist_after = JSD(ground_truth_attribute, cleaned_attribute)[~ground_truth_missing]
+
+
 
         distances_before.append(np.nansum(dist_before))
         distances_after.append(np.nansum(dist_after))
@@ -143,14 +154,7 @@ def measure_performance(df, hard_evidence, autoencoder, sizes_sorted, rows, full
         wasserstein_JSD_before.append(current_wasserstein_JSD_before)
         wasserstein_JSD_after.append(current_wasserstein_JSD_after)
 
-        # going back to actual data instead of probabilities to see if values changed
-        ground_truth_val = np.argmax(ground_truth_attribute.values, 1)
-        clean_val = np.argmax(cleaned_attribute.values, 1)
-        dirty_val = np.argmax(dirty_attribute.values, 1)
 
-        ground_truth_missing = np.max(ground_truth_attribute.values, 1) == np.min(ground_truth_attribute.values, 1)
-        clean_missing = np.max(cleaned_attribute.values, 1) == np.min(cleaned_attribute.values, 1)
-        dirty_missing = np.max(dirty_attribute.values, 1) == np.min(dirty_attribute.values, 1)
 
         # If we are working on data where no noise was added at all, then F1 and accuracy scores and such are not applicable
         # We can use TP and FN to pass upwards how many values were flipped
@@ -167,22 +171,18 @@ def measure_performance(df, hard_evidence, autoencoder, sizes_sorted, rows, full
 
         # Don't count instances where ground truth was missing, because we simply have no idea.
         # True positive: Was missing or wrong, now correct
-        TP = np.count_nonzero(~ground_truth_missing & (((ground_truth_val != dirty_val) | dirty_missing) & ~(
-                (ground_truth_val != clean_val) | clean_missing)))
+        TP = ((ground_truth_val != dirty_val) | dirty_missing) & ~((ground_truth_val != clean_val) | clean_missing)
         # False positive: Was correct, now missing or wrong
-        FP = np.count_nonzero(~ground_truth_missing & (~((ground_truth_val != dirty_val) | dirty_missing) & (
-                (ground_truth_val != clean_val) | clean_missing)))
+        FP = ~((ground_truth_val != dirty_val) | dirty_missing) & ((ground_truth_val != clean_val) | clean_missing)
         # False negative: Was incorrect/missing and still is
-        FN = np.count_nonzero(~ground_truth_missing & (((ground_truth_val != dirty_val) | dirty_missing) & (
-                (ground_truth_val != clean_val) | clean_missing)))
+        FN = ((ground_truth_val != dirty_val) | dirty_missing) & ((ground_truth_val != clean_val) | clean_missing)
         # True negative: was correct and stayed correct
-        TN = np.count_nonzero(~ground_truth_missing & (~((ground_truth_val != dirty_val) | dirty_missing) & ~(
-                (ground_truth_val != clean_val) | clean_missing)))
+        TN = ~((ground_truth_val != dirty_val) | dirty_missing) & ~((ground_truth_val != clean_val) | clean_missing)
 
-        flip_TP.append(TP)
-        flip_FN.append(FN)
-        flip_FP.append(FP)
-        flip_TN.append(TN)
+        flip_TP.append(np.count_nonzero(TP[~ground_truth_missing]))
+        flip_FN.append(np.count_nonzero(FN[~ground_truth_missing]))
+        flip_FP.append(np.count_nonzero(FP[~ground_truth_missing]))
+        flip_TN.append(np.count_nonzero(TN[~ground_truth_missing]))
 
         entropy_before_cleaning_per_row = scipy.stats.entropy(dirty_attribute, axis=1).sum()
         entropy_after_cleaning_per_row = scipy.stats.entropy(cleaned_attribute, axis=1).sum()
