@@ -149,10 +149,7 @@ def main():
                 experiments_config.gen_experiment(config_string, ground_config, 'sigma', sigma_list)
 
                 # 7
-                if ground_config['sampling_density'] == 100:
-                    experiments_config.gen_experiment(config_string, ground_config, 'BN_size', [2, 3, 4, 5])
-                else:
-                    experiments_config.gen_experiment(config_string, ground_config, 'BN_size', [2, 3, 4, 5, 10, 20, 30])
+                experiments_config.gen_experiment(config_string, ground_config, 'BN_size', [2, 3, 4, 5, 10, 20, 30])
 
             # 8
             if ground_config['training_method'] != 'unsupervised':
