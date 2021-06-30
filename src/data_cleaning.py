@@ -31,7 +31,7 @@ def clean_config(filename_out, autoencoder_filename, full_string=None, epochs=ep
 
     if loss_function != 'MSE':
         old_loss = loss_function[:]
-        loss_function = lambda y_true, y_pred: custom_loss(y_true, y_pred, sizes_sorted, old_loss)
+        loss_function = lambda y_true, y_pred: custom_loss(y_true, y_pred, sizes_sorted, old_loss,bins,is_this_bin_categorical)
 
     if encoding_dim is None:
         encoding_dim = len(original_database.columns)

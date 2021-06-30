@@ -76,12 +76,15 @@ def main():
         ground_config = defaults.copy()
         if "CCE" in config_string:
             ground_config['loss_function'] = 'CCE'
+        elif "wasserstein" in config_string or "Wasserstein" in config_string:
+            ground_config['loss_function'] = 'Wasserstein'
         elif "JSD" in config_string:
             ground_config['loss_function'] = 'JSD'
         elif "MSE" in config_string:
             ground_config['loss_function'] = 'MSE'
         elif "KLD" in config_string:
             ground_config['loss_function'] = 'KLD'
+
 
         if "u," in config_string:
             ground_config['training_method'] = 'unsupervised'

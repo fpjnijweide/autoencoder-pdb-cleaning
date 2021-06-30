@@ -7,7 +7,7 @@ from tensorflow.python.keras.utils import tf_utils
 from tensorflow.python.ops import array_ops
 
 from .gkernel import GaussianKernel3
-from .probabilities import JSD
+from .probabilities import JSD, wasserstein_loss_rescaled
 
 activation_types_default = [keras.backend.sin, keras.backend.cos, keras.activations.linear, 'relu',
                             'swish']  # Activation layer types
@@ -117,17 +117,34 @@ class VAE_model(keras.Model):
             "kl_loss": self.kl_loss_tracker.result(),
         }
 
-
-def custom_loss(y_true, y_pred, sizes_sorted, loss_func):
+def wasserstein_custom_loss(y_true, y_pred, sizes_sorted, loss_func,bins,is_this_bin_categorical):
     i = 0
     total_loss = 0
+    loss_list = []
+
+    for column_nr, size in enumerate(sizes_sorted):
+        if not is_this_bin_categorical[column_nr]:
+            new_loss = wasserstein_loss_rescaled(y_true[:, i:i + size], y_pred[:, i:i + size], bins[column_nr])
+        else:
+            new_loss = JSD(y_true[:, i:i + size], y_pred[:, i:i + size])
+        loss_list.append(new_loss)
+        i += size
+    good_loss = tf.math.add_n(loss_list)
+    return good_loss
+
+
+def custom_loss(y_true, y_pred, sizes_sorted, loss_func,bins,is_this_bin_categorical):
     if loss_func == 'JSD':
         loss_func = JSD
     elif loss_func == "CCE":
         loss_func = keras.losses.categorical_crossentropy
+    elif "wasserstein" in loss_func or "Wasserstein" in loss_func:
+        return wasserstein_custom_loss(y_true, y_pred, sizes_sorted, loss_func,bins,is_this_bin_categorical)
     else:
         loss_func = keras.losses.get(loss_func)
 
+    i = 0
+    total_loss = 0
     loss_list = []
 
     for size in sizes_sorted:
