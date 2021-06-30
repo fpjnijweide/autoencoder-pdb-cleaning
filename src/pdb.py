@@ -34,6 +34,7 @@ def make_pdb(file_string, sampling_density):
 
     sizes_sorted = [0] * df.columns.size
     bins = [[]] * df.columns.size
+    is_this_bin_categorical = [None] * df.columns.size
 
     # Determining how to bin variables
     for i in range(df.columns.size):
@@ -41,26 +42,34 @@ def make_pdb(file_string, sampling_density):
         unique_entries_in_coli = coli_nonan.unique()
         unique_entries_in_coli = np.array(sorted(unique_entries_in_coli, key=natural_key))
         # unique_entries_in_coli.sort()
-        if not np.issubdtype(coli_nonan.dtype, np.number):
-            # if not numeric, just use the unique entries for binning
+
+        if 'categorical' in df.columns[i] or 'CATEGORICAL' in df.columns[i] or not np.issubdtype(coli_nonan.dtype, np.number):
+            is_this_bin_categorical[i]=True
             sizes_sorted[i] = unique_entries_in_coli.size
             bins[i] = unique_entries_in_coli
         elif sampling_density is not None:
             # if numeric but with predefined sampling density, use that
+            is_this_bin_categorical[i] = False
             bins_for_coli = np.histogram_bin_edges(coli_nonan, bins=sampling_density)
             sizes_sorted[i] = sampling_density
             bins[i] = bins_for_coli[:-1]
         else:
-            # else, determine sampling density heuristically
+            # if numeric but without predefined sampling  density
+            is_this_bin_categorical[i] = False
             bins_for_coli = np.histogram_bin_edges(coli_nonan, bins='auto')
             if unique_entries_in_coli.size <= bins_for_coli.size:
+                # If we have mostly integers or very few numbers, just use the unique entries to determine bins
                 sizes_sorted[i] = unique_entries_in_coli.size
                 if len(unique_entries_in_coli)>1:
+                    # calculate bin width to make PDB bins go around each number
+                    # TODO this might fail if bin size is not the same everywhere
                     bin_width = unique_entries_in_coli[1] - unique_entries_in_coli[0]
                     bins[i] = unique_entries_in_coli - 0.5 * bin_width
                 else:
+                    # if there is only 1 entry, don't bother calculating bin width
                     bins[i]=unique_entries_in_coli
             else:
+                # determine bins heuristically
                 sizes_sorted[i] = (bins_for_coli.size) - 1
                 bins[i] = bins_for_coli[:-1]
 
