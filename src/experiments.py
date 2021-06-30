@@ -100,6 +100,8 @@ def run_experiment(full_string=None, epochs=epochs_default, use_previous_df=Fals
 
 
 def measure_performance(df, hard_evidence, autoencoder, sizes_sorted, rows, full_string, original_database, bins,is_this_bin_categorical,output_data_string=None):
+    EXPECTATION_CONTINUOUS = True
+
     test_data = df.head(rows)
 
     verify_data = hard_evidence.iloc[test_data.index]
@@ -111,9 +113,9 @@ def measure_performance(df, hard_evidence, autoencoder, sizes_sorted, rows, full
         filename_no_extension = os.path.splitext(output_data_string)[0]
         results.to_csv(filename_no_extension + "_post_cleaning_probabilities" + gpu_string + ".csv")
 
-    i = 0
-    distances_before = []
-    distances_after = []
+    pdb_col = 0
+    JSD_before = []
+    JSD_after = []
     flip_TP, flip_TN, flip_FP, flip_FN = [], [], [], []
     entropy_before, entropy_after = [], []
     wasserstein_JSD_before,wasserstein_JSD_after = [],[]
@@ -121,38 +123,52 @@ def measure_performance(df, hard_evidence, autoencoder, sizes_sorted, rows, full
     ######### regenerate "bins" variable so that we can regenerate the original db
     cleaned_database_non_pdb = pd.DataFrame().reindex_like(original_database)
 
-    for column_index, size in enumerate(sizes_sorted):
+    for original_col, categories in enumerate(sizes_sorted):
 
-        ground_truth_attribute = verify_data.iloc[:, i:i + size]
-        cleaned_attribute = results.iloc[:, i:i + size]
-        dirty_attribute = test_data.iloc[:, i:i + size]
+        ground_truth_attribute = verify_data.iloc[:, pdb_col:pdb_col + categories]
+        cleaned_attribute = results.iloc[:, pdb_col:pdb_col + categories]
+        dirty_attribute = test_data.iloc[:, pdb_col:pdb_col + categories]
 
-        # going back to actual data instead of probabilities to see if values changed
-        ground_truth_val = np.argmax(ground_truth_attribute.values, 1)
-        clean_val = np.argmax(cleaned_attribute.values, 1)
-        dirty_val = np.argmax(dirty_attribute.values, 1)
+        if is_this_bin_categorical[original_col] or not EXPECTATION_CONTINUOUS:
+            ground_truth_val = np.argmax(ground_truth_attribute.values, 1)
+            clean_val = np.argmax(cleaned_attribute.values, 1)
+            dirty_val = np.argmax(dirty_attribute.values, 1)
+        else:
+            # do expectation for continuous if needed, but then fit it into a bin
+            # numerical using expectation
+            if len(bins[original_col]) > 1:
+                bin_width = bins[original_col][1] - bins[original_col][0]
+            else:
+                bin_width = 0
+            real_ground_truth_val = np.dot(ground_truth_attribute.values, bins[original_col] + 0.5 * bin_width)
+            real_clean_val = np.dot(cleaned_attribute.values, bins[original_col] + 0.5 * bin_width)
+            real_dirty_val = np.dot(dirty_attribute.values, bins[original_col] + 0.5 * bin_width)
+
+            ground_truth_val = np.searchsorted(bins[original_col], real_ground_truth_val, side='right') - 1
+            clean_val = np.searchsorted(bins[original_col], real_clean_val, side='right') - 1
+            dirty_val = np.searchsorted(bins[original_col], real_dirty_val, side='right') - 1
 
         ground_truth_missing = np.max(ground_truth_attribute.values, 1) == np.min(ground_truth_attribute.values, 1)
         clean_missing = np.max(cleaned_attribute.values, 1) == np.min(cleaned_attribute.values, 1)
         dirty_missing = np.max(dirty_attribute.values, 1) == np.min(dirty_attribute.values, 1)
 
-        dist_before = JSD(ground_truth_attribute, dirty_attribute)[~ground_truth_missing]
-        dist_after = JSD(ground_truth_attribute, cleaned_attribute)[~ground_truth_missing]
+        column_JSD_before = JSD(ground_truth_attribute, dirty_attribute)[~ground_truth_missing]
+        column_JSD_after = JSD(ground_truth_attribute, cleaned_attribute)[~ground_truth_missing]
 
 
 
-        distances_before.append(np.nansum(dist_before))
-        distances_after.append(np.nansum(dist_after))
+        JSD_before.append(np.nansum(column_JSD_before))
+        JSD_after.append(np.nansum(column_JSD_after))
 
-        if not is_this_bin_categorical[column_index]:
-            current_wasserstein_JSD_before = wasserstein_rescaled(ground_truth_attribute, dirty_attribute,bins[column_index])[~ground_truth_missing]
-            current_wasserstein_JSD_after = wasserstein_rescaled(ground_truth_attribute, cleaned_attribute,bins[column_index])[~ground_truth_missing]
+        if not is_this_bin_categorical[original_col]:
+            column_wasserstein_JSD_before = wasserstein_rescaled(ground_truth_attribute, dirty_attribute,bins[original_col])[~ground_truth_missing]
+            column_wasserstein_JSD_after = wasserstein_rescaled(ground_truth_attribute, cleaned_attribute,bins[original_col])[~ground_truth_missing]
         else:
-            current_wasserstein_JSD_before = dist_before
-            current_wasserstein_JSD_after = dist_after
+            column_wasserstein_JSD_before = column_JSD_before
+            column_wasserstein_JSD_after = column_JSD_after
 
-        wasserstein_JSD_before.append(np.nansum(current_wasserstein_JSD_before))
-        wasserstein_JSD_after.append(np.nansum(current_wasserstein_JSD_after))
+        wasserstein_JSD_before.append(np.nansum(column_wasserstein_JSD_before))
+        wasserstein_JSD_after.append(np.nansum(column_wasserstein_JSD_after))
 
 
 
@@ -171,39 +187,53 @@ def measure_performance(df, hard_evidence, autoencoder, sizes_sorted, rows, full
 
         # Don't count instances where ground truth was missing, because we simply have no idea.
         # True positive: Was missing or wrong, now correct
-        TP = ((ground_truth_val != dirty_val) | dirty_missing) & ~((ground_truth_val != clean_val) | clean_missing)
+        column_TP = ((ground_truth_val != dirty_val) | dirty_missing) & ~((ground_truth_val != clean_val) | clean_missing)
         # False positive: Was correct, now missing or wrong
-        FP = ~((ground_truth_val != dirty_val) | dirty_missing) & ((ground_truth_val != clean_val) | clean_missing)
+        column_FP = ~((ground_truth_val != dirty_val) | dirty_missing) & ((ground_truth_val != clean_val) | clean_missing)
         # False negative: Was incorrect/missing and still is
-        FN = ((ground_truth_val != dirty_val) | dirty_missing) & ((ground_truth_val != clean_val) | clean_missing)
+        column_FN = ((ground_truth_val != dirty_val) | dirty_missing) & ((ground_truth_val != clean_val) | clean_missing)
         # True negative: was correct and stayed correct
-        TN = ~((ground_truth_val != dirty_val) | dirty_missing) & ~((ground_truth_val != clean_val) | clean_missing)
+        column_TN = ~((ground_truth_val != dirty_val) | dirty_missing) & ~((ground_truth_val != clean_val) | clean_missing)
 
-        flip_TP.append(np.count_nonzero(TP[~ground_truth_missing]))
-        flip_FN.append(np.count_nonzero(FN[~ground_truth_missing]))
-        flip_FP.append(np.count_nonzero(FP[~ground_truth_missing]))
-        flip_TN.append(np.count_nonzero(TN[~ground_truth_missing]))
+        flip_TP.append(np.count_nonzero(column_TP[~ground_truth_missing]))
+        flip_FN.append(np.count_nonzero(column_FN[~ground_truth_missing]))
+        flip_FP.append(np.count_nonzero(column_FP[~ground_truth_missing]))
+        flip_TN.append(np.count_nonzero(column_TN[~ground_truth_missing]))
 
-        entropy_before_cleaning_per_row = scipy.stats.entropy(dirty_attribute, axis=1).sum()
-        entropy_after_cleaning_per_row = scipy.stats.entropy(cleaned_attribute, axis=1).sum()
+        column_entropy_before = scipy.stats.entropy(dirty_attribute, axis=1).sum()
+        column_entropy_after = scipy.stats.entropy(cleaned_attribute, axis=1).sum()
 
-        entropy_before.append(entropy_before_cleaning_per_row)
-        entropy_after.append(entropy_after_cleaning_per_row)
+        entropy_before.append(column_entropy_before)
+        entropy_after.append(column_entropy_after)
 
-        if bins is None:
-            cleaned_database_non_pdb.iloc[:, column_index] = clean_val
+        if is_this_bin_categorical[original_col]:
+            real_ground_truth_val = bins[original_col][ground_truth_val]
+            real_clean_val = bins[original_col][clean_val]
+            real_dirty_val = bins[original_col][dirty_val]
         else:
-            if is_this_bin_categorical[column_index]:
-                cleaned_database_non_pdb.iloc[:, column_index] = bins[column_index][clean_val]
-            else:
-                if len(bins[column_index])>1:
-                    bin_width = bins[column_index][1] - bins[column_index][0]
-                    cleaned_database_non_pdb.iloc[:, column_index] = bins[column_index][clean_val] + 0.5 * bin_width
+            if not EXPECTATION_CONTINUOUS:
+                # numerical, but using argmax instead of expectation
+                if len(bins[original_col]) > 1:
+                    bin_width = bins[original_col][1] - bins[original_col][0]
                 else:
-                    cleaned_database_non_pdb.iloc[:, column_index] = bins[column_index][clean_val]
+                    bin_width = 0
+                real_ground_truth_val = bins[original_col][ground_truth_val] + 0.5 * bin_width
+                real_clean_val = bins[original_col][clean_val] + 0.5 * bin_width
+                real_dirty_val = bins[original_col][dirty_val] + 0.5 * bin_width
+            else:
+                # numerical using expectation
+                if len(bins[original_col]) > 1:
+                    bin_width = bins[original_col][1] - bins[original_col][0]
+                else:
+                    bin_width = 0
+                real_ground_truth_val = np.dot(ground_truth_attribute.values,bins[original_col] + 0.5*bin_width)
+                real_clean_val = np.dot(cleaned_attribute.values, bins[original_col] + 0.5*bin_width)
+                real_dirty_val = np.dot(dirty_attribute.values, bins[original_col] + 0.5*bin_width)
+
+        cleaned_database_non_pdb.iloc[:, original_col] = real_clean_val
 
 
-        i += size
+        pdb_col += categories
 
     if output_data_string is None:
         cleaned_database_non_pdb.to_csv("./output_data/" + full_string + "/post_cleaning_non_pdb" + gpu_string + ".csv")
@@ -212,8 +242,8 @@ def measure_performance(df, hard_evidence, autoencoder, sizes_sorted, rows, full
         cleaned_database_non_pdb.to_csv(filename_no_extension + "_FINAL_CLEANED" + gpu_string + ".csv")
 
 
-    JSD_before = np.nansum(distances_before)
-    JSD_after = np.nansum(distances_after)
+    JSD_before = np.nansum(JSD_before)
+    JSD_after = np.nansum(JSD_after)
 
     wasserstein_JSD_before = np.nansum(wasserstein_JSD_before)
     wasserstein_JSD_after = np.nansum(wasserstein_JSD_after)
