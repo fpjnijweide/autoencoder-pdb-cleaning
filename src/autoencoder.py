@@ -156,24 +156,6 @@ def custom_loss(y_true, y_pred, sizes_sorted, loss_func,bins,is_this_bin_categor
         loss_func = keras.losses.get(loss_func)
 
 
-
-
-
-    # ones_and_zeroes = np.ones(tf.shape(y_pred))
-    # i = 0
-    # for size in sizes_sorted:
-    #     missing_rows_clean_for_this_col_bool = (tf.reduce_max(y_true[:, i:i + size], 1) == tf.reduce_min(y_true[:, i:i + size], 1)) & (size > 1)
-    #     missing_rows_for_this_col = tf.where(missing_rows_clean_for_this_col_bool)
-    #     ones_and_zeroes[missing_rows_for_this_col, i:i + size] = 0
-    #     i += size
-
-
-
-
-
-    # y_pred=tf.math.multiply(y_pred,ones_and_zeroes)
-    # y_true=tf.math.multiply(y_true,ones_and_zeroes)
-    total_loss = 0
     loss_list = []
     i = 0
     for size in sizes_sorted:
@@ -182,10 +164,7 @@ def custom_loss(y_true, y_pred, sizes_sorted, loss_func,bins,is_this_bin_categor
         zeros_we_need = tf.math.count_nonzero(missing_rows_clean_for_this_col_bool)
         new_loss = loss_func(y_true[:, i:i + size], y_pred[:, i:i + size])
 
-        # missing_rows_for_this_col = ops.convert_to_tensor_v2(missing_rows_for_this_col)
-        # missing_rows_for_this_col = math_ops.cast(missing_rows_for_this_col, new_loss.dtype)
-
-        new_loss2 = tf.tensor_scatter_nd_update(new_loss,missing_rows_for_this_col,tf.zeros(zeros_we_need))
+        new_loss2 = tf.tensor_scatter_nd_update(new_loss,missing_rows_for_this_col,tf.zeros(zeros_we_need,dtype=new_loss.dtype))
         loss_list.append(new_loss2)
         i += size
     good_loss = tf.math.add_n(loss_list)
@@ -375,7 +354,5 @@ if __name__=='__main__':
     loss = loss_function(y_true, y_pred)
     y_true = tf.keras.backend.clip(y_true, 1e-7, 1)
     y_pred = tf.keras.backend.clip(y_pred, 1e-7, 1)
-    assert np.array_equal(
-        loss.numpy(), np.sum(y_true * np.log(y_true / y_pred), axis=-1))
 
 
