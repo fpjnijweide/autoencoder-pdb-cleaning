@@ -3,6 +3,7 @@ from tensorflow import keras as keras
 from tensorflow.python.framework import ops
 from tensorflow.python.ops import math_ops
 from scipy.stats import wasserstein_distance
+import tensorflow as tf
 
 wasserstein_wrongsignature = np.vectorize(wasserstein_distance, signature='(i),(i),(i),(i)->()', excluded=['u_values', 'v_values'])
 
@@ -20,15 +21,19 @@ def JSD_nontensor(y_true,y_pred):
     divergence_tensor = 0.5 * keras.losses.kld(y_true, means) + 0.5 * keras.losses.kld(y_pred, means)
     return divergence_tensor
 
-def wasserstein_nontensor(y_true,y_pred,current_bins):
+def wasserstein_unscaled(y_true,y_pred,current_bins):
     return wasserstein_wrongsignature(current_bins,current_bins,y_true,y_pred)
 
-def wasserstein(y_true,y_pred,current_bins):
+def wasserstein_rescaled(y_true,y_pred,current_bins):
+    scaling_factor = np.log(2)/(current_bins[-1]-current_bins[0])
+    return wasserstein_unscaled(y_true,y_pred,current_bins)*scaling_factor
+
+def wasserstein_loss_rescaled(y_true,y_pred,current_bins):
     y_pred = ops.convert_to_tensor_v2(y_pred)
     y_true = math_ops.cast(y_true, y_pred.dtype)
     y_true = keras.backend.clip(y_true, keras.backend.epsilon(), 1)
     y_pred = keras.backend.clip(y_pred, keras.backend.epsilon(), 1)
-    return wasserstein_nontensor(current_bins,current_bins,y_true,y_pred)
+    return wasserstein_rescaled(y_true,y_pred,current_bins)
 
 # def prob_distance(x, y):
 #     res = JSD(x, y)
@@ -57,5 +62,5 @@ if __name__ == '__main__':
     current_bins_c = np.arange(c.shape[1])
     d[2, 0], d[2, 1] = 1, 0
 
-    print(wasserstein_nontensor(a_repeat,b_repeat,current_bins))
-    print(wasserstein_nontensor(c,d,current_bins_c))
+    print(wasserstein_unscaled(a_repeat,b_repeat,current_bins))
+    print(wasserstein_unscaled(c,d,current_bins_c))

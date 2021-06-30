@@ -125,6 +125,7 @@ def measure_performance(df, hard_evidence, autoencoder, sizes_sorted, rows, full
     cleaned_database_non_pdb = pd.DataFrame().reindex_like(original_database)
 
     for column_index, size in enumerate(sizes_sorted):
+
         ground_truth_attribute = verify_data.iloc[:, i:i + size]
         cleaned_attribute = results.iloc[:, i:i + size]
         dirty_attribute = test_data.iloc[:, i:i + size]
@@ -195,6 +196,7 @@ def measure_performance(df, hard_evidence, autoencoder, sizes_sorted, rows, full
         if bins is None:
             cleaned_database_non_pdb.iloc[:, column_index] = clean_val
         else:
+            # TODO undo categorical here
             if np.issubdtype(bins[column_index].dtype, np.number):
                 if len(bins[column_index])>1:
                     bin_width = bins[column_index][1] - bins[column_index][0]
