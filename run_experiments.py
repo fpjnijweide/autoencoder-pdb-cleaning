@@ -202,6 +202,9 @@ def main():
             experiments_config.wasserstein_JSD_before = load_from_csv("./results/experiment_config_wasserstein_JSD_before" + gpu_string + ".csv")
             experiments_config.wasserstein_JSD_after = load_from_csv("./results/experiment_config_wasserstein_JSD_after" + gpu_string + ".csv")
 
+            experiments_config.continuous_MSE_before = load_from_csv("./results/experiment_config_continuous_MSE_before" + gpu_string + ".csv")
+            experiments_config.continuous_MSE_after = load_from_csv("./results/experiment_config_continuous_MSE_after" + gpu_string + ".csv")
+
         except:
             print('could not load data')
 
@@ -236,7 +239,8 @@ def main():
             if previous_runs == lowest_results:
                 if runs % 10 == 0 and runs > 0:
                     clear_output(wait=True)
-                JSD_before, JSD_after, flip_TP, flip_TN, flip_FP, flip_FN, entropy_before, entropy_after,wasserstein_JSD_before, wasserstein_JSD_after = run_experiment(
+                JSD_before, JSD_after, flip_TP, flip_TN, flip_FP, flip_FN, entropy_before, entropy_after,\
+                    wasserstein_JSD_before, wasserstein_JSD_after,continuous_MSE_before,continuous_MSE_after = run_experiment(
                     experiment['full_string'], **experiment['config'])
 
                 if JSD_before > 0:
@@ -261,10 +265,17 @@ def main():
                 else:
                     wasserstein_JSD_reduction = -np.inf
 
+                if continuous_MSE_before > 0:
+                    continuous_MSE_reduction = 100 - ((continuous_MSE_after / continuous_MSE_before) * 100)
+                elif continuous_MSE_before == continuous_MSE_after:
+                    continuous_MSE_reduction = 0
+                else:
+                    continuous_MSE_reduction = -np.inf
+
                 result_prints = pd.DataFrame(
-                    [*experiment['full_string_list'], JSD_reduction, accuracy, f1_score, entropy_reduction,wasserstein_JSD_reduction]).T
+                    [*experiment['full_string_list'], JSD_reduction, accuracy, f1_score, entropy_reduction,wasserstein_JSD_reduction,continuous_MSE_reduction]).T
                 result_prints.columns = ["Base config", "Parameter", "Value", "Noise reduction", "Accuracy", "F1 score",
-                                         "Entropy reduction","Wasserstein/JSD reduction"]
+                                         "Entropy reduction","Wasserstein/JSD reduction","Continuous MSE reduction"]
                 result_prints.index = [runs]
                 display(result_prints)
                 # print("(" + str(i) + ") " + experiment['full_string'] + ";    " + "Q: " + str(JSD_reduction) + " ACC: " + str(accuracy) + " F1: " + str(f1_score) + " H_red: " + str(entropy_reduction))
@@ -282,6 +293,9 @@ def main():
 
                 experiments_config.wasserstein_JSD_before[experiment['mapping']].append(wasserstein_JSD_before)
                 experiments_config.wasserstein_JSD_after[experiment['mapping']].append(wasserstein_JSD_after)
+
+                experiments_config.continuous_MSE_before[experiment['mapping']].append(continuous_MSE_before)
+                experiments_config.continuous_MSE_after[experiment['mapping']].append(continuous_MSE_after)
 
                 experiment_config_JSD_before_csv = [[experiments_config.strings[i]] + experiments_config.JSD_before[i] for i
                                                     in range(len(experiments_config.JSD_before))]
@@ -307,6 +321,11 @@ def main():
                 experiment_config_wasserstein_JSD_after_csv = [[experiments_config.strings[i]] + experiments_config.wasserstein_JSD_after[i] for i in
                                                    range(len(experiments_config.wasserstein_JSD_after))]
 
+                experiment_config_continuous_MSE_before_csv = [[experiments_config.strings[i]] + experiments_config.continuous_MSE_before[i] for i
+                                                    in range(len(experiments_config.continuous_MSE_before))]
+                experiment_config_continuous_MSE_after_csv = [[experiments_config.strings[i]] + experiments_config.continuous_MSE_after[i] for i
+                                                    in range(len(experiments_config.continuous_MSE_after))]
+
                 with DelayedKeyboardInterrupt():
                     if not os.path.exists("./results/"):
                         os.makedirs("./results/")
@@ -330,6 +349,10 @@ def main():
                               newline="") as f: csv.writer(f).writerows(experiment_config_wasserstein_JSD_before_csv)
                     with open("./results/experiment_config_wasserstein_JSD_after" + gpu_string + ".csv", "w",
                               newline="") as f: csv.writer(f).writerows(experiment_config_wasserstein_JSD_after_csv)
+                    with open("./results/experiment_config_continuous_MSE_before" + gpu_string + ".csv", "w",
+                              newline="") as f: csv.writer(f).writerows(experiment_config_continuous_MSE_before_csv)
+                    with open("./results/experiment_config_continuous_MSE_after" + gpu_string + ".csv", "w",
+                              newline="") as f: csv.writer(f).writerows(experiment_config_continuous_MSE_after_csv)
 
                     with open("./results/experiments" + gpu_string, "wb") as dill_file:
                         dill.dump(experiments_config.experiments, dill_file)

@@ -87,7 +87,7 @@ def run_experiment(full_string=None, epochs=epochs_default, use_previous_df=Fals
                                 CNN_kernel_size, gaussian_noise_layer_sigma_new,is_this_bin_categorical,missing_rows_dirty,missing_rows_clean)
 
     JSD_before, JSD_after, flip_TP, flip_TN, flip_FP, flip_FN, entropy_before, entropy_after,\
-    wasserstein_JSD_before, wasserstein_JSD_after = measure_performance(df,hard_evidence,autoencoder,sizes_sorted,
+    wasserstein_JSD_before, wasserstein_JSD_after,continuous_MSE_before,continuous_MSE_after = measure_performance(df,hard_evidence,autoencoder,sizes_sorted,
         rows,full_string,original_database,bins,bin_widths,is_this_bin_categorical)
 
     if not VAE:
@@ -97,7 +97,7 @@ def run_experiment(full_string=None, epochs=epochs_default, use_previous_df=Fals
     del autoencoder
     gc.collect()
     keras.backend.clear_session()
-    return JSD_before, JSD_after, flip_TP, flip_TN, flip_FP, flip_FN, entropy_before, entropy_after,wasserstein_JSD_before, wasserstein_JSD_after
+    return JSD_before, JSD_after, flip_TP, flip_TN, flip_FP, flip_FN, entropy_before, entropy_after,wasserstein_JSD_before, wasserstein_JSD_after,continuous_MSE_before,continuous_MSE_after
 
 
 def measure_performance(df, hard_evidence, autoencoder, sizes_sorted, rows, full_string, original_database, bins,bin_widths,is_this_bin_categorical,output_data_string=None):
@@ -120,6 +120,7 @@ def measure_performance(df, hard_evidence, autoencoder, sizes_sorted, rows, full
     flip_TP, flip_TN, flip_FP, flip_FN = [], [], [], []
     entropy_before, entropy_after = [], []
     wasserstein_JSD_before,wasserstein_JSD_after = [],[]
+    continuous_MSE_before,continuous_MSE_after =[],[]
 
     ######### regenerate "bins" variable so that we can regenerate the original db
     cleaned_database_non_pdb = pd.DataFrame().reindex_like(original_database)
@@ -211,6 +212,8 @@ def measure_performance(df, hard_evidence, autoencoder, sizes_sorted, rows, full
             real_ground_truth_val = bins[original_col][ground_truth_val]
             real_clean_val = bins[original_col][clean_val]
             real_dirty_val = bins[original_col][dirty_val]
+            column_continuous_MSE_before = 0
+            column_continuous_MSE_after = 0
         else:
             if not EXPECTATION_CONTINUOUS:
                 # numerical, but using argmax instead of expectation
@@ -230,6 +233,13 @@ def measure_performance(df, hard_evidence, autoencoder, sizes_sorted, rows, full
                 real_ground_truth_val = np.dot(ground_truth_attribute.values,bins[original_col] + 0.5*bin_width)
                 real_clean_val = np.dot(cleaned_attribute.values, bins[original_col] + 0.5*bin_width)
                 real_dirty_val = np.dot(dirty_attribute.values, bins[original_col] + 0.5*bin_width)
+
+            continuous_variable_range=bins[original_col][-1] - bins[original_col][0]
+            column_continuous_MSE_before = np.square((real_dirty_val - real_ground_truth_val) / continuous_variable_range)
+            column_continuous_MSE_after = np.square((real_clean_val - real_ground_truth_val) / continuous_variable_range)
+
+        continuous_MSE_before.append(column_continuous_MSE_before)
+        continuous_MSE_after.append(column_continuous_MSE_after)
 
         if is_this_bin_categorical[original_col]:
             cleaned_database_non_pdb.iloc[:, original_col] = real_clean_val
@@ -260,5 +270,8 @@ def measure_performance(df, hard_evidence, autoencoder, sizes_sorted, rows, full
     entropy_before = np.nansum(entropy_before)
     entropy_after = np.nansum(entropy_after)
 
+    continuous_MSE_before = np.nansum(continuous_MSE_before)
+    continuous_MSE_after = np.nansum(continuous_MSE_after)
+
     # noise_left = 100 * avg_distance_after / avg_distance_before
-    return JSD_before, JSD_after, flip_TP, flip_TN, flip_FP, flip_FN, entropy_before, entropy_after, wasserstein_JSD_before, wasserstein_JSD_after
+    return JSD_before, JSD_after, flip_TP, flip_TN, flip_FP, flip_FN, entropy_before, entropy_after, wasserstein_JSD_before, wasserstein_JSD_after, continuous_MSE_before,continuous_MSE_after

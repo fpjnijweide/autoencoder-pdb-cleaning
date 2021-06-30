@@ -24,6 +24,9 @@ class ExperimentsConfig:
     wasserstein_JSD_before = []
     wasserstein_JSD_after = []
 
+    continuous_MSE_before = []
+    continuous_MSE_after = []
+
     def gen_experiment(self, config_string, input_dict={}, parameter=None, vars=None):
         if parameter is None:
             vars = [None]
@@ -85,6 +88,9 @@ class ExperimentsConfig:
 
                 self.wasserstein_JSD_before.append([])
                 self.wasserstein_JSD_after.append([])
+
+                self.continuous_MSE_before.append([])
+                self.continuous_MSE_after.append([])
 
             self.experiments.append(
                 {'config_string': config_string, 'input_dict': input_dict, 'parameter': parameter, 'vars': vars,
