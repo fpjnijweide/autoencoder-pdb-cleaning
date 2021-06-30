@@ -224,7 +224,7 @@ def make_df(use_file, bn, mu, sigma, use_gaussian_noise, use_missing_entry, miss
             bin_width = 1
             bin_widths = [np.ones(size) for size in sizes_sorted]
 
-        bins = [np.array(range(len(size))) - 0.5*bin_width for size in sizes_sorted]
+        bins = [np.array(range(size)) - 0.5*bin_width for size in sizes_sorted]
         sizes_sorted_with_leading_zero = [0] + sizes_sorted
 
         data = np.ones(original_database.shape[0] * original_database.shape[1])
