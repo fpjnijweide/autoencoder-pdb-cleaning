@@ -153,6 +153,7 @@ def load_from_csv(input_string):
 def make_df(use_file, bn, mu, sigma, use_gaussian_noise, use_missing_entry, missing_entry_prob, rows, full_string,
             sampling_density, gaussian_noise_layer_sigma,output_data_string=None):
     bins = None
+
     if output_data_string is None:
         if not os.path.exists("./output_data/" + full_string + "/"):
             os.makedirs("./output_data/" + full_string + "/")
@@ -272,17 +273,25 @@ def make_df(use_file, bn, mu, sigma, use_gaussian_noise, use_missing_entry, miss
         for attribute_nr, size in enumerate(sizes_sorted):
             entries_this_col = m[(m >= rows * attribute_nr) & (m < rows * (attribute_nr + 1))]
             rows_this_col = entries_this_col - (rows * attribute_nr)
+            # missing_rows += rows_this_col
             df.iloc[rows_this_col, col_index:col_index + size] = 1
 
             col_index += size
 
+    missing_rows=[]
     for col in df_cols_sorted:
         df[col] = normalize_df(df[col])
+        missing_rows_for_this_col_bool= (np.max(df[col].values, 1) == np.min(df[col].values, 1) ) & (df[col].shape[1] > 1)
+        missing_rows_for_this_col = list(missing_rows_for_this_col_bool.nonzero()[0])
+        missing_rows += missing_rows_for_this_col
 
     if output_data_string is None:
         df.to_csv("./output_data/" + full_string + "/noisy_data" + gpu_string + ".csv")
 
-    return df, hard_evidence, sizes_sorted, gaussian_noise_layer_sigma_new, original_database, bins, is_this_bin_categorical,bin_widths
+
+
+    missing_rows = np.unique(missing_rows)
+    return df, hard_evidence, sizes_sorted, gaussian_noise_layer_sigma_new, original_database, bins, is_this_bin_categorical,bin_widths,missing_rows
 
 
 def normalize_df(df):

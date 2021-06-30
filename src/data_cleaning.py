@@ -26,7 +26,7 @@ def clean_config(filename_out, autoencoder_filename, full_string=None, epochs=ep
 
     bn = None
     df, hard_evidence, sizes_sorted, gaussian_noise_layer_sigma_new, original_database, bins, is_this_bin_categorical,\
-        bin_widths = \
+        bin_widths,missing_rows = \
         make_df(use_file, bn, mu, sigma, use_gaussian_noise,use_missing_entry,missing_entry_prob,rows,full_string,
                 sampling_density,gaussian_noise_sigma,filename_out)
 
