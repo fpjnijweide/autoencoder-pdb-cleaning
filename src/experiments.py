@@ -12,7 +12,7 @@ from .autoencoder import custom_loss, train_network, activation_types_default, h
     CNN_kernel_size_default, input_layer_type_default, gaussian_noise_sigma_default
 from .bayesian_networks import make_bn
 from .pdb import make_df
-from .probabilities import JSD, wasserstein
+from .probabilities import JSD, wasserstein_rescaled
 
 TEST_RUN_EPOCHS = False  # Whether to force the number of epochs below. Useful to test for errors without having to wait for hours of training
 TEST_RUN_EPOCH_NR = 1
@@ -137,8 +137,8 @@ def measure_performance(df, hard_evidence, autoencoder, sizes_sorted, rows, full
         distances_after.append(np.nansum(dist_after))
 
         if not is_this_bin_categorical[i]:
-            current_wasserstein_JSD_before = wasserstein(ground_truth_attribute, dirty_attribute)
-            current_wasserstein_JSD_after = wasserstein(ground_truth_attribute, cleaned_attribute)
+            current_wasserstein_JSD_before = wasserstein_rescaled(ground_truth_attribute, dirty_attribute)
+            current_wasserstein_JSD_after = wasserstein_rescaled(ground_truth_attribute, cleaned_attribute)
         else:
             current_wasserstein_JSD_before = dist_before
             current_wasserstein_JSD_after = dist_after
@@ -218,6 +218,9 @@ def measure_performance(df, hard_evidence, autoencoder, sizes_sorted, rows, full
     JSD_before = np.nansum(distances_before)
     JSD_after = np.nansum(distances_after)
 
+    wasserstein_JSD_before = np.nansum(wasserstein_JSD_before)
+    wasserstein_JSD_after = np.nansum(wasserstein_JSD_after)
+
     flip_TP = np.nansum(flip_TP)
     flip_FN = np.nansum(flip_FN)
     flip_FP = np.nansum(flip_FP)
@@ -226,7 +229,5 @@ def measure_performance(df, hard_evidence, autoencoder, sizes_sorted, rows, full
     entropy_before = np.nansum(entropy_before)
     entropy_after = np.nansum(entropy_after)
 
-    # TODO sum entropy
-
     # noise_left = 100 * avg_distance_after / avg_distance_before
-    return JSD_before, JSD_after, flip_TP, flip_TN, flip_FP, flip_FN, entropy_before, entropy_after
+    return JSD_before, JSD_after, flip_TP, flip_TN, flip_FP, flip_FN, entropy_before, entropy_after, wasserstein_JSD_before, wasserstein_JSD_after
