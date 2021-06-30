@@ -1,4 +1,4 @@
-﻿Treatment,Fever,Duration_of_pain,Sick_leave,Earlier_hospitalization,Workoverload,Familiy_history,Depression,Extremely_nervous,Stress,Relationship_with_colleagues,Irrational_thoughts_risk_lasting,Irrational_thoughts_work,Coping_strategy,Kinesiophobia_physical_exercise,Kinesiophobia_pain_stop,Age,Uses_analgesics
+﻿Treatment CATEGORICAL,Fever CATEGORICAL,Duration_of_pain,Sick_leave CATEGORICAL,Earlier_hospitalization CATEGORICAL,Workoverload CATEGORICAL,Familiy_history CATEGORICAL,Depression CATEGORICAL,Extremely_nervous,Stress CATEGORICAL,Relationship_with_colleagues,Irrational_thoughts_risk_lasting,Irrational_thoughts_work,Coping_strategy,Kinesiophobia_physical_exercise,Kinesiophobia_pain_stop,Age,Uses_analgesics CATEGORICAL
 1,1,10,0,1,NULL,0,0,0,0,NULL,9,10,0,7,7,70,0
 3,1,10,0,1,0,1,0,0,1,9,5,0,7,10,10,50,1
 1,1,10,0,1,NULL,0,0,6,1,4,8,8,2,7,7,50,0

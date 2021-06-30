@@ -43,7 +43,7 @@ def make_pdb(file_string, sampling_density):
         unique_entries_in_coli = np.array(sorted(unique_entries_in_coli, key=natural_key))
         # unique_entries_in_coli.sort()
 
-        if 'categorical' in df.columns[i] or 'CATEGORICAL' in df.columns[i] or not np.issubdtype(coli_nonan.dtype, np.number):
+        if 'categorical' in df.columns[i] or 'CATEGORICAL' in df.columns[i] or 'Categorical' in df.columns[i] or not np.issubdtype(coli_nonan.dtype, np.number):
             is_this_bin_categorical[i]=True
             sizes_sorted[i] = unique_entries_in_coli.size
             bins[i] = unique_entries_in_coli
