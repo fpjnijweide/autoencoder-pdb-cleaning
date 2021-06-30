@@ -69,7 +69,7 @@ def run_experiment(full_string=None, epochs=epochs_default, use_previous_df=Fals
     else:
         bn = None
     df, hard_evidence, sizes_sorted, gaussian_noise_layer_sigma_new, original_database, bins,is_this_bin_categorical, \
-        bin_widths= \
+        bin_widths,missing_rows_dirty,missing_rows_clean= \
         make_df(use_file, bn,mu, sigma,use_gaussian_noise,use_missing_entry,missing_entry_prob,rows,full_string,
                 sampling_density,gaussian_noise_sigma)
 
@@ -84,7 +84,7 @@ def run_experiment(full_string=None, epochs=epochs_default, use_previous_df=Fals
     autoencoder = train_network(epochs, df, hard_evidence, activation_types, hidden_layers, encoding_dim, sizes_sorted,
                                 loss_function, training_method, activity_regularizer, input_layer_type,
                                 labeled_data_percentage, VAE, CNN, kernel_landmarks, CNN_layers, CNN_filters,
-                                CNN_kernel_size, gaussian_noise_layer_sigma_new,is_this_bin_categorical)
+                                CNN_kernel_size, gaussian_noise_layer_sigma_new,is_this_bin_categorical,missing_rows_dirty,missing_rows_clean)
 
     JSD_before, JSD_after, flip_TP, flip_TN, flip_FP, flip_FN, entropy_before, entropy_after,\
     wasserstein_JSD_before, wasserstein_JSD_after = measure_performance(df,hard_evidence,autoencoder,sizes_sorted,

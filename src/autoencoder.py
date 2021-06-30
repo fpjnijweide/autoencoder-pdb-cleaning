@@ -168,18 +168,24 @@ class Sampling(keras.layers.Layer):
 
 def train_network(epochs, df, hard_evidence, activation_types, hidden_layers, encoding_dim, sizes_sorted, loss_function,
                   training_method, activity_regularizer, input_layer_type, labeled_data_percentage, VAE, CNN,
-                  kernel_landmarks, CNN_layers, CNN_filters, CNN_kernel_size, gaussian_noise_sigma,is_this_bin_categorical,missing_rows):
+                  kernel_landmarks, CNN_layers, CNN_filters, CNN_kernel_size, gaussian_noise_sigma,is_this_bin_categorical,missing_rows_dirty,missing_rows_clean):
     x_train, y_train, x_train_nolabel = None, None, None
 
     df = df.copy(deep=True)
     hard_evidence = hard_evidence.copy(deep=True)
 
+    missing_rows_total = np.unique(np.concatenate([missing_rows_dirty,missing_rows_clean]))
+
     if training_method == 'supervised':
+        df.drop(missing_rows_clean)
+        hard_evidence.drop(missing_rows_clean)
         x_train, y_train = df, hard_evidence
     elif training_method == "unsupervised":
-        df.drop(missing_rows)
+        df.drop(missing_rows_total)
         x_train = df
     elif training_method == "supervised_2_percent":
+        df.drop(missing_rows_clean)
+        hard_evidence.drop(missing_rows_clean)
         x_train, _, y_train, _ = sklearn.model_selection.train_test_split(df, hard_evidence, test_size=0.98)
     elif training_method == "semi" or training_method == "semi_supervised" or training_method == "semisupervised" or training_method == "semi_sup_first" or training_method == "semi_mixed":
         x_train, x_train_nolabel, y_train, _ = sklearn.model_selection.train_test_split(df, hard_evidence, test_size=(

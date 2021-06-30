@@ -26,7 +26,7 @@ def clean_config(filename_out, autoencoder_filename, full_string=None, epochs=ep
 
     bn = None
     df, hard_evidence, sizes_sorted, gaussian_noise_layer_sigma_new, original_database, bins, is_this_bin_categorical,\
-        bin_widths,missing_rows = \
+        bin_widths,missing_rows_dirty,missing_rows_clean = \
         make_df(use_file, bn, mu, sigma, use_gaussian_noise,use_missing_entry,missing_entry_prob,rows,full_string,
                 sampling_density,gaussian_noise_sigma,filename_out)
 
@@ -43,7 +43,7 @@ def clean_config(filename_out, autoencoder_filename, full_string=None, epochs=ep
                                     sizes_sorted,
                                     loss_function, training_method, activity_regularizer, input_layer_type,
                                     labeled_data_percentage, VAE, CNN, kernel_landmarks, CNN_layers, CNN_filters,
-                                    CNN_kernel_size, gaussian_noise_layer_sigma_new,is_this_bin_categorical)
+                                    CNN_kernel_size, gaussian_noise_layer_sigma_new,is_this_bin_categorical,missing_rows_dirty,missing_rows_clean)
     else:
         autoencoder = keras.models.load_model(autoencoder_filename)
     measure_performance(df, hard_evidence,
