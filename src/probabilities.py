@@ -11,6 +11,15 @@ def _cdf_distance(p, u_values, v_values, u_weights=None, v_weights=None):
     tf.debugging.assert_equal(u_values,v_values)
     # Compute the differences between pairs of successive values of u and v.
 
+    u_values = ops.convert_to_tensor_v2(u_values)
+    v_values = ops.convert_to_tensor_v2(v_values)
+    u_weights = ops.convert_to_tensor_v2(u_weights)
+    v_weights = ops.convert_to_tensor_v2(v_weights)
+
+    u_values = math_ops.cast(u_values, u_weights.dtype)
+    v_values = math_ops.cast(v_values, u_weights.dtype)
+    v_weights = math_ops.cast(v_weights, u_weights.dtype)
+
     # u_weights = tf.convert_to_tensor(u_weights,dtype=tf.float32)
     # v_weights = tf.convert_to_tensor(v_weights,dtype=tf.float32)
     # v_values = tf.convert_to_tensor(v_values,dtype=tf.float32)
@@ -28,9 +37,9 @@ def _cdf_distance(p, u_values, v_values, u_weights=None, v_weights=None):
     u_cdf_indices = (tf.repeat(u_sorter,2)+1)[:-1 ]
     v_cdf_indices = (tf.repeat(v_sorter,2)+1)[:-1 ]
 
-    tf.print(keras.backend.eval(u_weights))
-    tf.print(keras.backend.eval(v_weights))
-    tf.print(keras.backend.eval(u_values))
+    # tf.print(keras.backend.eval(u_weights))
+    # tf.print(keras.backend.eval(v_weights))
+    # tf.print(keras.backend.eval(u_values))
 
     # Calculate the CDFs of u and v using their weights, if specified.
     if u_weights is None:
