@@ -8,6 +8,8 @@ This is the source code for the paper "Autoencoder-based cleaning in probabilist
 
 Simply install all the packages in requirements.txt (`pip install -r requirements.txt`). If using Linux, install.sh can be used to generate a venv.
 
+This repository requires tensorflow 2.5 to be installed, as we use experimental features.
+
 ## Instructions for usage
 
 - clean_one_file.py allows for cleaning a .csv file using the methods we described. takes 2 or 3 arguments: the file you want to clean, the name you want the cleaned file to have, and an optional filename of a previously trained autoencoder (usually a .h5) file that it will use for this cleaning. If the autoencoder filename is not specified, the program will train an autoencoder by itself and save it to the same folder as the cleaned .csv.
