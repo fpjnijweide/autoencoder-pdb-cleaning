@@ -22,11 +22,15 @@ def _cdf_distance(p, u_values, v_values, u_weights=None, v_weights=None):
     # Get the respective positions of the values of u and v among the values of
     # both distributions.
 
-    u_sorter=tf.range(u_values.shape)
-    v_sorter=tf.range(u_values.shape)
+    u_sorter=tf.range(tf.squeeze(u_values.shape))
+    v_sorter=tf.range(tf.squeeze(v_values.shape))
 
     u_cdf_indices = (tf.repeat(u_sorter,2)+1)[:-1 ]
     v_cdf_indices = (tf.repeat(v_sorter,2)+1)[:-1 ]
+
+    tf.print(keras.backend.eval(u_weights))
+    tf.print(keras.backend.eval(v_weights))
+    tf.print(keras.backend.eval(u_values))
 
     # Calculate the CDFs of u and v using their weights, if specified.
     if u_weights is None:

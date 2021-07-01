@@ -75,7 +75,7 @@ def run_experiment(full_string=None, epochs=epochs_default, use_previous_df=Fals
 
     if loss_function != 'MSE':
         old_loss = loss_function[:]
-        loss_function = lambda y_true, y_pred: custom_loss(y_true, y_pred, sizes_sorted, old_loss,bins,is_this_bin_categorical)
+        loss_function = lambda y_true, y_pred: custom_loss(y_true, y_pred, sizes_sorted, old_loss,bins,is_this_bin_categorical,bin_widths)
 
     if encoding_dim is None:
         encoding_dim = len(original_database.columns)

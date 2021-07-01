@@ -141,7 +141,7 @@ class VAE_model(keras.Model):
 #     return good_loss
 
 
-def custom_loss(y_true, y_pred, sizes_sorted, loss_func,bins,is_this_bin_categorical):
+def custom_loss(y_true, y_pred, sizes_sorted, loss_func,bins,is_this_bin_categorical,bin_widths):
     Wasserstein = False
     if loss_func == 'JSD':
         loss_func = JSD
@@ -164,7 +164,7 @@ def custom_loss(y_true, y_pred, sizes_sorted, loss_func,bins,is_this_bin_categor
             new_loss = loss_func(y_true[:, i:i + size], y_pred[:, i:i + size])
         else:
             if not is_this_bin_categorical[column_nr]:
-                new_loss = wasserstein_loss_rescaled(y_true[:, i:i + size], y_pred[:, i:i + size], bins[column_nr])
+                new_loss = wasserstein_loss_rescaled(y_true[:, i:i + size], y_pred[:, i:i + size], bins[column_nr] + 0.5*bin_widths[column_nr])
             else:
                 new_loss = JSD(y_true[:, i:i + size], y_pred[:, i:i + size])
 
@@ -327,6 +327,7 @@ if __name__=='__main__':
 
     sizes_sorted=[3,2,1,4]
     bins=[np.array([0,1,2]),np.array([0,1]),np.array([0]),np.array([0,1,2,3])]
+    bin_widths=[np.ones(3),np.ones(2),np.ones(1),np.ones(4)]
     is_this_bin_categorical=[False,False,False,False]
 
     y_true = np.random.randint(0, 2, size=(4, 10)).astype(np.float64)
@@ -352,7 +353,7 @@ if __name__=='__main__':
     y_pred=np.array(y_pred)
 
     loss_function = lambda y_true, y_pred: custom_loss(y_true, y_pred, sizes_sorted, old_loss, bins,
-                                                       is_this_bin_categorical)
+                                                       is_this_bin_categorical,bin_widths)
 
 
     loss = loss_function(y_true, y_pred)
