@@ -16,9 +16,9 @@ def _cdf_distance(p, u_values, v_values, u_weights=None, v_weights=None):
     u_weights = ops.convert_to_tensor_v2(u_weights)
     v_weights = ops.convert_to_tensor_v2(v_weights)
 
-    u_values = math_ops.cast(u_values, u_weights.dtype)
-    v_values = math_ops.cast(v_values, u_weights.dtype)
-    v_weights = math_ops.cast(v_weights, u_weights.dtype)
+    u_values = math_ops.cast(u_values, tf.float32)
+    v_values = math_ops.cast(v_values, tf.float32)
+    v_weights = math_ops.cast(v_weights, tf.float32)
 
     # u_weights = tf.convert_to_tensor(u_weights,dtype=tf.float32)
     # v_weights = tf.convert_to_tensor(v_weights,dtype=tf.float32)
@@ -31,8 +31,8 @@ def _cdf_distance(p, u_values, v_values, u_weights=None, v_weights=None):
     # Get the respective positions of the values of u and v among the values of
     # both distributions.
 
-    u_sorter=tf.range(tf.squeeze(u_values.shape))
-    v_sorter=tf.range(tf.squeeze(v_values.shape))
+    u_sorter=tf.range(tf.squeeze(tf.shape(u_values)))
+    v_sorter=tf.range(tf.squeeze(tf.shape(v_values)))
 
     u_cdf_indices = (tf.repeat(u_sorter,2)+1)[:-1 ]
     v_cdf_indices = (tf.repeat(v_sorter,2)+1)[:-1 ]
@@ -43,25 +43,31 @@ def _cdf_distance(p, u_values, v_values, u_weights=None, v_weights=None):
 
     # Calculate the CDFs of u and v using their weights, if specified.
     if u_weights is None:
-        u_cdf = u_cdf_indices / u_values.size
+        u_cdf = u_cdf_indices / tf.squeeze(tf.shape(u_values))
     else:
-        u_sorted_cumweights = tf.concat((np.zeros([u_weights.shape[0],1]), tf.cumsum(u_weights,axis=1)),axis=1)
-        u_cdf = tf.gather(u_sorted_cumweights,tf.cast(u_cdf_indices,dtype=tf.int32),axis=1) / tf.expand_dims(u_sorted_cumweights[:,-1],1)
+        u_sorted_cumweights = tf.concat((tf.zeros([tf.shape(u_weights)[0],1],dtype=tf.float32), tf.cast(tf.cumsum(u_weights,axis=1),dtype=tf.float32)),axis=1)
+        u_cdf = tf.gather(params=u_sorted_cumweights,indices=tf.cast(u_cdf_indices,dtype=tf.int32),axis=1) / tf.expand_dims(u_sorted_cumweights[:,-1],1)
 
     if v_weights is None:
-        v_cdf = v_cdf_indices / v_values.size
+        v_cdf = v_cdf_indices / tf.squeeze(tf.shape(v_values))
     else:
-        v_sorted_cumweights = tf.concat((np.zeros([u_weights.shape[0],1]), tf.cumsum(v_weights,axis=1)),axis=1)
-        v_cdf = tf.gather(v_sorted_cumweights,tf.cast(v_cdf_indices,dtype=tf.int32),axis=1) / tf.expand_dims(v_sorted_cumweights[:,-1],1)
+        v_sorted_cumweights = tf.concat((tf.zeros([tf.shape(v_weights)[0],1],dtype=tf.float32), tf.cast(tf.cumsum(v_weights,axis=1),dtype=tf.float32)),axis=1)
+        v_cdf = tf.gather(params=v_sorted_cumweights,indices=tf.cast(v_cdf_indices,dtype=tf.int32),axis=1) / tf.expand_dims(v_sorted_cumweights[:,-1],1)
 
     # Compute the value of the integral based on the CDFs.
     # If p = 1 or p = 2, we avoid using np.power, which introduces an overhead
     # of about 15%.
-    if p == 1:
-        return tf.math.reduce_sum(tf.multiply(tf.abs(u_cdf - v_cdf), deltas),axis=1)
-    if p == 2:
-        return tf.sqrt(tf.math.reduce_sum(tf.multiply(tf.square(u_cdf - v_cdf), deltas),axis=1))
-    return tf.experimental.numpy.power(tf.math.reduce_sum(tf.multiply(tf.experimental.numpy.power(tf.abs(u_cdf - v_cdf), p),deltas)), 1/p)
+    # if p == 1:
+    abs1 = tf.abs(u_cdf - v_cdf)
+    mult1 = tf.multiply(abs1,deltas)
+    sum1 = tf.math.reduce_sum(mult1,axis=1)
+    # tf.print(keras.backend.eval(tf.abs(u_cdf - v_cdf)))
+    # tf.print(keras.backend.eval(tf.multiply(tf.abs(u_cdf - v_cdf), deltas)))
+    # tf.print(keras.backend.eval(tf.math.reduce_sum(tf.multiply(tf.abs(u_cdf - v_cdf), deltas),axis=1)))
+    return tf.cast(sum1,dtype=tf.float32)
+    # if p == 2:
+    #     return tf.sqrt(tf.math.reduce_sum(tf.multiply(tf.square(u_cdf - v_cdf), deltas),axis=1))
+    # return tf.experimental.numpy.power(tf.math.reduce_sum(tf.multiply(tf.experimental.numpy.power(tf.abs(u_cdf - v_cdf), p),deltas)), 1/p)
 
 def wasserstein_wrongsignature(u_values, v_values, u_weights=None, v_weights=None):
     return _cdf_distance(1, u_values, v_values, u_weights, v_weights)
@@ -86,7 +92,7 @@ def wasserstein_unscaled(y_true,y_pred,current_bins):
     return wasserstein_wrongsignature(current_bins,current_bins,y_true,y_pred)
 
 def wasserstein_rescaled(y_true,y_pred,current_bins):
-    scaling_factor = tf.math.log(tf.cast(2,dtype=tf.float32))/(current_bins[-1]-current_bins[0])
+    scaling_factor = tf.cast(tf.math.log(tf.cast(2,dtype=tf.float32))/(current_bins[-1]-current_bins[0]),dtype=tf.float32)
     return wasserstein_unscaled(y_true,y_pred,current_bins)*scaling_factor
 
 def wasserstein_loss_rescaled(y_true,y_pred,current_bins):
@@ -127,7 +133,7 @@ if __name__ == '__main__':
 
     print(wasserstein_wrongsignature_old(current_bins,current_bins,a_repeat,b_repeat))
     print(_cdf_distance(1, current_bins, current_bins, a_repeat,b_repeat))
-
+    print(wasserstein_rescaled(a_repeat,b_repeat,current_bins))
     #
     # print(wasserstein_unscaled(a_repeat,b_repeat,current_bins))
     # print(wasserstein_unscaled(c,d,current_bins_c))
