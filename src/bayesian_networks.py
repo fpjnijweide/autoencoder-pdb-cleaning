@@ -21,13 +21,14 @@ def make_bn(BN_size, sampling_density):
 
     if BN_size > 1:
         b = bn.add(gum.RangeVariable("B", "Another quasi continuous variable", 0, sampling_density - 1))
-        bn.addArc(a, b)
-        first = generate_samplespace(scipy.stats.truncnorm(-10, 3), -10, 3, sampling_density)
-        second = generate_samplespace(scipy.stats.truncnorm(-2, 6), -2, 6, sampling_density)
-        bn.cpt(b)[{'A': 0}] = first
-        bn.cpt(b)[{'A': 1}] = second
+        bn.addArc(a,b)
+        l = []
+        for i in range(sampling_density):
+            # the size and the parameter of gamma depends on the parent value
+            k = (i * 30.0) / sampling_density
+            l.append(generate_samplespace(scipy.stats.gamma(k + 1), 4, 5 + k, sampling_density))
+        bn.cpt(b)[:] = l
         new_nodes.append(b)
-
     if BN_size > 2:
         c = bn.add(gum.RangeVariable("C", "Another quasi continuous variable", 0, sampling_density - 1))
         bn.addArc(b, c)
