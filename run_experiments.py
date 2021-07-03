@@ -51,22 +51,35 @@ def main():
 
     experiments_config = ExperimentsConfig()
 
-    ground_config_strings_real_data_real_world_example = ["Wassersteinu, surgical_case_durations NO_ADDED_NOISE",
+    ground_config_strings_real_data_real_world_example = ["JSDu, surgical_case_durations NO_ADDED_NOISE",
+                                                          "JSDu, LBP RA NO_ADDED_NOISE",
+                                                          "JSDu, surgical_case_durations NO_ADDED_NOISE SD=4",
+                                                          "JSDu, LBP RA NO_ADDED_NOISE SD=4",
+                                                          "JSDu, surgical_case_durations NO_ADDED_NOISE SD=100",
+                                                          "JSDu, LBP RA NO_ADDED_NOISE SD=100",
+                                                          "Wassersteinu, surgical_case_durations NO_ADDED_NOISE",
                                                           "Wassersteinu, LBP RA NO_ADDED_NOISE",
                                                           "Wassersteinu, surgical_case_durations NO_ADDED_NOISE SD=4",
                                                           "Wassersteinu, LBP RA NO_ADDED_NOISE SD=4",
                                                           "Wassersteinu, surgical_case_durations NO_ADDED_NOISE SD=100",
                                                           "Wassersteinu, LBP RA NO_ADDED_NOISE SD=100"]
 
-    ground_config_strings_real_data = ["Wasserstein, surgical_case_durations", "Wassersteinu, surgical_case_durations", "Wasserstein, LBP RA",
+
+    ground_config_strings_real_data = ["JSD, surgical_case_durations", "JSDu, surgical_case_durations", "JSD, LBP RA",
+                                       "JSDu, LBP RA",
+                                       "JSD, surgical_case_durations, SD=4", "JSDu, surgical_case_durations, SD=4",
+                                       "JSD, LBP RA, SD=4", "JSDu, LBP RA, SD=4",
+                                       "JSD, surgical_case_durations, SD=100", "JSDu, surgical_case_durations, SD=100",
+                                       "JSD, LBP RA, SD=100", "JSDu, LBP RA, SD=100",
+                                       "Wasserstein, surgical_case_durations", "Wassersteinu, surgical_case_durations", "Wasserstein, LBP RA",
                                        "Wassersteinu, LBP RA",
                                        "Wasserstein, surgical_case_durations, SD=4", "Wassersteinu, surgical_case_durations, SD=4",
                                        "Wasserstein, LBP RA, SD=4", "Wassersteinu, LBP RA, SD=4",
                                        "Wasserstein, surgical_case_durations, SD=100", "Wassersteinu, surgical_case_durations, SD=100",
                                        "Wasserstein, LBP RA, SD=100", "Wassersteinu, LBP RA, SD=100"]
 
-    ground_config_strings_synthetic = ["CCE, SD=4", "Wasserstein, SD=4", "CCEu, SD=4", "Wassersteinu, SD=4", "CCE, SD=100", "Wasserstein, SD=100",
-                                       "CCEu, SD=100", "Wassersteinu, SD=100"]
+    ground_config_strings_synthetic = ["Wasserstein, SD=4", "JSD, SD=4", "Wassersteinu, SD=4", "JSDu, SD=4", "Wasserstein, SD=100", "JSD, SD=100",
+                                       "Wassersteinu, SD=100", "JSDu, SD=100"]
 
     ground_config_strings = ground_config_strings_real_data_real_world_example + ground_config_strings_real_data + ground_config_strings_synthetic
 
@@ -119,7 +132,7 @@ def main():
                                ["supervised", "supervised_2_percent", "semi", "semi_sup_first", "semi_mixed",
                                 "unsupervised"])
 
-            if ground_config['loss_function'] != 'CCE':
+            if not (ground_config['loss_function'] == 'Wasserstein' and ground_config['sampling_density'] == 4):
                 # 1
                 activation_list = [defaults['activation_types'], ['relu'], ['relu'] * 5,
                                    [keras.backend.sin, keras.backend.cos, keras.activations.linear],
@@ -162,7 +175,7 @@ def main():
             if ground_config['sampling_density'] != 100:
                 experiments_config.gen_experiment(config_string, ground_config, 'sampling_density', [4, 15, 25, 50, 100, 150, 300])
 
-            if ground_config['loss_function'] != 'CCE':
+            if not (ground_config['loss_function'] == 'Wasserstein' and ground_config['sampling_density'] == 4):
                 # 10-13
                 gaussian_noise_sigma_strings = ["lambda SD, 0.01", "lambda SD, 0.02", "lambda SD, 0.05", "lambda SD, 0.1",
                                                 "lambda SD, 0.2", "lambda SD, (0.01 over SD) cdot 100",
@@ -211,6 +224,9 @@ def main():
     print("Experiments: " + str(len(experiments_config.experiments)))
     print("Experiment configs: " + str(len(experiments_config.configs)))
     print("\n\n\n----------DONE---------\n\n\n")
+
+    with open("./results/experiments" + gpu_string, "wb") as dill_file:
+        dill.dump(experiments_config.experiments, dill_file)
 
     with pd.option_context("display.max_rows", 1000):
         display(pd.DataFrame(pd.DataFrame(experiments_config.experiments).loc[:, "full_string_list"].values.tolist()))
