@@ -78,7 +78,7 @@ def main():
                                        "Wasserstein, surgical_case_durations, SD=100", "Wassersteinu, surgical_case_durations, SD=100",
                                        "Wasserstein, LBP RA, SD=100", "Wassersteinu, LBP RA, SD=100"]
 
-    ground_config_strings_synthetic = ["Wasserstein, SD=4", "JSD, SD=4", "Wassersteinu, SD=4", "JSDu, SD=4", "Wasserstein, SD=100", "JSD, SD=100",
+    ground_config_strings_synthetic = ["JSD, SD=4", "JSDu, SD=4", "Wasserstein, SD=100", "JSD, SD=100",
                                        "Wassersteinu, SD=100", "JSDu, SD=100"]
 
     ground_config_strings = ground_config_strings_real_data_real_world_example + ground_config_strings_real_data + ground_config_strings_synthetic
@@ -132,7 +132,7 @@ def main():
                                ["supervised", "supervised_2_percent", "semi", "semi_sup_first", "semi_mixed",
                                 "unsupervised"])
 
-            if not (ground_config['loss_function'] == 'Wasserstein' and ground_config['sampling_density'] == 4):
+            if True:
                 # 1
                 activation_list = [defaults['activation_types'], ['relu'], ['relu'] * 5,
                                    [keras.backend.sin, keras.backend.cos, keras.activations.linear],
@@ -172,10 +172,10 @@ def main():
                 experiments_config.gen_experiment(config_string, ground_config, 'labeled_data_percentage',
                                [99, 50, 20, 10, 5, 2, 1, 0.5, 0.25, 0.125, 0.05, 0.01])
             # 9
-            if ground_config['sampling_density'] != 100:
+            if ground_config['loss_function'] == 'Wasserstein' or ground_config['sampling_density'] != 100:
                 experiments_config.gen_experiment(config_string, ground_config, 'sampling_density', [4, 15, 25, 50, 100, 150, 300])
 
-            if not (ground_config['loss_function'] == 'Wasserstein' and ground_config['sampling_density'] == 4):
+            if True:
                 # 10-13
                 gaussian_noise_sigma_strings = ["lambda SD, 0.01", "lambda SD, 0.02", "lambda SD, 0.05", "lambda SD, 0.1",
                                                 "lambda SD, 0.2", "lambda SD, (0.01 over SD) cdot 100",

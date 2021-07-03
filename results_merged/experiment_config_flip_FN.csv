@@ -4,6 +4,12 @@
 "JSDu, LBP RA NO_ADDED_NOISE SD=4    sigma    0",0.0
 "JSDu, surgical_case_durations NO_ADDED_NOISE SD=100    sigma    0",0.0
 "JSDu, LBP RA NO_ADDED_NOISE SD=100    sigma    0",0.0
+"Wassersteinu, surgical_case_durations NO_ADDED_NOISE    sigma    0",0.0
+"Wassersteinu, LBP RA NO_ADDED_NOISE    sigma    0",0.0
+"Wassersteinu, surgical_case_durations NO_ADDED_NOISE SD=4    sigma    0",0.0
+"Wassersteinu, LBP RA NO_ADDED_NOISE SD=4    sigma    0",0.0
+"Wassersteinu, surgical_case_durations NO_ADDED_NOISE SD=100    sigma    0",0.0
+"Wassersteinu, LBP RA NO_ADDED_NOISE SD=100    sigma    0",0.0
 "JSD, surgical_case_durations    sigma    0.005",5442.0
 "JSD, surgical_case_durations    sigma    0.01",8948.0
 "JSD, surgical_case_durations    sigma    0.02",16762.0
@@ -220,29 +226,222 @@
 "JSDu, LBP RA, SD=100    missing_entry_combined    0.05",29659.0,29731.0
 "JSDu, LBP RA, SD=100    missing_entry_combined    0.1",29763.0,29964.0
 "JSDu, LBP RA, SD=100    missing_entry_combined    0.5",32572.0,32561.0
-"CCE, SD=4    training_method    supervised"
-"CCE, SD=4    training_method    supervised_2_percent"
-"CCE, SD=4    training_method    semi"
-"CCE, SD=4    training_method    semi_sup_first"
-"CCE, SD=4    training_method    semi_mixed"
-"CCE, SD=4    training_method    unsupervised"
-"CCE, SD=4    labeled_data_percentage    99"
-"CCE, SD=4    labeled_data_percentage    50"
-"CCE, SD=4    labeled_data_percentage    20"
-"CCE, SD=4    labeled_data_percentage    10"
-"CCE, SD=4    labeled_data_percentage    5"
-"CCE, SD=4    labeled_data_percentage    1"
-"CCE, SD=4    labeled_data_percentage    0.5"
-"CCE, SD=4    labeled_data_percentage    0.25"
-"CCE, SD=4    labeled_data_percentage    0.125"
-"CCE, SD=4    labeled_data_percentage    0.05"
-"CCE, SD=4    labeled_data_percentage    0.01"
-"CCE, SD=4    sampling_density    15"
-"CCE, SD=4    sampling_density    25"
-"CCE, SD=4    sampling_density    50"
-"CCE, SD=4    sampling_density    100"
-"CCE, SD=4    sampling_density    150"
-"CCE, SD=4    sampling_density    300"
+"Wasserstein, surgical_case_durations    sigma    0.005",8760.0
+"Wasserstein, surgical_case_durations    sigma    0.01",12962.0
+"Wasserstein, surgical_case_durations    sigma    0.02",21853.0
+"Wasserstein, surgical_case_durations    sigma    0.05",31220.0
+"Wasserstein, surgical_case_durations    sigma    0.1",40416.0
+"Wasserstein, surgical_case_durations    sigma    0.2",43472.0
+"Wasserstein, surgical_case_durations    missing_entry    0.001",64.0
+"Wasserstein, surgical_case_durations    missing_entry    0.005",267.0
+"Wasserstein, surgical_case_durations    missing_entry    0.01",544.0
+"Wasserstein, surgical_case_durations    missing_entry    0.05",2606.0
+"Wasserstein, surgical_case_durations    missing_entry    0.1",5241.0
+"Wasserstein, surgical_case_durations    missing_entry    0.5",26442.0
+"Wasserstein, surgical_case_durations    missing_entry_combined    0.001",21968.0
+"Wasserstein, surgical_case_durations    missing_entry_combined    0.005",22211.0
+"Wasserstein, surgical_case_durations    missing_entry_combined    0.01",22317.0
+"Wasserstein, surgical_case_durations    missing_entry_combined    0.05",23423.0
+"Wasserstein, surgical_case_durations    missing_entry_combined    0.1",25533.0
+"Wasserstein, surgical_case_durations    missing_entry_combined    0.5",38121.0
+"Wassersteinu, surgical_case_durations    sigma    0.005",25797.0
+"Wassersteinu, surgical_case_durations    sigma    0.01",32212.0
+"Wassersteinu, surgical_case_durations    sigma    0.02",44086.0
+"Wassersteinu, surgical_case_durations    sigma    0.05",59619.0
+"Wassersteinu, surgical_case_durations    sigma    0.1",70421.0
+"Wassersteinu, surgical_case_durations    sigma    0.2",77528.0
+"Wassersteinu, surgical_case_durations    missing_entry    0.001",42.0
+"Wassersteinu, surgical_case_durations    missing_entry    0.005",241.0
+"Wassersteinu, surgical_case_durations    missing_entry    0.01",523.0
+"Wassersteinu, surgical_case_durations    missing_entry    0.05",2615.0
+"Wassersteinu, surgical_case_durations    missing_entry    0.1",5199.0
+"Wassersteinu, surgical_case_durations    missing_entry    0.5",28034.0
+"Wassersteinu, surgical_case_durations    missing_entry_combined    0.001",44218.0
+"Wassersteinu, surgical_case_durations    missing_entry_combined    0.005",43983.0
+"Wassersteinu, surgical_case_durations    missing_entry_combined    0.01",44446.0
+"Wassersteinu, surgical_case_durations    missing_entry_combined    0.05",45152.0
+"Wassersteinu, surgical_case_durations    missing_entry_combined    0.1",46401.0
+"Wassersteinu, surgical_case_durations    missing_entry_combined    0.5",55575.0
+"Wasserstein, LBP RA    sigma    0.005",1971.0
+"Wasserstein, LBP RA    sigma    0.01",4598.0
+"Wasserstein, LBP RA    sigma    0.02",11057.0
+"Wasserstein, LBP RA    sigma    0.05",19150.0
+"Wasserstein, LBP RA    sigma    0.1",21746.0
+"Wasserstein, LBP RA    sigma    0.2",22951.0
+"Wasserstein, LBP RA    missing_entry    0.001",32.0
+"Wasserstein, LBP RA    missing_entry    0.005",134.0
+"Wasserstein, LBP RA    missing_entry    0.01",269.0
+"Wasserstein, LBP RA    missing_entry    0.05",1391.0
+"Wasserstein, LBP RA    missing_entry    0.1",2776.0
+"Wasserstein, LBP RA    missing_entry    0.5",13379.0
+"Wasserstein, LBP RA    missing_entry_combined    0.001",10848.0
+"Wasserstein, LBP RA    missing_entry_combined    0.005",11073.0
+"Wasserstein, LBP RA    missing_entry_combined    0.01",11025.0
+"Wasserstein, LBP RA    missing_entry_combined    0.05",11607.0
+"Wasserstein, LBP RA    missing_entry_combined    0.1",12405.0
+"Wasserstein, LBP RA    missing_entry_combined    0.5",19020.0
+"Wassersteinu, LBP RA    sigma    0.005",8298.0
+"Wassersteinu, LBP RA    sigma    0.01",15738.0
+"Wassersteinu, LBP RA    sigma    0.02",24285.0
+"Wassersteinu, LBP RA    sigma    0.05",31842.0
+"Wassersteinu, LBP RA    sigma    0.1",34453.0
+"Wassersteinu, LBP RA    sigma    0.2",35322.0
+"Wassersteinu, LBP RA    missing_entry    0.001",25.0
+"Wassersteinu, LBP RA    missing_entry    0.005",140.0
+"Wassersteinu, LBP RA    missing_entry    0.01",276.0
+"Wassersteinu, LBP RA    missing_entry    0.05",1377.0
+"Wassersteinu, LBP RA    missing_entry    0.1",2656.0
+"Wassersteinu, LBP RA    missing_entry    0.5",14522.0
+"Wassersteinu, LBP RA    missing_entry_combined    0.001",24107.0
+"Wassersteinu, LBP RA    missing_entry_combined    0.005",24383.0
+"Wassersteinu, LBP RA    missing_entry_combined    0.01",24051.0
+"Wassersteinu, LBP RA    missing_entry_combined    0.05",24460.0
+"Wassersteinu, LBP RA    missing_entry_combined    0.1",24889.0
+"Wassersteinu, LBP RA    missing_entry_combined    0.5",29112.0
+"Wasserstein, surgical_case_durations, SD=4    sigma    0.005",154.0
+"Wasserstein, surgical_case_durations, SD=4    sigma    0.01",1987.0
+"Wasserstein, surgical_case_durations, SD=4    sigma    0.02",7239.0
+"Wasserstein, surgical_case_durations, SD=4    sigma    0.05",14609.0
+"Wasserstein, surgical_case_durations, SD=4    sigma    0.1",20904.0
+"Wasserstein, surgical_case_durations, SD=4    sigma    0.2",24460.0
+"Wasserstein, surgical_case_durations, SD=4    missing_entry    0.001",30.0
+"Wasserstein, surgical_case_durations, SD=4    missing_entry    0.005",162.0
+"Wasserstein, surgical_case_durations, SD=4    missing_entry    0.01",322.0
+"Wasserstein, surgical_case_durations, SD=4    missing_entry    0.05",1695.0
+"Wasserstein, surgical_case_durations, SD=4    missing_entry    0.1",3421.0
+"Wasserstein, surgical_case_durations, SD=4    missing_entry    0.5",17381.0
+"Wasserstein, surgical_case_durations, SD=4    missing_entry_combined    0.001",7473.0
+"Wasserstein, surgical_case_durations, SD=4    missing_entry_combined    0.005",7506.0
+"Wasserstein, surgical_case_durations, SD=4    missing_entry_combined    0.01",7494.0
+"Wasserstein, surgical_case_durations, SD=4    missing_entry_combined    0.05",8843.0
+"Wasserstein, surgical_case_durations, SD=4    missing_entry_combined    0.1",10269.0
+"Wasserstein, surgical_case_durations, SD=4    missing_entry_combined    0.5",21608.0
+"Wassersteinu, surgical_case_durations, SD=4    sigma    0.005",645.0
+"Wassersteinu, surgical_case_durations, SD=4    sigma    0.01",7932.0
+"Wassersteinu, surgical_case_durations, SD=4    sigma    0.02",26807.0
+"Wassersteinu, surgical_case_durations, SD=4    sigma    0.05",48358.0
+"Wassersteinu, surgical_case_durations, SD=4    sigma    0.1",63316.0
+"Wassersteinu, surgical_case_durations, SD=4    sigma    0.2",71930.0
+"Wassersteinu, surgical_case_durations, SD=4    missing_entry    0.001",32.0
+"Wassersteinu, surgical_case_durations, SD=4    missing_entry    0.005",198.0
+"Wassersteinu, surgical_case_durations, SD=4    missing_entry    0.01",350.0
+"Wassersteinu, surgical_case_durations, SD=4    missing_entry    0.05",1781.0
+"Wassersteinu, surgical_case_durations, SD=4    missing_entry    0.1",3483.0
+"Wassersteinu, surgical_case_durations, SD=4    missing_entry    0.5",19395.0
+"Wassersteinu, surgical_case_durations, SD=4    missing_entry_combined    0.001",26977.0
+"Wassersteinu, surgical_case_durations, SD=4    missing_entry_combined    0.005",26106.0
+"Wassersteinu, surgical_case_durations, SD=4    missing_entry_combined    0.01",28019.0
+"Wassersteinu, surgical_case_durations, SD=4    missing_entry_combined    0.05",28675.0
+"Wassersteinu, surgical_case_durations, SD=4    missing_entry_combined    0.1",30185.0
+"Wassersteinu, surgical_case_durations, SD=4    missing_entry_combined    0.5",41021.0
+"Wasserstein, LBP RA, SD=4    sigma    0.005",196.0
+"Wasserstein, LBP RA, SD=4    sigma    0.01",2264.0
+"Wasserstein, LBP RA, SD=4    sigma    0.02",7676.0
+"Wasserstein, LBP RA, SD=4    sigma    0.05",13396.0
+"Wasserstein, LBP RA, SD=4    sigma    0.1",16059.0
+"Wasserstein, LBP RA, SD=4    sigma    0.2",16748.0
+"Wasserstein, LBP RA, SD=4    missing_entry    0.001",26.0
+"Wasserstein, LBP RA, SD=4    missing_entry    0.005",98.0
+"Wasserstein, LBP RA, SD=4    missing_entry    0.01",212.0
+"Wasserstein, LBP RA, SD=4    missing_entry    0.05",1098.0
+"Wasserstein, LBP RA, SD=4    missing_entry    0.1",2129.0
+"Wasserstein, LBP RA, SD=4    missing_entry    0.5",10246.0
+"Wasserstein, LBP RA, SD=4    missing_entry_combined    0.001",7263.0
+"Wasserstein, LBP RA, SD=4    missing_entry_combined    0.005",7591.0
+"Wasserstein, LBP RA, SD=4    missing_entry_combined    0.01",7769.0
+"Wasserstein, LBP RA, SD=4    missing_entry_combined    0.05",8420.0
+"Wasserstein, LBP RA, SD=4    missing_entry_combined    0.1",8778.0
+"Wasserstein, LBP RA, SD=4    missing_entry_combined    0.5",14325.0
+"Wassersteinu, LBP RA, SD=4    sigma    0.005",107.0
+"Wassersteinu, LBP RA, SD=4    sigma    0.01",3799.0
+"Wassersteinu, LBP RA, SD=4    sigma    0.02",15869.0
+"Wassersteinu, LBP RA, SD=4    sigma    0.05",27168.0
+"Wassersteinu, LBP RA, SD=4    sigma    0.1",30535.0
+"Wassersteinu, LBP RA, SD=4    sigma    0.2",32017.0
+"Wassersteinu, LBP RA, SD=4    missing_entry    0.001",20.0
+"Wassersteinu, LBP RA, SD=4    missing_entry    0.005",110.0
+"Wassersteinu, LBP RA, SD=4    missing_entry    0.01",205.0
+"Wassersteinu, LBP RA, SD=4    missing_entry    0.05",1120.0
+"Wassersteinu, LBP RA, SD=4    missing_entry    0.1",2177.0
+"Wassersteinu, LBP RA, SD=4    missing_entry    0.5",10931.0
+"Wassersteinu, LBP RA, SD=4    missing_entry_combined    0.001",15957.0
+"Wassersteinu, LBP RA, SD=4    missing_entry_combined    0.005",16099.0
+"Wassersteinu, LBP RA, SD=4    missing_entry_combined    0.01",16350.0
+"Wassersteinu, LBP RA, SD=4    missing_entry_combined    0.05",16691.0
+"Wassersteinu, LBP RA, SD=4    missing_entry_combined    0.1",17433.0
+"Wassersteinu, LBP RA, SD=4    missing_entry_combined    0.5",23145.0
+"Wasserstein, surgical_case_durations, SD=100    sigma    0.005",14867.0
+"Wasserstein, surgical_case_durations, SD=100    sigma    0.01",19860.0
+"Wasserstein, surgical_case_durations, SD=100    sigma    0.02",26271.0
+"Wasserstein, surgical_case_durations, SD=100    sigma    0.05",33493.0
+"Wasserstein, surgical_case_durations, SD=100    sigma    0.1",40389.0
+"Wasserstein, surgical_case_durations, SD=100    sigma    0.2",47736.0
+"Wasserstein, surgical_case_durations, SD=100    missing_entry    0.001",49.0
+"Wasserstein, surgical_case_durations, SD=100    missing_entry    0.005",279.0
+"Wasserstein, surgical_case_durations, SD=100    missing_entry    0.01",578.0
+"Wasserstein, surgical_case_durations, SD=100    missing_entry    0.05",2715.0
+"Wasserstein, surgical_case_durations, SD=100    missing_entry    0.1",5321.0
+"Wasserstein, surgical_case_durations, SD=100    missing_entry    0.5",27679.0
+"Wasserstein, surgical_case_durations, SD=100    missing_entry_combined    0.001",27273.0
+"Wasserstein, surgical_case_durations, SD=100    missing_entry_combined    0.005",27784.0
+"Wasserstein, surgical_case_durations, SD=100    missing_entry_combined    0.01",27247.0
+"Wasserstein, surgical_case_durations, SD=100    missing_entry_combined    0.05",29343.0
+"Wasserstein, surgical_case_durations, SD=100    missing_entry_combined    0.1",31364.0
+"Wasserstein, surgical_case_durations, SD=100    missing_entry_combined    0.5",43075.0
+"Wassersteinu, surgical_case_durations, SD=100    sigma    0.005",37903.0
+"Wassersteinu, surgical_case_durations, SD=100    sigma    0.01",41885.0
+"Wassersteinu, surgical_case_durations, SD=100    sigma    0.02",51090.0
+"Wassersteinu, surgical_case_durations, SD=100    sigma    0.05",63954.0
+"Wassersteinu, surgical_case_durations, SD=100    sigma    0.1",74772.0
+"Wassersteinu, surgical_case_durations, SD=100    sigma    0.2",79844.0
+"Wassersteinu, surgical_case_durations, SD=100    missing_entry    0.001",59.0
+"Wassersteinu, surgical_case_durations, SD=100    missing_entry    0.005",259.0
+"Wassersteinu, surgical_case_durations, SD=100    missing_entry    0.01",541.0
+"Wassersteinu, surgical_case_durations, SD=100    missing_entry    0.05",2786.0
+"Wassersteinu, surgical_case_durations, SD=100    missing_entry    0.1",5471.0
+"Wassersteinu, surgical_case_durations, SD=100    missing_entry    0.5",28960.0
+"Wassersteinu, surgical_case_durations, SD=100    missing_entry_combined    0.001",51222.0
+"Wassersteinu, surgical_case_durations, SD=100    missing_entry_combined    0.005",51079.0
+"Wassersteinu, surgical_case_durations, SD=100    missing_entry_combined    0.01",51356.0
+"Wassersteinu, surgical_case_durations, SD=100    missing_entry_combined    0.05",51812.0
+"Wassersteinu, surgical_case_durations, SD=100    missing_entry_combined    0.1",53112.0
+"Wassersteinu, surgical_case_durations, SD=100    missing_entry_combined    0.5",61016.0
+"Wasserstein, LBP RA, SD=100    sigma    0.005",11430.0
+"Wasserstein, LBP RA, SD=100    sigma    0.01",13779.0
+"Wasserstein, LBP RA, SD=100    sigma    0.02",18193.0
+"Wasserstein, LBP RA, SD=100    sigma    0.05",21958.0
+"Wasserstein, LBP RA, SD=100    sigma    0.1",23241.0
+"Wasserstein, LBP RA, SD=100    sigma    0.2",26975.0
+"Wasserstein, LBP RA, SD=100    missing_entry    0.001",26.0
+"Wasserstein, LBP RA, SD=100    missing_entry    0.005",136.0
+"Wasserstein, LBP RA, SD=100    missing_entry    0.01",292.0
+"Wasserstein, LBP RA, SD=100    missing_entry    0.05",1394.0
+"Wasserstein, LBP RA, SD=100    missing_entry    0.1",2868.0
+"Wasserstein, LBP RA, SD=100    missing_entry    0.5",13824.0
+"Wasserstein, LBP RA, SD=100    missing_entry_combined    0.001",17659.0
+"Wasserstein, LBP RA, SD=100    missing_entry_combined    0.005",18279.0
+"Wasserstein, LBP RA, SD=100    missing_entry_combined    0.01",18880.0
+"Wasserstein, LBP RA, SD=100    missing_entry_combined    0.05",19128.0
+"Wasserstein, LBP RA, SD=100    missing_entry_combined    0.1",19992.0
+"Wasserstein, LBP RA, SD=100    missing_entry_combined    0.5",25226.0
+"Wassersteinu, LBP RA, SD=100    sigma    0.005",21896.0
+"Wassersteinu, LBP RA, SD=100    sigma    0.01",24664.0
+"Wassersteinu, LBP RA, SD=100    sigma    0.02",29479.0
+"Wassersteinu, LBP RA, SD=100    sigma    0.05",34582.0
+"Wassersteinu, LBP RA, SD=100    sigma    0.1",36678.0
+"Wassersteinu, LBP RA, SD=100    sigma    0.2",37455.0
+"Wassersteinu, LBP RA, SD=100    missing_entry    0.001",19.0
+"Wassersteinu, LBP RA, SD=100    missing_entry    0.005",147.0
+"Wassersteinu, LBP RA, SD=100    missing_entry    0.01",300.0
+"Wassersteinu, LBP RA, SD=100    missing_entry    0.05",1387.0
+"Wassersteinu, LBP RA, SD=100    missing_entry    0.1",2736.0
+"Wassersteinu, LBP RA, SD=100    missing_entry    0.5",14412.0
+"Wassersteinu, LBP RA, SD=100    missing_entry_combined    0.001",29274.0
+"Wassersteinu, LBP RA, SD=100    missing_entry_combined    0.005",29337.0
+"Wassersteinu, LBP RA, SD=100    missing_entry_combined    0.01",29463.0
+"Wassersteinu, LBP RA, SD=100    missing_entry_combined    0.05",29666.0
+"Wassersteinu, LBP RA, SD=100    missing_entry_combined    0.1",29916.0
+"Wassersteinu, LBP RA, SD=100    missing_entry_combined    0.5",32541.0
 "JSD, SD=4    training_method    supervised"
 "JSD, SD=4    training_method    supervised_2_percent"
 "JSD, SD=4    training_method    semi"
@@ -330,12 +529,6 @@
 "JSD, SD=4    rows    1000"
 "JSD, SD=4    rows    100000"
 "JSD, SD=4    rows    1000000"
-"CCEu, SD=4    sampling_density    15"
-"CCEu, SD=4    sampling_density    25"
-"CCEu, SD=4    sampling_density    50"
-"CCEu, SD=4    sampling_density    100"
-"CCEu, SD=4    sampling_density    150"
-"CCEu, SD=4    sampling_density    300"
 "JSDu, SD=4    activation_types    ['relu']"
 "JSDu, SD=4    activation_types    ['relu', 'relu', 'relu', 'relu', 'relu']"
 "JSDu, SD=4    activation_types    ['sin', 'cos', 'linear']"
@@ -406,21 +599,93 @@
 "JSDu, SD=4    rows    1000"
 "JSDu, SD=4    rows    100000"
 "JSDu, SD=4    rows    1000000"
-"CCE, SD=100    training_method    supervised"
-"CCE, SD=100    training_method    supervised_2_percent"
-"CCE, SD=100    training_method    semi_sup_first"
-"CCE, SD=100    training_method    semi_mixed"
-"CCE, SD=100    labeled_data_percentage    99"
-"CCE, SD=100    labeled_data_percentage    50"
-"CCE, SD=100    labeled_data_percentage    20"
-"CCE, SD=100    labeled_data_percentage    10"
-"CCE, SD=100    labeled_data_percentage    5"
-"CCE, SD=100    labeled_data_percentage    1"
-"CCE, SD=100    labeled_data_percentage    0.5"
-"CCE, SD=100    labeled_data_percentage    0.25"
-"CCE, SD=100    labeled_data_percentage    0.125"
-"CCE, SD=100    labeled_data_percentage    0.05"
-"CCE, SD=100    labeled_data_percentage    0.01"
+"Wasserstein, SD=100    training_method    supervised"
+"Wasserstein, SD=100    training_method    supervised_2_percent"
+"Wasserstein, SD=100    training_method    semi"
+"Wasserstein, SD=100    training_method    semi_sup_first"
+"Wasserstein, SD=100    training_method    semi_mixed"
+"Wasserstein, SD=100    training_method    unsupervised"
+"Wasserstein, SD=100    activation_types    ['relu']"
+"Wasserstein, SD=100    activation_types    ['relu', 'relu', 'relu', 'relu', 'relu']"
+"Wasserstein, SD=100    activation_types    ['sin', 'cos', 'linear']"
+"Wasserstein, SD=100    activation_types    ['sin', 'cos', 'linear', 'relu', 'sigmoid']"
+"Wasserstein, SD=100    input_layer_type    dense"
+"Wasserstein, SD=100    input_layer_type    gaussian_dropout"
+"Wasserstein, SD=100    input_layer_type    sqrt_softmax"
+"Wasserstein, SD=100    input_layer_type    gaussian_kernel"
+"Wasserstein, SD=100    input_layer_type    CNN"
+"Wasserstein, SD=100    input_layer_type    VAE"
+"Wasserstein, SD=100    encoding_dim    2"
+"Wasserstein, SD=100    encoding_dim    3"
+"Wasserstein, SD=100    encoding_dim    6"
+"Wasserstein, SD=100    hidden_layers    5"
+"Wasserstein, SD=100    hidden_layers    7"
+"Wasserstein, SD=100    hidden_layers    9"
+"Wasserstein, SD=100    hidden_layers    27"
+"Wasserstein, SD=100    activity_regularizer    "
+"Wasserstein, SD=100    activity_regularizer    L2, 0.01"
+"Wasserstein, SD=100    activity_regularizer    L1, 0.01"
+"Wasserstein, SD=100    activity_regularizer    L1, 10^-4"
+"Wasserstein, SD=100    sigma    0.005"
+"Wasserstein, SD=100    sigma    0.01"
+"Wasserstein, SD=100    sigma    0.05"
+"Wasserstein, SD=100    sigma    0.1"
+"Wasserstein, SD=100    sigma    0.2"
+"Wasserstein, SD=100    BN_size    2"
+"Wasserstein, SD=100    BN_size    4"
+"Wasserstein, SD=100    BN_size    5"
+"Wasserstein, SD=100    BN_size    10"
+"Wasserstein, SD=100    BN_size    20"
+"Wasserstein, SD=100    BN_size    30"
+"Wasserstein, SD=100    labeled_data_percentage    99"
+"Wasserstein, SD=100    labeled_data_percentage    50"
+"Wasserstein, SD=100    labeled_data_percentage    20"
+"Wasserstein, SD=100    labeled_data_percentage    10"
+"Wasserstein, SD=100    labeled_data_percentage    5"
+"Wasserstein, SD=100    labeled_data_percentage    1"
+"Wasserstein, SD=100    labeled_data_percentage    0.5"
+"Wasserstein, SD=100    labeled_data_percentage    0.25"
+"Wasserstein, SD=100    labeled_data_percentage    0.125"
+"Wasserstein, SD=100    labeled_data_percentage    0.05"
+"Wasserstein, SD=100    labeled_data_percentage    0.01"
+"Wasserstein, SD=100    sampling_density    4"
+"Wasserstein, SD=100    sampling_density    15"
+"Wasserstein, SD=100    sampling_density    25"
+"Wasserstein, SD=100    sampling_density    50"
+"Wasserstein, SD=100    sampling_density    150"
+"Wasserstein, SD=100    sampling_density    300"
+"Wasserstein, SD=100    gaussian_noise_sigma    lambda SD, 0.01"
+"Wasserstein, SD=100    gaussian_noise_sigma    lambda SD, 0.02"
+"Wasserstein, SD=100    gaussian_noise_sigma    lambda SD, 0.05"
+"Wasserstein, SD=100    gaussian_noise_sigma    lambda SD, 0.1"
+"Wasserstein, SD=100    gaussian_noise_sigma    lambda SD, 0.2"
+"Wasserstein, SD=100    gaussian_noise_sigma    lambda SD, (0.01 over SD) cdot 100"
+"Wasserstein, SD=100    gaussian_noise_sigma    lambda SD, (0.02 over SD) cdot 100"
+"Wasserstein, SD=100    gaussian_noise_sigma    lambda SD, (0.05 over SD) cdot 100"
+"Wasserstein, SD=100    gaussian_noise_sigma    lambda SD, (0.1 over SD) cdot 100"
+"Wasserstein, SD=100    gaussian_noise_sigma    lambda SD, (0.2 over SD) cdot 100"
+"Wasserstein, SD=100    missing_entry    0.001"
+"Wasserstein, SD=100    missing_entry    0.005"
+"Wasserstein, SD=100    missing_entry    0.01"
+"Wasserstein, SD=100    missing_entry    0.05"
+"Wasserstein, SD=100    missing_entry    0.1"
+"Wasserstein, SD=100    missing_entry    0.5"
+"Wasserstein, SD=100    missing_entry_combined    0.001"
+"Wasserstein, SD=100    missing_entry_combined    0.005"
+"Wasserstein, SD=100    missing_entry_combined    0.01"
+"Wasserstein, SD=100    missing_entry_combined    0.05"
+"Wasserstein, SD=100    missing_entry_combined    0.1"
+"Wasserstein, SD=100    missing_entry_combined    0.5"
+"Wasserstein, SD=100    missing_entry_no_denoising    0.001"
+"Wasserstein, SD=100    missing_entry_no_denoising    0.005"
+"Wasserstein, SD=100    missing_entry_no_denoising    0.01"
+"Wasserstein, SD=100    missing_entry_no_denoising    0.05"
+"Wasserstein, SD=100    missing_entry_no_denoising    0.1"
+"Wasserstein, SD=100    missing_entry_no_denoising    0.5"
+"Wasserstein, SD=100    rows    100"
+"Wasserstein, SD=100    rows    1000"
+"Wasserstein, SD=100    rows    100000"
+"Wasserstein, SD=100    rows    1000000"
 "JSD, SD=100    training_method    supervised"
 "JSD, SD=100    training_method    supervised_2_percent"
 "JSD, SD=100    training_method    semi_sup_first"
@@ -500,6 +765,76 @@
 "JSD, SD=100    rows    1000"
 "JSD, SD=100    rows    100000"
 "JSD, SD=100    rows    1000000"
+"Wassersteinu, SD=100    activation_types    ['relu']"
+"Wassersteinu, SD=100    activation_types    ['relu', 'relu', 'relu', 'relu', 'relu']"
+"Wassersteinu, SD=100    activation_types    ['sin', 'cos', 'linear']"
+"Wassersteinu, SD=100    activation_types    ['sin', 'cos', 'linear', 'relu', 'sigmoid']"
+"Wassersteinu, SD=100    input_layer_type    dense"
+"Wassersteinu, SD=100    input_layer_type    gaussian_dropout"
+"Wassersteinu, SD=100    input_layer_type    sqrt_softmax"
+"Wassersteinu, SD=100    input_layer_type    gaussian_kernel"
+"Wassersteinu, SD=100    input_layer_type    CNN"
+"Wassersteinu, SD=100    input_layer_type    VAE"
+"Wassersteinu, SD=100    encoding_dim    2"
+"Wassersteinu, SD=100    encoding_dim    3"
+"Wassersteinu, SD=100    encoding_dim    6"
+"Wassersteinu, SD=100    hidden_layers    5"
+"Wassersteinu, SD=100    hidden_layers    7"
+"Wassersteinu, SD=100    hidden_layers    9"
+"Wassersteinu, SD=100    hidden_layers    27"
+"Wassersteinu, SD=100    activity_regularizer    "
+"Wassersteinu, SD=100    activity_regularizer    L2, 0.01"
+"Wassersteinu, SD=100    activity_regularizer    L1, 0.01"
+"Wassersteinu, SD=100    activity_regularizer    L1, 10^-4"
+"Wassersteinu, SD=100    sigma    0.005"
+"Wassersteinu, SD=100    sigma    0.01"
+"Wassersteinu, SD=100    sigma    0.05"
+"Wassersteinu, SD=100    sigma    0.1"
+"Wassersteinu, SD=100    sigma    0.2"
+"Wassersteinu, SD=100    BN_size    2"
+"Wassersteinu, SD=100    BN_size    4"
+"Wassersteinu, SD=100    BN_size    5"
+"Wassersteinu, SD=100    BN_size    10"
+"Wassersteinu, SD=100    BN_size    20"
+"Wassersteinu, SD=100    BN_size    30"
+"Wassersteinu, SD=100    sampling_density    4"
+"Wassersteinu, SD=100    sampling_density    15"
+"Wassersteinu, SD=100    sampling_density    25"
+"Wassersteinu, SD=100    sampling_density    50"
+"Wassersteinu, SD=100    sampling_density    150"
+"Wassersteinu, SD=100    sampling_density    300"
+"Wassersteinu, SD=100    gaussian_noise_sigma    lambda SD, 0.01"
+"Wassersteinu, SD=100    gaussian_noise_sigma    lambda SD, 0.02"
+"Wassersteinu, SD=100    gaussian_noise_sigma    lambda SD, 0.05"
+"Wassersteinu, SD=100    gaussian_noise_sigma    lambda SD, 0.1"
+"Wassersteinu, SD=100    gaussian_noise_sigma    lambda SD, 0.2"
+"Wassersteinu, SD=100    gaussian_noise_sigma    lambda SD, (0.01 over SD) cdot 100"
+"Wassersteinu, SD=100    gaussian_noise_sigma    lambda SD, (0.02 over SD) cdot 100"
+"Wassersteinu, SD=100    gaussian_noise_sigma    lambda SD, (0.05 over SD) cdot 100"
+"Wassersteinu, SD=100    gaussian_noise_sigma    lambda SD, (0.1 over SD) cdot 100"
+"Wassersteinu, SD=100    gaussian_noise_sigma    lambda SD, (0.2 over SD) cdot 100"
+"Wassersteinu, SD=100    missing_entry    0.001"
+"Wassersteinu, SD=100    missing_entry    0.005"
+"Wassersteinu, SD=100    missing_entry    0.01"
+"Wassersteinu, SD=100    missing_entry    0.05"
+"Wassersteinu, SD=100    missing_entry    0.1"
+"Wassersteinu, SD=100    missing_entry    0.5"
+"Wassersteinu, SD=100    missing_entry_combined    0.001"
+"Wassersteinu, SD=100    missing_entry_combined    0.005"
+"Wassersteinu, SD=100    missing_entry_combined    0.01"
+"Wassersteinu, SD=100    missing_entry_combined    0.05"
+"Wassersteinu, SD=100    missing_entry_combined    0.1"
+"Wassersteinu, SD=100    missing_entry_combined    0.5"
+"Wassersteinu, SD=100    missing_entry_no_denoising    0.001"
+"Wassersteinu, SD=100    missing_entry_no_denoising    0.005"
+"Wassersteinu, SD=100    missing_entry_no_denoising    0.01"
+"Wassersteinu, SD=100    missing_entry_no_denoising    0.05"
+"Wassersteinu, SD=100    missing_entry_no_denoising    0.1"
+"Wassersteinu, SD=100    missing_entry_no_denoising    0.5"
+"Wassersteinu, SD=100    rows    100"
+"Wassersteinu, SD=100    rows    1000"
+"Wassersteinu, SD=100    rows    100000"
+"Wassersteinu, SD=100    rows    1000000"
 "JSDu, SD=100    activation_types    ['relu']"
 "JSDu, SD=100    activation_types    ['relu', 'relu', 'relu', 'relu', 'relu']"
 "JSDu, SD=100    activation_types    ['sin', 'cos', 'linear']"
