@@ -243,12 +243,19 @@ def main():
 
     runs = 0
     lowest_results = 0
+    min_experiment=None
+    max_experiment=None
+
+    if min_experiment is None:
+        min_experiment = 0
+    if max_experiment is None:
+        max_experiment=len(experiments_config.JSD_after)
 
     while lowest_results < 10:
-        lowest_results = min([len(x) for x in experiments_config.JSD_after])
-        highest_results = max([len(x) for x in experiments_config.JSD_after])
+        lowest_results = min([len(x) for x in experiments_config.JSD_after[min_experiment:max_experiment]])
+        highest_results = max([len(x) for x in experiments_config.JSD_after[min_experiment:max_experiment]])
         print("\n\n----- LOWEST RESULTS: " + str(lowest_results) + ", HIGHEST: " + str(highest_results) + " ------\n\n")
-        for i in (range(len(experiments_config.experiments))):
+        for i in (range(min_experiment,max_experiment)):
             experiment = experiments_config.experiments[i]
             x = experiment
             previous_runs = len(experiments_config.JSD_after[experiment['mapping']])
@@ -374,7 +381,7 @@ def main():
                         dill.dump(experiments_config.experiments, dill_file)
 
                 runs += 1
-        lowest_results = min([len(x) for x in experiments_config.JSD_after])
+        lowest_results = min([len(x) for x in experiments_config.JSD_after[min_experiment:max_experiment]])
 
     clean_directory()
 
