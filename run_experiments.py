@@ -243,20 +243,27 @@ def main():
 
     runs = 0
     lowest_results = 0
-    min_experiment=None
-    max_experiment=None
+    min_experiment_config=None
+    max_experiment_config=None
 
-    if min_experiment is None:
-        min_experiment = 0
-    if max_experiment is None:
-        max_experiment=len(experiments_config.JSD_after)
+    if min_experiment_config is None:
+        min_experiment_config = 0
+    if max_experiment_config is None:
+        max_experiment_config=len(experiments_config.JSD_after)
+
+
+    important_experiments = []
+
+    for ex in experiments_config.experiments:
+        if ex['mapping'] in range(min_experiment_config,max_experiment_config):
+            important_experiments.append(ex)
 
     while lowest_results < 10:
-        lowest_results = min([len(x) for x in experiments_config.JSD_after[min_experiment:max_experiment]])
-        highest_results = max([len(x) for x in experiments_config.JSD_after[min_experiment:max_experiment]])
+        lowest_results = min([len(x) for x in experiments_config.JSD_after[min_experiment_config:max_experiment_config]])
+        highest_results = max([len(x) for x in experiments_config.JSD_after[min_experiment_config:max_experiment_config]])
         print("\n\n----- LOWEST RESULTS: " + str(lowest_results) + ", HIGHEST: " + str(highest_results) + " ------\n\n")
-        for i in (range(min_experiment,max_experiment)):
-            experiment = experiments_config.experiments[i]
+        for i in (range(len(important_experiments))):
+            experiment = important_experiments[i]
             x = experiment
             previous_runs = len(experiments_config.JSD_after[experiment['mapping']])
             if previous_runs == lowest_results:
