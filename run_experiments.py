@@ -388,7 +388,7 @@ def main():
                         dill.dump(experiments_config.experiments, dill_file)
 
                 runs += 1
-        lowest_results = min([len(x) for x in experiments_config.JSD_after[min_experiment:max_experiment]])
+        lowest_results = min([len(x) for x in experiments_config.JSD_after[min_experiment_config:max_experiment_config]])
 
     clean_directory()
 
