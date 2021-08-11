@@ -1,8 +1,8 @@
 <!-- [![DOI](https://zenodo.org/badge/263904926.svg)](https://zenodo.org/badge/latestdoi/263904926) -->
 
-# Autoencoder-based cleaning in probabilistic databases
+# A probabilistic database approach to autoencoder-based data cleaning
 
-This is the source code for the paper "Autoencoder-based cleaning in probabilistic databases".
+This is the source code for the paper "A probabilistic database approach to autoencoder-based data cleaning".
 
 ## Installation
 
